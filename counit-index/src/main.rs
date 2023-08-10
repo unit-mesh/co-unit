@@ -9,11 +9,11 @@ use crate::semantic::semantic::Semantic;
 use crate::semantic::semantic_query::SemanticQuery;
 
 pub mod semantic;
+pub mod cache;
 
 #[tokio::main]
 async fn main() {
     let model_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("model");
-    println!("{}", model_dir.to_str().unwrap());
 
     let config = serde_json::from_value::<Configuration>(json!({
 
@@ -25,29 +25,25 @@ async fn main() {
         .unwrap();
 
 
-    sm.embed(r#"// PUT /teams/{teamId}/objectives/{objectiveId}
-// ObjectiveDTO: { "name": string, "description": string, "type": string }
-// ObjectiveResponse: { "id": string, "name": string, "description": string, "type": string }
-"#);
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个员工，我希望能够创建和更新我的 OKR，以便将我的目标对齐到团队和公司的目标上。
+"#).await;
 
-    sm.embed(r#"// POST /employees/{employeeId}/okrs
-// OKRDTO: { "objectiveId": string, "description": string, "target": string, "progress": string, "startDate": string, "endDate": string }
-// OKRResponse: { "id": string, "objectiveId": string, "description": string, "target": string, "progress": string, "startDate": string, "endDate": string }
-"#);
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个团队负责人，我希望能够分配 OKR 给每个员工，并设置期限和优先级，以便能够跟踪整个团队的进展情况。
+"#).await;
 
-    sm.embed(r#"// PUT /employees/{employeeId}/okrs/{okrId}
-// OKRDTO: { "objectiveId": string, "description": string, "target": string, "progress": string, "startDate": string, "endDate": string }
-// OKRResponse: { "id": string, "objectiveId": string, "description": string, "target": string, "progress": string, "startDate": string, "endDate": string }
-"#);
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度和协同性。
+"#).await;
 
     let query = SemanticQuery {
-        target: Some(Literal::Plain("employeeId".into())),
+        target: Some(Literal::Plain("员工 创建和更新 OKR".into())),
         repos: Default::default(),
         paths: Default::default(),
         langs: Default::default(),
         branch: Default::default(),
     };
 
-    let result = sm.search(&query, 30, 0, 0.0, true).await.unwrap();
-    println!("{:?}", result);
+    let result = sm.search(&query, 30, 0, 0.3, true).await.unwrap();
+    for load in result {
+        println!("{:?}", load.text);
+    }
 }

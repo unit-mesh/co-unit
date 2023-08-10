@@ -1,21 +1,32 @@
 use std::collections::HashMap;
 use std::env;
 use std::path::Path;
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
+
+use futures::{stream, StreamExt, TryStreamExt};
 use ndarray::Axis;
 use ort::{
-    tensor::InputTensor,
-    Environment, ExecutionProvider, GraphOptimizationLevel, LoggingLevel, SessionBuilder};
+    Environment,
+    ExecutionProvider, GraphOptimizationLevel, LoggingLevel, SessionBuilder, tensor::InputTensor};
 use ort::tensor::{FromArray, OrtOwnedTensor};
 
-use qdrant_client::client::{QdrantClient, QdrantClientConfig};
-use qdrant_client::prelude::{CreateCollection, Distance, SearchPoints};
-use qdrant_client::qdrant::{CollectionOperationResponse, FieldCondition, FieldType, Filter, Match, ScoredPoint, VectorParams, vectors_config, VectorsConfig, with_payload_selector, with_vectors_selector, WithPayloadSelector, WithVectorsSelector};
-use qdrant_client::qdrant::r#match::MatchValue;
+use qdrant_client::{
+    prelude::{QdrantClient, QdrantClientConfig},
+    qdrant::{
+        point_id::PointIdOptions, r#match::MatchValue, vectors::VectorsOptions, vectors_config,
+        with_payload_selector, with_vectors_selector, CollectionOperationResponse,
+        CreateCollection, Distance, FieldCondition, FieldType, Filter, Match, PointId,
+        RetrievedPoint, ScoredPoint, SearchPoints, Value, VectorParams, Vectors, VectorsConfig,
+        WithPayloadSelector, WithVectorsSelector,
+    },
+};
+use qdrant_client::qdrant::PointStruct;
+
+
 use thiserror::Error;
+use tracing::{debug, info, trace};
 
-use tracing::{debug, info, trace, warn};
-
+use crate::cache::cache_key;
 use crate::semantic::configuration::Configuration;
 use crate::semantic::schema::Payload;
 use crate::semantic::semantic_query::SemanticQuery;
@@ -273,9 +284,153 @@ impl Semantic {
                     .map(Payload::from_qdrant)
                     .collect::<Vec<_>>()
             })?;
+
         Ok(deduplicate_snippets(results, vector, limit))
     }
 
+    pub async fn batch_search<'a>(
+        &self,
+        parsed_queries: &[&SemanticQuery<'a>],
+        limit: u64,
+        offset: u64,
+        threshold: f32,
+        retrieve_more: bool,
+    ) -> anyhow::Result<Vec<Payload>> {
+        if parsed_queries.iter().any(|q| q.target().is_none()) {
+            anyhow::bail!("no search target for query");
+        };
+
+        let vectors = parsed_queries
+            .iter()
+            .map(|q| self.embed(&q.target().unwrap()))
+            .collect::<anyhow::Result<Vec<_>>>()?;
+
+        tracing::trace!(?parsed_queries, "performing qdrant batch search");
+
+        let result = self
+            .batch_search_with(
+                parsed_queries,
+                vectors.clone(),
+                if retrieve_more { limit * 2 } else { limit }, // Retrieve double `limit` and deduplicate
+                offset,
+                threshold,
+            )
+            .await;
+
+        tracing::trace!(?result, "qdrant batch search returned");
+
+        let results = result?
+            .into_iter()
+            .map(Payload::from_qdrant)
+            .collect::<Vec<_>>();
+
+        // deduplicate with mmr with respect to the mean of query vectors
+        // TODO: implement a more robust multi-vector deduplication strategy
+        let target_vector = mean_pool(vectors);
+        Ok(deduplicate_snippets(results, target_vector, limit))
+    }
+
+    pub async fn batch_search_with<'a>(
+        &self,
+        parsed_queries: &[&SemanticQuery<'a>],
+        vectors: Vec<Embedding>,
+        limit: u64,
+        offset: u64,
+        threshold: f32,
+    ) -> anyhow::Result<Vec<ScoredPoint>> {
+        // FIXME: This method uses `search_points` internally, and not `search_batch_points`. It's
+        // not clear why, but it seems that the `batch` variant of the `qdrant` calls leads to
+        // HTTP2 errors on some deployment configurations. A typical example error:
+        //
+        // ```
+        // hyper::proto::h2::client: client response error: stream error received: stream no longer needed
+        // ```
+        //
+        // Given that qdrant uses `tonic`, this may be a `tonic` issue, possibly similar to:
+        // https://github.com/hyperium/tonic/issues/222
+
+        // Queries should contain the same filters, so we get the first one
+        let parsed_query = parsed_queries.first().unwrap();
+        let filters = &build_conditions(parsed_query);
+
+        let responses = stream::iter(vectors.into_iter())
+            .map(|vector| async move {
+                let points = SearchPoints {
+                    limit,
+                    vector,
+                    collection_name: COLLECTION_NAME.to_string(),
+                    offset: Some(offset),
+                    score_threshold: Some(threshold),
+                    with_payload: Some(WithPayloadSelector {
+                        selector_options: Some(with_payload_selector::SelectorOptions::Enable(
+                            true,
+                        )),
+                    }),
+                    filter: Some(Filter {
+                        must: filters.clone(),
+                        ..Default::default()
+                    }),
+                    with_vectors: Some(WithVectorsSelector {
+                        selector_options: Some(with_vectors_selector::SelectorOptions::Enable(
+                            true,
+                        )),
+                    }),
+                    ..Default::default()
+                };
+
+                self.qdrant.search_points(&points).await
+            })
+            .buffered(10)
+            .try_collect::<Vec<_>>()
+            .await?;
+
+        Ok(responses.into_iter().flat_map(|r| r.result).collect())
+    }
+
+
+    #[allow(clippy::too_many_arguments)]
+    #[tracing::instrument(skip(self, repo_name, buffer))]
+    pub async fn insert_points_for_buffer(
+        &self,
+        repo_name: &str,
+        repo_ref: &str,
+        relative_path: &str,
+        buffer: &str,
+    ) {
+        let embedded = self.embed(buffer).unwrap();
+        let new: RwLock<Vec<PointStruct>> = Default::default();
+
+        let payload = Payload {
+            lang: "java".to_string(),
+            repo_name: repo_name.to_string(),
+            repo_ref: repo_ref.to_string(),
+            relative_path: relative_path.to_string(),
+            content_hash: "".to_string(),
+            text: buffer.to_string(),
+            start_line: 0,
+            end_line: 0,
+            start_byte: 0,
+            end_byte: 0,
+            branches: vec![],
+            id: None,
+            embedding: None,
+            score: None,
+        };
+
+        let id = cache_key(buffer);
+
+        new.write().unwrap().push(PointStruct {
+            id: Some(PointId::from(id)),
+            vectors: Some(embedded.into()),
+            payload: payload.into_qdrant(),
+        });
+
+        let point: Vec<_> = std::mem::take(new.write().unwrap().as_mut());
+
+        self.qdrant
+            .upsert_points_blocking(COLLECTION_NAME, point, None)
+            .await.unwrap();
+    }
 }
 
 pub fn deduplicate_snippets(
@@ -538,4 +693,17 @@ pub(crate) fn make_kv_keyword_filter(key: &str, value: &str) -> FieldCondition {
         }),
         ..Default::default()
     }
+}
+
+// Calculate the element-wise mean of the embeddings
+fn mean_pool(embeddings: Vec<Vec<f32>>) -> Vec<f32> {
+    let len = embeddings.len() as f32;
+    let mut result = vec![0.0; EMBEDDING_DIM];
+    for embedding in embeddings {
+        for (i, v) in embedding.iter().enumerate() {
+            result[i] += v;
+        }
+    }
+    result.iter_mut().for_each(|v| *v /= len);
+    result
 }
