@@ -23,6 +23,8 @@ tokenizers = "0.13.3"
 ndarray = "0.15.6"
 qdrant-client = { version = "1.3.0", default-features = false }
 
+jieba-rs = "0.6"
+
 # error handling
 anyhow = "1.0.72"
 thiserror = "1.0.44"

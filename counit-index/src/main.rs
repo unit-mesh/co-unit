@@ -1,5 +1,6 @@
 use std::path::Path;
 use std::sync::Arc;
+use jieba_rs::Jieba;
 
 use serde_json::json;
 
@@ -34,15 +35,26 @@ async fn main() {
     sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度和协同性。
 "#).await;
 
+    // Load domain unique language dicts
+
+    let jieba = Jieba::new();
+    let words: Vec<&str> = jieba.cut("员工创建OKR", false);
+    let result: String = words.join(" ");
+    println!("{}", result);
+
+    let words2: Vec<&str> = jieba.cut("How to update employee OKR?", false);
+    let result2: String = words2.join(" ");
+    println!("{}", result2);
+
     let query = SemanticQuery {
-        target: Some(Literal::Plain("员工 创建和更新 OKR".into())),
+        target: Some(Literal::Plain(result.into())),
         repos: Default::default(),
         paths: Default::default(),
         langs: Default::default(),
         branch: Default::default(),
     };
 
-    let result = sm.search(&query, 30, 0, 0.3, true).await.unwrap();
+    let result = sm.search(&query, 30, 0, 0.0, true).await.unwrap();
     for load in result {
         println!("{:?}", load.text);
     }
