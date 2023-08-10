@@ -3,6 +3,7 @@ use std::sync::Arc;
 use jieba_rs::Jieba;
 
 use serde_json::json;
+use stardict_wrapper::WrapperDict;
 
 use crate::semantic::configuration::Configuration;
 use crate::semantic::literal::Literal;
@@ -15,6 +16,10 @@ pub mod cache;
 #[tokio::main]
 async fn main() {
     let model_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("model");
+    let dict_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("dict");
+
+    let mut dict = WrapperDict::init(dict_dir);
+
 
     let config = serde_json::from_value::<Configuration>(json!({
 
@@ -25,26 +30,27 @@ async fn main() {
         .await
         .unwrap();
 
-
-    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个员工，我希望能够创建和更新我的 OKR，以便将我的目标对齐到团队和公司的目标上。
-"#).await;
-
-    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个团队负责人，我希望能够分配 OKR 给每个员工，并设置期限和优先级，以便能够跟踪整个团队的进展情况。
-"#).await;
-
-    sm.insert_points_for_buffer("unit-mesh", "", "../../", r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度和协同性。
-"#).await;
-
-    // Load domain unique language dicts
-
     let jieba = Jieba::new();
-    let words: Vec<&str> = jieba.cut("员工创建OKR", false);
-    let result: String = words.join(" ");
-    println!("{}", result);
 
-    let words2: Vec<&str> = jieba.cut("How to update employee OKR?", false);
-    let result2: String = words2.join(" ");
-    println!("{}", result2);
+    let first = r#"作为一个员工，我希望能够创建和更新我的 OKR，以便将我的目标对齐到团队和公司的目标上。    "#;
+    let sentence = translate_sentence(&mut dict, &jieba, first);
+
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", &sentence).await;
+
+    let second = r#"作为一个团队负责人，我希望能够分配 OKR 给每个员工，并设置期限和优先级，以便能够跟踪整个团队的进展情况。"#;
+    let sentence2 = translate_sentence(&mut dict, &jieba, second);
+
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", &sentence2).await;
+
+    let third = r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度和协同性。
+"#;
+    let sentence3 = translate_sentence(&mut dict, &jieba, third);
+
+    sm.insert_points_for_buffer("unit-mesh", "", "../../", &sentence3).await;
+
+    let query_str = "员工创建 OKR";
+    let result = translate_sentence(&mut dict, &jieba, query_str);
+    println!("{}", result);
 
     let query = SemanticQuery {
         target: Some(Literal::Plain(result.into())),
@@ -58,4 +64,19 @@ async fn main() {
     for load in result {
         println!("{:?}", load.text);
     }
+}
+
+fn translate_sentence(mut dict: &mut WrapperDict, jieba: &Jieba, sentence: &str) -> String {
+    let words: Vec<&str> = jieba.cut(sentence, false);
+    let mut result: String = "".to_string();
+
+    for word in words {
+        if let Some(translate) = dict.translate(word) {
+            result = result + &translate + " ";
+        } else {
+            result = result + word + " ";
+        }
+    }
+
+    result.to_string()
 }
