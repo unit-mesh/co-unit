@@ -42,7 +42,7 @@ async fn main() {
 
     sm.insert_points_for_buffer("unit-mesh", "", "../../", &sentence2).await;
 
-    let third = r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度和协同性。
+    let third = r#"作为一个员工，我希望能够及时更新我的 OKR 进展情况，并向团队报告我的进展情况，以便能够保持团队的透明度。
 "#;
     let sentence3 = translate_sentence(&mut dict, &jieba, third);
 

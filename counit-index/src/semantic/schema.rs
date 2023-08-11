@@ -18,6 +18,8 @@ pub struct Payload {
     pub relative_path: String,
     pub content_hash: String,
     pub text: String,
+    // TODO: for save some in Chinese or other the utf8 char
+    // pub origin_text: String,
     pub start_line: u64,
     pub end_line: u64,
     pub start_byte: u64,
@@ -138,6 +140,7 @@ fn parse_payload(
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         text: val_str!(converted, "snippet"),
+        origin_text: val_str!(converted, "snippet"),
         branches: val_str!(converted, "branches"),
         start_line: val_parse_str!(converted, "start_line"),
         end_line: val_parse_str!(converted, "end_line"),
