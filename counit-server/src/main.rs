@@ -1,6 +1,7 @@
 use std::net::SocketAddr;
 
 use axum::{Extension, response::IntoResponse, Router, routing::{get, post}};
+use axum::routing::put;
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
@@ -16,7 +17,8 @@ async fn main() -> anyhow::Result<()> {
     let mut api = Router::new()
         .route("/", get(root))
         .route("/embedding/rest_api", post(embedding_api::create_rest_api_embedding))
-        .route("/translate/domain_language", post(translate_api::create_domain_language));
+        .nest("/translate/domain_language", translate_api::router())
+        ;
 
     api = api.route("/health", get(health));
 
@@ -36,8 +38,6 @@ async fn health(Extension(app): Extension<String>) {
     println!("health: {}", app);
 }
 
-
-// basic handler that responds with a static string
 async fn root() -> &'static str {
     "Hello, World!"
 }
