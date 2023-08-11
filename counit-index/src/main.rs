@@ -48,7 +48,7 @@ async fn main() {
 
     sm.insert_points_for_buffer("unit-mesh", "", "../../", &sentence3).await;
 
-    let query_str = "员工创建 OKR";
+    let query_str = "OKR 进度";
     let result = translate_sentence(&mut dict, &jieba, query_str);
     println!("{}", result);
 
@@ -71,10 +71,16 @@ fn translate_sentence(mut dict: &mut WrapperDict, jieba: &Jieba, sentence: &str)
     let mut result: String = "".to_string();
 
     for word in words {
-        if let Some(translate) = dict.translate(word) {
+        // skip space
+        if word == " " {
+            continue;
+        }
+
+        let trim_word = word.trim();
+        if let Some(translate) = dict.translate(trim_word) {
             result = result + &translate + " ";
         } else {
-            result = result + word + " ";
+            result = result + trim_word + " ";
         }
     }
 
