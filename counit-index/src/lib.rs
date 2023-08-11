@@ -56,6 +56,8 @@ pub mod symbol;
 pub mod user;
 
 pub mod document;
+mod agent;
+mod llm_gateway;
 
 pub use config::{Configuration, default_parallelism, minimum_parallelism};
 pub use env::Environment;

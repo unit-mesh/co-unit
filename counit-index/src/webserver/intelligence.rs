@@ -1,19 +1,20 @@
 use std::{ops::Not, sync::Arc};
 
-use super::prelude::*;
+use axum::{Extension, extract::Query, response::IntoResponse};
+use serde::{Deserialize, Serialize};
+
 use crate::{
+    document::Snipper,
     indexes::{Indexes, reader::ContentDocument},
     intelligence::{
         code_navigation::{CodeNavigationContext, FileSymbols, Occurrence, OccurrenceKind, Token},
         Language, NodeKind, TSLanguage,
     },
     repo::RepoRef,
-    document::Snipper,
 };
-
-use axum::{Extension, extract::Query, response::IntoResponse};
-use serde::{Deserialize, Serialize};
 use crate::document::TextRange;
+
+use super::prelude::*;
 
 /// The request made to the `local-intel` endpoint.
 #[derive(Debug, Deserialize)]
@@ -119,7 +120,7 @@ async fn search_nav(
     source_document: &ContentDocument,
 ) -> Result<Vec<FileSymbols>> {
     use crate::{
-        indexes::{reader::ContentReader, DocumentRead},
+        indexes::{DocumentRead, reader::ContentReader},
         query::compiler::trigrams,
     };
     use tantivy::{
@@ -270,9 +271,10 @@ async fn search_nav(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::document::Snippet;
     use crate::document::Point;
+    use crate::document::Snippet;
+
+    use super::*;
 
     #[test]
     fn serialize_response() {

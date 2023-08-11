@@ -1,11 +1,10 @@
 use std::sync::Arc;
 
 use super::prelude::*;
-use crate::{indexes::Indexes, repo::RepoRef};
+use crate::{indexes::Indexes, repo::RepoRef, document::TextRange};
 
-use axum::{Extension, extract::Query, response::IntoResponse};
+use axum::{extract::Query, response::IntoResponse, Extension};
 use serde::{Deserialize, Serialize};
-use crate::document::TextRange;
 
 /// The request made to the `hoverable` endpoint.
 #[derive(Debug, Deserialize)]

@@ -91,7 +91,7 @@ notify-debouncer-mini = { version = "0.3.0", default-features = false }
 serde = "1.0.166"
 regex = "1.9.1"
 regex-syntax = "0.6.29"
-smallvec = { version = "1.11.0", features = ["serde"] }
+smallvec = { version = "1.11.0", features = ["serde"]}
 async-trait = "0.1.71"
 flume = "0.10.14"
 either = "1.8.1"
@@ -119,10 +119,10 @@ sentry = { version = "0.31.5", default-features = false, features = ["tracing", 
 rudderanalytics = { version = "1.1.2", default-features = false, features = ["rustls-tls"] }
 async-stream = "0.3.5"
 erased-serde = "0.3.27"
-scc = { version = "1.8.3", features = ["serde"] }
+scc = { version= "1.8.3", features = ["serde"] }
 sentry-tracing = "0.31.5"
 git-version = "0.3.5"
-gix = { version = "0.47.0", features = ["blocking-http-transport-reqwest-rust-tls", "pack-cache-lru-static"] }
+gix = { version="0.47.0", features = ["blocking-http-transport-reqwest-rust-tls", "pack-cache-lru-static"] }
 thread-priority = "0.13.1"
 # We use the git version here, so that we can pull in recent changes that make footnotes work. The
 # latest crates.io version at the time of writing does not include necessary patches.
@@ -140,6 +140,6 @@ git-version = "0.3.5"
 
 [build-dependencies]
 phf_codegen = "0.11.2"
-serde = { version = "1.0.166", features = ["derive"] }
+serde = {version = "1.0.166", features = ["derive"]}
 serde_yaml = "0.9.22"
 blake3 = "1.4.0"
