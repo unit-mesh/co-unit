@@ -4,7 +4,7 @@ use axum::{Extension, response::IntoResponse, Router, routing::{get, post}};
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
-use crate::server::embedding_api;
+use crate::server::{embedding_api, translate_api};
 
 pub mod server;
 
@@ -15,7 +15,8 @@ async fn main() -> anyhow::Result<()> {
 
     let mut api = Router::new()
         .route("/", get(root))
-        .route("/embedding/rest_api", post(embedding_api::create_rest_api_embedding));
+        .route("/embedding/rest_api", post(embedding_api::create_rest_api_embedding))
+        .route("/translate/domain_language", post(translate_api::create_domain_language));
 
     api = api.route("/health", get(health));
 
