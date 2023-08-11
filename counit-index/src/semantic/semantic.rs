@@ -9,27 +9,24 @@ use ort::{
     Environment,
     ExecutionProvider, GraphOptimizationLevel, LoggingLevel, SessionBuilder, tensor::InputTensor};
 use ort::tensor::{FromArray, OrtOwnedTensor};
-
 use qdrant_client::{
     prelude::{QdrantClient, QdrantClientConfig},
     qdrant::{
-        point_id::PointIdOptions, r#match::MatchValue, vectors::VectorsOptions, vectors_config,
-        with_payload_selector, with_vectors_selector, CollectionOperationResponse,
-        CreateCollection, Distance, FieldCondition, FieldType, Filter, Match, PointId,
-        RetrievedPoint, ScoredPoint, SearchPoints, Value, VectorParams, Vectors, VectorsConfig,
+        CollectionOperationResponse, CreateCollection,
+        Distance, FieldCondition, FieldType,
+        Filter, Match, PointId, r#match::MatchValue, ScoredPoint, SearchPoints, VectorParams,
+        vectors_config, VectorsConfig, with_payload_selector, with_vectors_selector,
         WithPayloadSelector, WithVectorsSelector,
     },
 };
 use qdrant_client::qdrant::PointStruct;
-
-
 use thiserror::Error;
 use tracing::{debug, info, trace};
 
 use crate::cache::cache_key;
-use crate::semantic::configuration::Configuration;
-use crate::semantic::schema::Payload;
-use crate::semantic::semantic_query::SemanticQuery;
+use crate::configuration::Configuration;
+use crate::query::schema::Payload;
+use crate::query::semantic_query::SemanticQuery;
 
 #[derive(Clone)]
 pub struct Semantic {

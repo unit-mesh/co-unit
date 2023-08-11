@@ -1,17 +1,19 @@
 use std::path::Path;
 use std::sync::Arc;
-use jieba_rs::Jieba;
 
+use jieba_rs::Jieba;
 use serde_json::json;
 use stardict_wrapper::WrapperDict;
 
-use crate::semantic::configuration::Configuration;
+use crate::configuration::Configuration;
 use crate::semantic::literal::Literal;
 use crate::semantic::semantic::Semantic;
-use crate::semantic::semantic_query::SemanticQuery;
+use query::semantic_query::SemanticQuery;
 
 pub mod semantic;
 pub mod cache;
+pub mod configuration;
+pub mod query;
 
 #[tokio::main]
 async fn main() {

@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 use std::collections::HashSet;
-use regex::Regex;
 use crate::semantic::literal::Literal;
 
 #[derive(Default, Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
