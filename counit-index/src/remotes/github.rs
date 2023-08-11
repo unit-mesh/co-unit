@@ -205,7 +205,7 @@ impl Auth {
         let mut results = vec![];
         for page in 1.. {
             let mut resp = match self {
-                remotes::github::Auth::OAuth { .. } => {
+                Auth::OAuth { .. } => {
                     gh_client
                         .current()
                         .list_repos_for_authenticated_user()
@@ -214,7 +214,7 @@ impl Auth {
                         .send()
                         .await
                 }
-                remotes::github::Auth::App { ref org, .. } => {
+                Auth::App { ref org, .. } => {
                     gh_client
                         .orgs(org)
                         .list_repos()
@@ -269,7 +269,7 @@ pub(crate) async fn refresh_github_installation_token(app: &Application) -> Resu
         ));
     };
 
-    let auth = remotes::github::Auth::from_installation(installation, install_id, octocrab).await?;
+    let auth = Auth::from_installation(installation, install_id, octocrab).await?;
 
     app.credentials.set_github(State::with_auth(auth));
     Ok(())

@@ -1,6 +1,7 @@
-use crate::{intelligence::namespace::SymbolId, text_range::TextRange};
+use crate::intelligence::namespace::SymbolId;
 
 use serde::{Deserialize, Serialize};
+use crate::document::TextRange;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Reference {

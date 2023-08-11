@@ -4,15 +4,16 @@
 
 use std::ops::Not;
 
-use super::NodeKind;
+use serde::Serialize;
+
 use crate::{
+    document::{Snipper, Snippet},
     indexes::reader::ContentDocument,
     repo::RepoRef,
-    snippet::{Snipper, Snippet},
-    text_range::TextRange,
 };
+use crate::document::TextRange;
 
-use serde::Serialize;
+use super::NodeKind;
 
 #[derive(Debug, Serialize)]
 pub struct FileSymbols {

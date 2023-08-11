@@ -1,6 +1,7 @@
-use crate::{intelligence::namespace::SymbolId, text_range::TextRange};
-
 use serde::{Deserialize, Serialize};
+
+use crate::document::TextRange;
+use crate::intelligence::namespace::SymbolId;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub struct LocalDef {

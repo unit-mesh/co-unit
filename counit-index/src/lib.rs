@@ -10,16 +10,7 @@
 #![warn(unused_crate_dependencies)]
 #![allow(elided_lifetimes_in_paths)]
 
-#[cfg(any(bench, test))]
-use criterion as _;
-
 use db::SqlDb;
-#[cfg(any(bench, test))]
-use git_version as _;
-
-#[cfg(all(feature = "debug", not(tokio_unstable)))]
-use console_subscriber as _;
-
 use secrecy::SecretString;
 use state::PersistedState;
 use std::fs::canonicalize;
@@ -33,12 +24,12 @@ use once_cell::sync::OnceCell;
 
 use sentry_tracing::{EventFilter, SentryLayer};
 use std::{path::Path, sync::Arc};
-use tracing::{debug, error, info, warn, Level};
+use tracing::{debug, error, info, Level, warn};
 use tracing_subscriber::{
+    EnvFilter,
     filter::{LevelFilter, Targets},
     fmt,
     prelude::*,
-    EnvFilter,
 };
 
 mod background;
@@ -60,13 +51,13 @@ pub mod intelligence;
 pub mod periodic;
 pub mod query;
 pub mod semantic;
-pub mod snippet;
 pub mod state;
 pub mod symbol;
-pub mod text_range;
 pub mod user;
 
-pub use config::{default_parallelism, minimum_parallelism, Configuration};
+pub mod document;
+
+pub use config::{Configuration, default_parallelism, minimum_parallelism};
 pub use env::Environment;
 
 const LOG_ENV_VAR: &str = "BLOOP_LOG";

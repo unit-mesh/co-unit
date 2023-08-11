@@ -3,12 +3,13 @@ use std::{
     ops::Range,
 };
 
-use crate::text_range::{Point, TextRange};
-
 use clap::{builder::PossibleValue, ValueEnum};
 use serde::{Deserialize, Serialize};
 use tokenizers::Tokenizer;
 use tracing::{debug, error, warn};
+
+use crate::document::Point;
+use crate::document::TextRange;
 
 #[derive(Debug)]
 pub enum ChunkError {
@@ -49,8 +50,8 @@ impl<'a> Chunk<'a> {
 ///
 /// ```no_run
 /// assert_eq!(
-///     bleep::semantic::chunk::point("fn hello() {\n    \"world\"\n}\n", 16, 0, 0),
-///     bleep::text_range::Point::new(16, 1, 4)
+///     counit_index::semantic::chunk::point("fn hello() {\n    \"world\"\n}\n", 16, 0, 0),
+///     counit_index::document::Point::new(16, 1, 4)
 /// );
 /// ```
 pub fn point(src: &str, byte: usize, last_line: usize, last_byte: usize) -> Point {
@@ -343,15 +344,12 @@ pub fn by_lines(src: &str, size: usize) -> Vec<Chunk<'_>> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::{env, path::PathBuf};
+
+    use super::*;
 
     fn minilm() -> Tokenizer {
         let tok_json = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap()
             .join("model")
             .join("tokenizer.json");
         println!("{tok_json:?}");

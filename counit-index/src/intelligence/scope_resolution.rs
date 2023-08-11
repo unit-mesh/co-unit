@@ -10,19 +10,20 @@ pub use import::LocalImport;
 pub use reference::Reference;
 pub use scope::{LocalScope, ScopeStack};
 
-use super::{NameSpaceMethods, TSLanguageConfig, ALL_LANGUAGES};
-use crate::{symbol::Symbol, text_range::TextRange};
+use super::{ALL_LANGUAGES, NameSpaceMethods, TSLanguageConfig};
+use crate::symbol::Symbol;
 
 use std::{collections::HashMap, str::FromStr};
 
 use petgraph::{
+    Direction,
     graph::{Graph, NodeIndex},
     visit::EdgeRef,
-    Direction,
 };
 use serde::{Deserialize, Serialize};
 use tracing::warn;
 use tree_sitter::{Node, Query, QueryCursor};
+use crate::document::TextRange;
 
 /// The algorithm used to resolve scopes.
 ///
@@ -592,11 +593,10 @@ fn scope_res_generic(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{
-        intelligence::SymbolId,
-        text_range::{Point, TextRange},
-    };
+    use crate::intelligence::SymbolId;
     use expect_test::expect;
+    use crate::document::Point;
+    use crate::document::TextRange;
 
     const DUMMY_LANG_ID: usize = 0;
 

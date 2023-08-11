@@ -1,11 +1,11 @@
 use anyhow::Result;
 use async_trait::async_trait;
 use tantivy::{
-    schema::{Field, Value},
     Index,
+    schema::{Field, Value},
 };
 
-use super::{file::File, repo::Repo, DocumentRead};
+use super::{DocumentRead, file::File, repo::Repo};
 use crate::{
     intelligence::TreeSitterFile,
     query::{
@@ -13,8 +13,8 @@ use crate::{
         parser::{self, Query, Target},
     },
     symbol::SymbolLocations,
-    text_range::TextRange,
 };
+use crate::document::TextRange;
 
 #[derive(Default, Debug, Clone)]
 pub struct ContentDocument {

@@ -1,10 +1,11 @@
 use std::sync::Arc;
 
 use super::prelude::*;
-use crate::{indexes::Indexes, repo::RepoRef, text_range::TextRange};
+use crate::{indexes::Indexes, repo::RepoRef};
 
-use axum::{extract::Query, response::IntoResponse, Extension};
+use axum::{Extension, extract::Query, response::IntoResponse};
 use serde::{Deserialize, Serialize};
+use crate::document::TextRange;
 
 /// The request made to the `hoverable` endpoint.
 #[derive(Debug, Deserialize)]
@@ -53,7 +54,7 @@ pub(super) async fn handle(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::text_range::Point;
+    use crate::document::Point;
 
     #[test]
     fn serialize_response() {

@@ -1,13 +1,14 @@
 use std::fmt;
 
 use super::{EdgeKind, LocalDef, NodeKind};
-use crate::{intelligence::TSLanguageConfig, text_range::TextRange};
+use crate::intelligence::TSLanguageConfig;
 
 use petgraph::{
+    Direction,
     graph::{Graph, NodeIndex},
     visit::EdgeRef,
-    Direction,
 };
+use crate::document::TextRange;
 
 pub struct ScopeDebug {
     range: TextRange,

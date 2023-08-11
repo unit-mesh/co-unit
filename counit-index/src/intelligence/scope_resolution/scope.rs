@@ -1,5 +1,5 @@
 use super::{EdgeKind, ScopeGraph};
-use crate::text_range::TextRange;
+use crate::document::TextRange;
 
 use petgraph::{graph::NodeIndex, visit::EdgeRef, Direction};
 use serde::{Deserialize, Serialize};

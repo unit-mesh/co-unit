@@ -5,7 +5,7 @@ use crate::{
         execute::{ApiQuery, PagingMetadata, QueryResponse, QueryResult, ResultStats},
         parser::SemanticQuery,
     },
-    snippet::Snippet,
+    document::Snippet,
 };
 
 use super::Semantic;
@@ -48,7 +48,7 @@ pub async fn execute(
         })
         .into_iter()
         .map(|((relative_path, repo_name, repo_ref, lang), snippets)| {
-            QueryResult::Snippets(crate::snippet::SnippedFile {
+            QueryResult::Snippets(crate::document::SnippedFile {
                 relative_path,
                 repo_name,
                 repo_ref,

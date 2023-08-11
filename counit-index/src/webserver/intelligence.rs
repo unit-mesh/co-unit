@@ -2,18 +2,18 @@ use std::{ops::Not, sync::Arc};
 
 use super::prelude::*;
 use crate::{
-    indexes::{reader::ContentDocument, Indexes},
+    indexes::{Indexes, reader::ContentDocument},
     intelligence::{
         code_navigation::{CodeNavigationContext, FileSymbols, Occurrence, OccurrenceKind, Token},
         Language, NodeKind, TSLanguage,
     },
     repo::RepoRef,
-    snippet::Snipper,
-    text_range::TextRange,
+    document::Snipper,
 };
 
-use axum::{extract::Query, response::IntoResponse, Extension};
+use axum::{Extension, extract::Query, response::IntoResponse};
 use serde::{Deserialize, Serialize};
+use crate::document::TextRange;
 
 /// The request made to the `local-intel` endpoint.
 #[derive(Debug, Deserialize)]
@@ -271,7 +271,8 @@ async fn search_nav(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{snippet::Snippet, text_range::Point};
+    use crate::document::Snippet;
+    use crate::document::Point;
 
     #[test]
     fn serialize_response() {

@@ -15,7 +15,6 @@ use tracing::{debug, error, warn};
 
 use crate::{
     background::SyncHandle,
-    remotes,
     repo::{Backend, RepoError, RepoRef, Repository, SyncStatus},
     Application,
 };

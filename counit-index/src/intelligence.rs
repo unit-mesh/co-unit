@@ -67,7 +67,7 @@ impl<'a> TreeSitterFile<'a> {
 
     pub fn hoverable_ranges(
         self,
-    ) -> Result<Vec<crate::text_range::TextRange>, TreeSitterFileError> {
+    ) -> Result<Vec<crate::document::TextRange>, TreeSitterFileError> {
         let query = self
             .language
             .hoverable_query

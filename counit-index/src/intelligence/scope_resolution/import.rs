@@ -1,4 +1,4 @@
-use crate::text_range::TextRange;
+use crate::document::TextRange;
 
 use serde::{Deserialize, Serialize};
 

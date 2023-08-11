@@ -1,6 +1,7 @@
-use crate::{intelligence::ScopeGraph, text_range::TextRange};
-
 use serde::{Deserialize, Serialize};
+
+use crate::document::TextRange;
+use crate::intelligence::ScopeGraph;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Symbol {

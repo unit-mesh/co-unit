@@ -10,7 +10,7 @@ use crate::{
         reader::{base_name, ContentReader, FileReader, OpenReader, RepoReader},
         DocumentRead, File, Indexable, Indexer, Indexes, Repo,
     },
-    snippet::{HighlightedString, SnippedFile, Snipper},
+    document::{HighlightedString, SnippedFile, Snipper},
 };
 
 use anyhow::{bail, Result};
@@ -754,7 +754,7 @@ impl ExecuteQuery for OpenReader {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::snippet::*;
+    use crate::document::*;
     use pretty_assertions::assert_eq;
 
     #[test]
