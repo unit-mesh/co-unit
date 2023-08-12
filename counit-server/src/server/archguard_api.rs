@@ -9,8 +9,8 @@ pub fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        // .route("/:systemId/reporting/class-items", post(save_class_items))
-        // .route("/:systemId/reporting/container-services", post(save_container))
+        .route("/:systemId/reporting/class-items", post(save_class_items))
+        .route("/:systemId/reporting/container-services", post(save_container))
 }
 
 #[derive(Deserialize)]
@@ -19,28 +19,33 @@ pub struct ArchGuardParams {
     path: String,
 }
 
-//
-// pub async fn save_class_items(
-//     Path(systemId): Path<u32>,
-//     params: Query<ArchGuardParams>,
-//     inputs: Vec<CodeDataStruct>,
-// ) -> (StatusCode, Json<()>) {
-//     println!("systemId: {}", systemId);
-//     println!("inputs: {}", serde_json::to_value(&inputs).unwrap());
-//     println!("save_class_items");
-//
-//     (StatusCode::CREATED, Json(()))
-// }
-//
-// pub async fn save_container(
-//     Path(systemId): Path<u32>,
-//     params: Query<ArchGuardParams>,
-//     inputs: Vec<ContainerServiceDto>,
-// ) -> (StatusCode, Json<()>) {
-//     println!("save_container");
-//
-//     (StatusCode::CREATED, Json(()))
-// }
+
+pub async fn save_class_items(
+    Path(systemId): Path<u32>,
+    Query(params): Query<ArchGuardParams>,
+    Json(payload): Json<ArchGuardInput<CodeDataStruct>>,
+) -> (StatusCode, Json<()>) {
+    println!("systemId: {}", systemId);
+    println!("inputs: {}", serde_json::to_value(&payload.inputs).unwrap());
+    println!("save_class_items");
+
+    (StatusCode::CREATED, Json(()))
+}
+
+pub async fn save_container(
+    Path(systemId): Path<u32>,
+    Query(params): Query<ArchGuardParams>,
+    Json(payload): Json<ArchGuardInput<ContainerServiceDto>>,
+) -> (StatusCode, Json<()>) {
+    println!("save_container");
+
+    (StatusCode::CREATED, Json(()))
+}
+
+#[derive(Deserialize)]
+pub struct ArchGuardInput<T> {
+    inputs: Vec<T>,
+}
 
 #[derive(Deserialize)]
 pub struct ContainerServiceDto {
