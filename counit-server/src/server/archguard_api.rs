@@ -41,14 +41,20 @@ pub async fn save_container(
 
     (StatusCode::CREATED, Json(()))
 }
+
 #[derive(Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub struct ContainerServiceDto {
+    #[serde(default)]
     name: String,
+    #[serde(default)]
     demands: Vec<ContainerDemand>,
+    #[serde(default)]
     resources: Vec<ContainerSupply>,
 }
 
 #[derive(Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub struct ContainerSupply {
     source_url: String,
     source_http_method: String,
@@ -58,6 +64,7 @@ pub struct ContainerSupply {
 }
 
 #[derive(Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub struct ContainerDemand {
     source_caller: String,
     call_routes: Vec<String>,

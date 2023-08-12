@@ -13,20 +13,30 @@ pub struct CodeDataStruct {
     package: String,
     file_path: String,
     // todo: thinking of changing to property
+    #[serde(default)]
     fields: Vec<CodeField>,
+    #[serde(default)]
     multiple_extend: Vec<String>,
+    #[serde(default)]
     implements: Vec<String>,
     #[serde(default)]
     extend: String,
+    #[serde(default)]
     functions: Vec<CodeFunction>,
+    #[serde(default)]
     inner_structures: Vec<CodeDataStruct>,
+    #[serde(default)]
     annotations: Vec<CodeAnnotation>,
+    #[serde(default)]
     function_calls: Vec<CodeCall>,
     #[deprecated(note = "looking for constructor method for SCALA")]
+    #[serde(default)]
     parameters: Vec<CodeProperty>, // for Scala
+    #[serde(default)]
     imports: Vec<CodeImport>,
     // in TypeScript, a file can export Function, Variable, Class, Interface
     // `export const baseURL = '/api'`
+    #[serde(default)]
     exports: Vec<CodeExport>,
     // todo: select node use only imports
     extension: Option<JsonElement>, // You need to define JsonElement type separately
@@ -58,12 +68,15 @@ impl DataStructType {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeField {
-    type_type: String,
-    type_value: String,
-    type_key: String,
+    type_type: Option<String>,
+    type_value: Option<String>,
+    type_key: Option<String>,
+    #[serde(default)]
     annotations: Vec<CodeAnnotation>,
+    #[serde(default)]
     modifiers: Vec<String>,
     // for TypeScript and JavaScript only, examples: `export default sample = createHello() `
+    #[serde(default)]
     calls: Vec<CodeCall>,
 }
 
@@ -75,19 +88,27 @@ pub struct CodeFunction {
     file_path: String,
     package: String,
     return_type: String,
+    #[serde(default)]
     multiple_returns: Vec<CodeProperty>,
+    #[serde(default)]
     parameters: Vec<CodeProperty>,
+    #[serde(default)]
     function_calls: Vec<CodeCall>,
+    #[serde(default)]
     annotations: Vec<CodeAnnotation>,
     #[serde(default)]
     r#override: bool,
+    #[serde(default)]
     modifiers: Vec<String>,
     // for example, Java can have Inner Class
+    #[serde(default)]
     inner_structures: Vec<CodeDataStruct>,
     // for lambda or anonymous function inside function.
+    #[serde(default)]
     inner_functions: Vec<CodeFunction>,
     position: CodePosition,
     extension: Option<JsonElement>,
+    #[serde(default)]
     local_variables: Vec<CodeProperty>,
     is_constructor: Option<bool>, // todo: move to extension
     is_return_html: Option<bool>,
@@ -107,14 +128,19 @@ struct JsonElement {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeProperty {
+    #[serde(default)]
     modifiers: Vec<String>,
-    default_value: String,
+    default_value: Option<String>,
     type_value: String,
     type_type: String,
+    #[serde(default)]
     annotations: Vec<CodeAnnotation>,
     // for TypeScript and Parameter
+    #[serde(default)]
     object_value: Vec<CodeProperty>,
+    #[serde(default)]
     return_types: Vec<CodeProperty>,
+    #[serde(default)]
     parameters: Vec<CodeProperty>,
 }
 
@@ -122,6 +148,7 @@ pub struct CodeProperty {
 #[serde(rename_all = "PascalCase")]
 pub struct CodeAnnotation {
     name: String,
+    #[serde(default)]
     key_values: Vec<AnnotationKeyValue>,
 }
 
@@ -135,15 +162,16 @@ pub struct AnnotationKeyValue {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct CodeCall {
-    package: String,
+    package: Option<String>,
     // for Java, it can be CreatorClass, lambda
     // for TypeScript, can be anonymous function, arrow function
     #[serde(default = "CallType::function")]
     call_type: CallType,
     // for Class/DataStruct, it's ClassName
     // for Function, it's empty
-    node_name: String,
-    function_name: String,
+    node_name: Option<String>,
+    function_name: Option<String>,
+    #[serde(default)]
     parameters: Vec<CodeProperty>,
     position: CodePosition,
     // like "v1.Group", the v1 will be the Receiver
