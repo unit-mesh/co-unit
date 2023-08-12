@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct CodeDataStruct {
     // class and DataStruct Name
     // for TypeScript/JavaScript, if it is a variable, function, it will be named `default`
@@ -49,7 +49,7 @@ pub enum DataStructType {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct CodeField {
     type_type: String,
     type_value: String,
@@ -61,7 +61,7 @@ pub struct CodeField {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct CodeFunction {
     name: String,
     file_path: String,
@@ -95,7 +95,7 @@ struct JsonElement {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct CodeProperty {
     modifiers: Vec<String>,
     default_value: String,
@@ -109,21 +109,21 @@ pub struct CodeProperty {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct CodeAnnotation {
     name: String,
     key_values: Vec<AnnotationKeyValue>,
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 pub struct AnnotationKeyValue {
     key: String,
     value: String,
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 struct CodeCall {
     package: String,
     // for Java, it can be CreatorClass, lambda
@@ -141,6 +141,7 @@ struct CodeCall {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub enum CallType {
     #[serde(rename = "field")]
     FIELD,
@@ -172,7 +173,7 @@ enum FunctionType {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 struct CodePosition {
     start_line: i32,
     start_line_position: i32,
@@ -181,7 +182,7 @@ struct CodePosition {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 struct CodeImport {
     source: String,
     // todo: define for new usage
@@ -193,7 +194,7 @@ struct CodeImport {
 }
 
 #[derive(Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "PascalCase")]
 struct CodeExport {
     name: String,
     source_file: String,

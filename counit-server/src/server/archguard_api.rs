@@ -23,10 +23,10 @@ pub struct ArchGuardParams {
 pub async fn save_class_items(
     Path(systemId): Path<u32>,
     Query(params): Query<ArchGuardParams>,
-    Json(payload): Json<ArchGuardInput<CodeDataStruct>>,
+    Json(payload): Json<Vec<CodeDataStruct>>,
 ) -> (StatusCode, Json<()>) {
     println!("systemId: {}", systemId);
-    println!("inputs: {}", serde_json::to_value(&payload.inputs).unwrap());
+    println!("inputs: {}", serde_json::to_value(&payload).unwrap());
     println!("save_class_items");
 
     (StatusCode::CREATED, Json(()))
@@ -35,18 +35,12 @@ pub async fn save_class_items(
 pub async fn save_container(
     Path(systemId): Path<u32>,
     Query(params): Query<ArchGuardParams>,
-    Json(payload): Json<ArchGuardInput<ContainerServiceDto>>,
+    Json(payload): Json<Vec<ContainerServiceDto>>,
 ) -> (StatusCode, Json<()>) {
     println!("save_container");
 
     (StatusCode::CREATED, Json(()))
 }
-
-#[derive(Deserialize)]
-pub struct ArchGuardInput<T> {
-    inputs: Vec<T>,
-}
-
 #[derive(Deserialize)]
 pub struct ContainerServiceDto {
     name: String,

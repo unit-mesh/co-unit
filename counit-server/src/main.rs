@@ -1,7 +1,7 @@
 use std::net::SocketAddr;
 
 use axum::{Extension, Router, routing::{get, post}};
-use tracing::info;
+use tracing::{info, Level};
 
 use crate::server::{archguard_api, datamap_api, embedding_api, translate_api};
 pub mod server;
@@ -9,6 +9,7 @@ pub mod server;
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
+
     let bind = SocketAddr::new("0.0.0.0".parse().unwrap(), "8765".parse().unwrap());
 
     let mut api = Router::new()
