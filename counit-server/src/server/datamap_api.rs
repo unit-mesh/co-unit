@@ -19,3 +19,12 @@ pub struct DatamapRequest {}
 pub struct DatamapEmbedding {
     id: u64,
 }
+
+#[derive(Serialize)]
+pub struct CodeDatabaseRelation {
+    package_name: String,
+    class_name: String,
+    function_name: String,
+    tables: Vec<String>,
+    sqls: Vec<String>,
+}

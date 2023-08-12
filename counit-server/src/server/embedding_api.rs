@@ -29,12 +29,14 @@ pub struct RestApiOperation {
     http_method: String,
     // http uri path
     path: String,
-    protocols: String,
     // aka, description
     description: String,
+    // canonicalName, packageName + "." + className + ":" + methodNam
+    canonical_name: String,
 
     request: Option<String>,
     request_headers: Vec<String>,
+
     // should be canonicalName = packageName + "." + className, canonicalName
     response: Option<String>,
     response_headers: Vec<String>,
@@ -45,6 +47,8 @@ pub struct RestApiOperation {
     // // request type: application/json, application/xml
     // consumes: String,
 
+    // default to https/http
+    protocols: String,
     nickname: Option<String>,
     notes: Option<String>,
     tags: Vec<String>,
