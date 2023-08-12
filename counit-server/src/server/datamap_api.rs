@@ -13,7 +13,11 @@ pub async fn datamap_embedding(
 }
 
 #[derive(Deserialize)]
-pub struct DatamapRequest {}
+pub struct DatamapRequest {
+    system_id: String,
+    repo_name: String,
+    repo_url: String,
+}
 
 #[derive(Serialize)]
 pub struct DatamapEmbedding {

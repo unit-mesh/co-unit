@@ -2,7 +2,7 @@ use axum::http::StatusCode;
 use axum::Json;
 use serde::{Deserialize, Serialize};
 
-pub async fn create_rest_api_embedding(
+pub async fn rest_api_embedding(
     Json(payload): Json<ResetApiRequest>,
 ) -> (StatusCode, Json<RestApi>) {
     let api: RestApi = RestApi {
@@ -14,7 +14,9 @@ pub async fn create_rest_api_embedding(
 
 #[derive(Deserialize)]
 pub struct ResetApiRequest {
-    username: String,
+    system_id: String,
+    repo_name: String,
+    repo_url: String,
 }
 
 #[derive(Serialize)]

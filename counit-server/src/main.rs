@@ -1,7 +1,6 @@
 use std::net::SocketAddr;
 
 use axum::{Extension, response::IntoResponse, Router, routing::{get, post}};
-use axum::routing::put;
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
@@ -16,8 +15,10 @@ async fn main() -> anyhow::Result<()> {
 
     let mut api = Router::new()
         .route("/", get(root))
-        .route("/embedding/rest_api", post(embedding_api::create_rest_api_embedding))
+        .route("/embedding/rest_api", post(embedding_api::rest_api_embedding))
         .route("/embedding/datamap", post(datamap_api::datamap_embedding))
+
+        // knowledge init
         .nest("/translate/domain_language", translate_api::router())
         ;
 

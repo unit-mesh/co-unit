@@ -23,7 +23,7 @@ pub async fn list() -> Json<Vec<LanguageResponse>> {
 }
 
 pub async fn init_domain_language(
-    Json(payload): Json<LanguageDict>,
+    Json(payload): Json<HumanDictRequest>,
 ) -> (StatusCode, Json<LanguageResponse>) {
     let api: LanguageResponse = LanguageResponse {
         id: 1
@@ -34,10 +34,25 @@ pub async fn init_domain_language(
 
 
 #[derive(Deserialize)]
-pub struct LanguageDict {}
+pub struct HumanDictRequest {
+    name: String,
+    system_id: String,
+    repo_name: String,
+    repo_url: String,
+    dictionaries: Vec<Detail>,
+}
+
+#[derive(Deserialize)]
+pub struct Detail {
+    name: String,
+    code_name: String,
+    locale_name: String,
+    description: String,
+    usecase: String,
+}
 
 #[derive(Serialize)]
 pub struct LanguageResponse {
-    id: u64,
+    id: u64
 }
 
