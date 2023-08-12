@@ -1,11 +1,10 @@
 use std::net::SocketAddr;
 
-use axum::{Extension, response::IntoResponse, Router, routing::{get, post}};
+use axum::{Extension, Router, routing::{get, post}};
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
-use crate::server::{datamap_api, embedding_api, structure_api, translate_api};
-
+use crate::server::{archguard, datamap_api, embedding_api, translate_api};
 pub mod server;
 
 #[tokio::main]
@@ -20,7 +19,8 @@ async fn main() -> anyhow::Result<()> {
 
         // knowledge init
         .nest("/translate/domain_language", translate_api::router())
-        .nest("/structure", structure_api::router())
+        //align to archguard api
+        .nest("/scanner", archguard::router())
         ;
 
     api = api.route("/health", get(health));
