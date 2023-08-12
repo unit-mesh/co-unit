@@ -1,7 +1,7 @@
 use std::net::SocketAddr;
 
 use axum::{Extension, Router, routing::{get, post}};
-use tracing::{info, Level};
+use tracing::info;
 
 use crate::server::{archguard_api, datamap_api, embedding_api, translate_api};
 pub mod server;
