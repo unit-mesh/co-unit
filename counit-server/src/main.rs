@@ -4,7 +4,7 @@ use axum::{Extension, response::IntoResponse, Router, routing::{get, post}};
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
-use crate::server::{datamap_api, embedding_api, translate_api};
+use crate::server::{datamap_api, embedding_api, structure_api, translate_api};
 
 pub mod server;
 
