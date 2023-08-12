@@ -20,6 +20,7 @@ async fn main() -> anyhow::Result<()> {
 
         // knowledge init
         .nest("/translate/domain_language", translate_api::router())
+        .nest("/structure", structure_api::router())
         ;
 
     api = api.route("/health", get(health));
