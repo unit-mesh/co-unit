@@ -22,7 +22,7 @@ async fn main() -> anyhow::Result<()> {
     let config = Configuration::default();
 
     let bind = SocketAddr::new(config.host.parse().unwrap(), config.port);
-    let app = Application::initialize(config);
+    let app = Application::initialize(config).await?;
 
     let mut api = Router::new()
         .with_state(app.clone())
