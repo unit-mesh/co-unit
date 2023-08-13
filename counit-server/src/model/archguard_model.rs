@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
-#[serde(rename_all = "PascalCase")]
+#[serde(rename_all = "camelCase")]
 pub struct ContainerService {
     #[serde(default)]
     pub(crate) name: String,
@@ -12,7 +12,7 @@ pub struct ContainerService {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
-#[serde(rename_all = "PascalCase")]
+#[serde(rename_all = "camelCase")]
 pub struct ContainerSupply {
     pub(crate) source_url: String,
     pub(crate) source_http_method: String,
@@ -21,8 +21,14 @@ pub struct ContainerSupply {
     pub(crate) method_name: String,
 }
 
+impl ContainerSupply {
+    pub fn display(&self) -> String {
+        format!("{}.{}.{} -> {} {}", self.package_name, self.class_name, self.method_name, self.source_http_method, self.source_url)
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone)]
-#[serde(rename_all = "PascalCase")]
+#[serde(rename_all = "camelCase")]
 pub struct ContainerDemand {
     pub(crate) source_caller: String,
     pub(crate) call_routes: Vec<String>,

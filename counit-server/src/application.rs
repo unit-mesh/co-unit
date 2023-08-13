@@ -10,7 +10,7 @@ pub struct Application {
     pub config: Arc<Configuration>,
 
     /// Semantic search subsystem
-    semantic: Option<Semantic>,
+    pub(crate) semantic: Option<Semantic>,
 }
 
 impl Application {

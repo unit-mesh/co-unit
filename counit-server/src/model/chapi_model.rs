@@ -43,6 +43,7 @@ pub struct CodeDataStruct {
     pub(crate) exports: Vec<CodeExport>,
     // todo: select node use only imports
     pub(crate) extension: Option<JsonElement>, // You need to define JsonElement type separately
+    #[serde(default)]
     pub(crate) position: CodePosition,
 }
 
@@ -119,6 +120,7 @@ pub struct CodeFunction {
     // for lambda or anonymous function inside function.
     #[serde(default)]
     pub(crate) inner_functions: Vec<CodeFunction>,
+    #[serde(default)]
     pub(crate) position: CodePosition,
     pub(crate) extension: Option<JsonElement>,
     #[serde(default)]
@@ -188,6 +190,7 @@ pub struct CodeCall {
     pub(crate) function_name: String,
     #[serde(default)]
     pub(crate) parameters: Vec<CodeProperty>,
+    #[serde(default)]
     pub(crate) position: CodePosition,
     // like "v1.Group", the v1 will be the Receiver
     // since 2.0.0-Beta.9
@@ -233,7 +236,7 @@ impl FunctionType {
     fn function() -> Self { FunctionType::Function }
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodePosition {
     pub(crate) start_line: i32,
@@ -253,8 +256,10 @@ pub struct CodeImport {
     pub(crate) as_name: String,
     // import UsageName from 'usage'
     // import AsSource as UsageName from 'source'
+    #[serde(default)]
     pub(crate) usage_name: Vec<String>,
-    pub(crate) scope: Option<String>,
+    #[serde(default)]
+    pub(crate) scope: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

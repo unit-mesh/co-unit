@@ -703,3 +703,23 @@ fn mean_pool(embeddings: Vec<Vec<f32>>) -> Vec<f32> {
     result.iter_mut().for_each(|v| *v /= len);
     result
 }
+
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+    use std::sync::Arc;
+    use crate::configuration::Configuration;
+    use crate::repository::semantic::Semantic;
+
+    #[tokio::test]
+    async fn test_mmr() {
+        let model_dir = Path::new(env!("CARGO_MANIFEST_DIR")).parent()
+            .unwrap()
+            .join("model");
+        let semantic = Semantic::initialize(&*model_dir, "http://localhost:6334", Arc::new(Configuration::default())).await.unwrap();
+
+        let result = semantic.embed("blog");
+        println!("{:?}", result.unwrap());
+    }
+}
