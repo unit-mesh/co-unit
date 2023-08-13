@@ -25,7 +25,7 @@ use tracing::{debug, info, trace};
 
 use crate::configuration::Configuration;
 use crate::repository::cache_key;
-use crate::repository::payload::Payload;
+use crate::repository::payload::CodePayload;
 use crate::repository::semantic_query::SemanticQuery;
 
 #[derive(Clone)]
@@ -258,7 +258,7 @@ impl Semantic {
         offset: u64,
         threshold: f32,
         retrieve_more: bool,
-    ) -> anyhow::Result<Vec<Payload>> {
+    ) -> anyhow::Result<Vec<CodePayload>> {
         let Some(query) = parsed_query.target() else {
             anyhow::bail!("no search target for query");
         };
@@ -278,7 +278,7 @@ impl Semantic {
             .await
             .map(|raw| {
                 raw.into_iter()
-                    .map(Payload::from_qdrant)
+                    .map(CodePayload::from_qdrant)
                     .collect::<Vec<_>>()
             })?;
 
@@ -292,7 +292,7 @@ impl Semantic {
         offset: u64,
         threshold: f32,
         retrieve_more: bool,
-    ) -> anyhow::Result<Vec<Payload>> {
+    ) -> anyhow::Result<Vec<CodePayload>> {
         if parsed_queries.iter().any(|q| q.target().is_none()) {
             anyhow::bail!("no search target for query");
         };
@@ -318,7 +318,7 @@ impl Semantic {
 
         let results = result?
             .into_iter()
-            .map(Payload::from_qdrant)
+            .map(CodePayload::from_qdrant)
             .collect::<Vec<_>>();
 
         // deduplicate with mmr with respect to the mean of query vectors
@@ -396,12 +396,13 @@ impl Semantic {
         let embedded = self.embed(buffer).unwrap();
         let new: RwLock<Vec<PointStruct>> = Default::default();
 
-        let payload = Payload {
+        let payload = CodePayload {
             lang: "java".to_string(),
             repo_name: repo_name.to_string(),
             relative_path: relative_path.to_string(),
             content_hash: "".to_string(),
             text: buffer.to_string(),
+            origin_text: buffer.to_string(),
             start_line: 0,
             end_line: 0,
             start_byte: 0,
@@ -429,10 +430,10 @@ impl Semantic {
 }
 
 pub fn deduplicate_snippets(
-    mut all_snippets: Vec<Payload>,
+    mut all_snippets: Vec<CodePayload>,
     query_embedding: Embedding,
     output_count: u64,
-) -> Vec<Payload> {
+) -> Vec<CodePayload> {
     all_snippets = filter_overlapping_snippets(all_snippets);
 
     let idxs = {
@@ -475,7 +476,7 @@ pub fn deduplicate_snippets(
         .collect()
 }
 
-fn filter_overlapping_snippets(mut snippets: Vec<Payload>) -> Vec<Payload> {
+fn filter_overlapping_snippets(mut snippets: Vec<CodePayload>) -> Vec<CodePayload> {
     snippets.sort_by(|a, b| {
         a.relative_path
             .cmp(&b.relative_path)
@@ -484,7 +485,7 @@ fn filter_overlapping_snippets(mut snippets: Vec<Payload>) -> Vec<Payload> {
 
     snippets = snippets
         .into_iter()
-        .fold(Vec::<Payload>::new(), |mut deduped_snippets, snippet| {
+        .fold(Vec::<CodePayload>::new(), |mut deduped_snippets, snippet| {
             if let Some(prev) = deduped_snippets.last_mut() {
                 if prev.relative_path == snippet.relative_path
                     && prev.end_line >= snippet.start_line

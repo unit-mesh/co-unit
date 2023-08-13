@@ -1,50 +1,59 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeDataStruct {
     // class and DataStruct Name
     // for TypeScript/JavaScript, if it is a variable, function, it will be named `default`
-    node_name: String,
-    module: String,
+    pub(crate) node_name: String,
+    pub(crate) module: String,
     #[serde(default = "DataStructType::default")]
-    data_type: DataStructType, // You need to define DataStructType enum separately
-    package: String,
-    file_path: String,
+    pub(crate) data_type: DataStructType, // You need to define DataStructType enum separately
+    pub(crate) package: String,
+    pub(crate) file_path: String,
     // todo: thinking of changing to property
     #[serde(default)]
-    fields: Vec<CodeField>,
+    pub(crate) fields: Vec<CodeField>,
     #[serde(default)]
-    multiple_extend: Vec<String>,
+    pub(crate) multiple_extend: Vec<String>,
     #[serde(default)]
-    implements: Vec<String>,
+    pub(crate) implements: Vec<String>,
     #[serde(default)]
-    extend: String,
+    pub(crate) extend: String,
     #[serde(default)]
-    functions: Vec<CodeFunction>,
+    pub(crate) functions: Vec<CodeFunction>,
     #[serde(default)]
-    inner_structures: Vec<CodeDataStruct>,
+    pub(crate) inner_structures: Vec<CodeDataStruct>,
     #[serde(default)]
-    annotations: Vec<CodeAnnotation>,
+    pub(crate) annotations: Vec<CodeAnnotation>,
     #[serde(default)]
-    function_calls: Vec<CodeCall>,
+    pub(crate) function_calls: Vec<CodeCall>,
     #[deprecated(note = "looking for constructor method for SCALA")]
     #[serde(default)]
-    parameters: Vec<CodeProperty>, // for Scala
+    pub(crate) parameters: Vec<CodeProperty>, // for Scala
     #[serde(default)]
-    imports: Vec<CodeImport>,
+    pub(crate) imports: Vec<CodeImport>,
     // in TypeScript, a file can export Function, Variable, Class, Interface
     // `export const baseURL = '/api'`
     #[serde(default)]
-    exports: Vec<CodeExport>,
+    pub(crate) exports: Vec<CodeExport>,
     // todo: select node use only imports
-    extension: Option<JsonElement>, // You need to define JsonElement type separately
-    position: CodePosition,
+    pub(crate) extension: Option<JsonElement>, // You need to define JsonElement type separately
+    pub(crate) position: CodePosition,
 }
 
+impl CodeDataStruct {
+    pub(crate) fn filter_annotations(&self, keys: Vec<&str>) -> Vec<CodeAnnotation> {
+        self.annotations
+            .iter()
+            .filter(|prop| keys.iter().any(|key| key.to_lowercase() == prop.name.to_lowercase()))
+            .cloned()
+            .collect()
+    }
+}
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum DataStructType {
     Empty,
     Default,
@@ -65,122 +74,122 @@ impl DataStructType {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeField {
-    type_type: Option<String>,
-    type_value: Option<String>,
-    type_key: Option<String>,
+    pub(crate) type_type: Option<String>,
+    pub(crate) type_value: Option<String>,
+    pub(crate) type_key: Option<String>,
     #[serde(default)]
-    annotations: Vec<CodeAnnotation>,
+    pub(crate) annotations: Vec<CodeAnnotation>,
     #[serde(default)]
-    modifiers: Vec<String>,
+    pub(crate) modifiers: Vec<String>,
     // for TypeScript and JavaScript only, examples: `export default sample = createHello() `
     #[serde(default)]
-    calls: Vec<CodeCall>,
+    pub(crate) calls: Vec<CodeCall>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeFunction {
-    name: String,
+    pub(crate) name: String,
     #[serde(default)]
-    file_path: String,
-    package: String,
-    return_type: String,
+    pub(crate) file_path: String,
+    pub(crate) package: String,
+    pub(crate) return_type: String,
     #[serde(default)]
-    multiple_returns: Vec<CodeProperty>,
+    pub(crate) multiple_returns: Vec<CodeProperty>,
     #[serde(default)]
-    parameters: Vec<CodeProperty>,
+    pub(crate) parameters: Vec<CodeProperty>,
     #[serde(default)]
-    function_calls: Vec<CodeCall>,
+    pub(crate) function_calls: Vec<CodeCall>,
     #[serde(default)]
-    annotations: Vec<CodeAnnotation>,
+    pub(crate) annotations: Vec<CodeAnnotation>,
     #[serde(default)]
-    r#override: bool,
+    pub(crate) r#override: bool,
     #[serde(default)]
-    modifiers: Vec<String>,
+    pub(crate) modifiers: Vec<String>,
     // for example, Java can have Inner Class
     #[serde(default)]
-    inner_structures: Vec<CodeDataStruct>,
+    pub(crate) inner_structures: Vec<CodeDataStruct>,
     // for lambda or anonymous function inside function.
     #[serde(default)]
-    inner_functions: Vec<CodeFunction>,
-    position: CodePosition,
-    extension: Option<JsonElement>,
+    pub(crate) inner_functions: Vec<CodeFunction>,
+    pub(crate) position: CodePosition,
+    pub(crate) extension: Option<JsonElement>,
     #[serde(default)]
-    local_variables: Vec<CodeProperty>,
-    is_constructor: Option<bool>, // todo: move to extension
-    is_return_html: Option<bool>,
-    body_hash: Option<i32>,
+    pub(crate) local_variables: Vec<CodeProperty>,
+    pub(crate) is_constructor: Option<bool>, // todo: move to extension
+    pub(crate) is_return_html: Option<bool>,
+    pub(crate) body_hash: Option<i32>,
     #[serde(default = "FunctionType::function")]
-    function_type: FunctionType,
+    pub(crate) function_type: FunctionType,
     // a experimental API for code analysis, please carefully use it.
     // #[property]
     // expression: Expression,
 }
 
-#[derive(Serialize, Deserialize)]
-struct JsonElement {
-    data: Value,
+#[derive(Serialize, Deserialize, Clone)]
+pub struct JsonElement {
+    pub(crate) data: Value,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeProperty {
     #[serde(default)]
-    modifiers: Vec<String>,
-    default_value: Option<String>,
-    type_value: String,
-    type_type: String,
+    pub(crate) modifiers: Vec<String>,
+    pub(crate) default_value: Option<String>,
+    pub(crate) type_value: String,
+    pub(crate) type_type: String,
     #[serde(default)]
-    annotations: Vec<CodeAnnotation>,
+    pub(crate) annotations: Vec<CodeAnnotation>,
     // for TypeScript and Parameter
     #[serde(default)]
-    object_value: Vec<CodeProperty>,
+    pub(crate) object_value: Vec<CodeProperty>,
     #[serde(default)]
-    return_types: Vec<CodeProperty>,
+    pub(crate) return_types: Vec<CodeProperty>,
     #[serde(default)]
-    parameters: Vec<CodeProperty>,
+    pub(crate) parameters: Vec<CodeProperty>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct CodeAnnotation {
-    name: String,
+    pub(crate) name: String,
     #[serde(default)]
-    key_values: Vec<AnnotationKeyValue>,
+    pub(crate) key_values: Vec<AnnotationKeyValue>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct AnnotationKeyValue {
-    key: String,
-    value: String,
+    pub(crate) key: String,
+    pub(crate) value: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
-struct CodeCall {
-    package: Option<String>,
+pub struct CodeCall {
+    pub(crate) package: Option<String>,
     // for Java, it can be CreatorClass, lambda
     // for TypeScript, can be anonymous function, arrow function
     #[serde(default = "CallType::function")]
-    call_type: CallType,
+    pub(crate) call_type: CallType,
     // for Class/DataStruct, it's ClassName
     // for Function, it's empty
-    node_name: Option<String>,
-    function_name: Option<String>,
+    pub(crate) node_name: Option<String>,
+    pub(crate) function_name: Option<String>,
     #[serde(default)]
-    parameters: Vec<CodeProperty>,
-    position: CodePosition,
+    pub(crate) parameters: Vec<CodeProperty>,
+    pub(crate) position: CodePosition,
     // like "v1.Group", the v1 will be the Receiver
     // since 2.0.0-Beta.9
     #[serde(default)]
-    origin_node_name: String,
+    pub(crate) origin_node_name: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub enum CallType {
     #[serde(rename = "field")]
@@ -209,8 +218,8 @@ impl CallType {
     fn function() -> Self { CallType::FUNCTION }
 }
 
-#[derive(Serialize, Deserialize)]
-enum FunctionType {
+#[derive(Serialize, Deserialize, Clone)]
+pub enum FunctionType {
     Function,
     Block,
 }
@@ -218,36 +227,36 @@ impl FunctionType {
     fn function() -> Self { FunctionType::Function }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
-struct CodePosition {
-    start_line: i32,
+pub struct CodePosition {
+    pub(crate) start_line: i32,
     #[serde(default)]
-    start_line_position: i32,
-    stop_line: i32,
+    pub(crate) start_line_position: i32,
+    pub(crate) stop_line: i32,
     #[serde(default)]
-    stop_line_position: i32,
+    pub(crate) stop_line_position: i32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
-struct CodeImport {
-    source: String,
+pub struct CodeImport {
+    pub(crate) source: String,
     // todo: define for new usage
     #[serde(default)]
-    as_name: String,
+    pub(crate) as_name: String,
     // import UsageName from 'usage'
     // import AsSource as UsageName from 'source'
-    usage_name: Vec<String>,
-    scope: Option<String>,
+    pub(crate) usage_name: Vec<String>,
+    pub(crate) scope: Option<String>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
-struct CodeExport {
-    name: String,
-    source_file: String,
-    data_type: Option<DataStructType>,
+pub struct CodeExport {
+    pub(crate) name: String,
+    pub(crate) source_file: String,
+    pub(crate) data_type: Option<DataStructType>,
 }
 
 

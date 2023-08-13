@@ -4,7 +4,7 @@ use axum::http::StatusCode;
 use serde::Deserialize;
 
 use crate::model::CodeDataStruct;
-use crate::model::ContainerServiceDto;
+use crate::model::ContainerService;
 
 pub fn router() -> Router {
     use axum::routing::*;
@@ -40,7 +40,7 @@ pub async fn save_class_items(
 pub async fn save_container(
     Path(systemId): Path<u32>,
     Query(params): Query<ArchGuardParams>,
-    Json(payload): Json<Vec<ContainerServiceDto>>,
+    Json(payload): Json<Vec<ContainerService>>,
 ) -> (StatusCode, Json<()>) {
     println!("save_container");
 

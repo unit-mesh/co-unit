@@ -11,14 +11,14 @@ use qdrant_client::{
 pub type Embedding = Vec<f32>;
 
 #[derive(Default, Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct Payload {
+pub struct CodePayload {
     pub lang: String,
     pub repo_name: String,
     pub relative_path: String,
     pub content_hash: String,
     pub text: String,
     // TODO: for save some in Chinese or other the utf8 char
-    // pub origin_text: String,
+    pub origin_text: String,
     pub start_line: u64,
     pub end_line: u64,
     pub start_byte: u64,
@@ -33,21 +33,19 @@ pub struct Payload {
     pub score: Option<f32>,
 }
 
-impl PartialEq for Payload {
+impl PartialEq for CodePayload {
     fn eq(&self, other: &Self) -> bool {
         self.lang == other.lang
             && self.repo_name == other.repo_name
             && self.relative_path == other.relative_path
             && self.content_hash == other.content_hash
             && self.text == other.text
+            && self.origin_text == other.origin_text
             && self.start_line == other.start_line
             && self.end_line == other.end_line
             && self.start_byte == other.start_byte
             && self.end_byte == other.end_byte
             && self.branches == other.branches
-
-        // ignoring deserialized fields that will not exist on a newly
-        // created payload
     }
 }
 
@@ -61,8 +59,8 @@ macro_rules! val_parse_str(($hash:ident, $val:expr) => {
         .unwrap()
 });
 
-impl Payload {
-    pub fn from_qdrant(orig: ScoredPoint) -> Payload {
+impl CodePayload {
+    pub fn from_qdrant(orig: ScoredPoint) -> CodePayload {
         let ScoredPoint {
             id,
             payload,
@@ -74,7 +72,7 @@ impl Payload {
         parse_payload(id, vectors, payload, score)
     }
 
-    pub fn from_scroll(orig: RetrievedPoint) -> Payload {
+    pub fn from_scroll(orig: RetrievedPoint) -> CodePayload {
         let RetrievedPoint {
             id,
             payload,
@@ -92,6 +90,7 @@ impl Payload {
             ("relative_path".into(), self.relative_path.into()),
             ("content_hash".into(), self.content_hash.into()),
             ("snippet".into(), self.text.into()),
+            ("snippet".into(), self.origin_text.into()),
             ("start_line".into(), self.start_line.to_string().into()),
             ("end_line".into(), self.end_line.to_string().into()),
             ("start_byte".into(), self.start_byte.to_string().into()),
@@ -106,7 +105,7 @@ fn parse_payload(
     vectors: Option<Vectors>,
     payload: HashMap<String, Value>,
     score: f32,
-) -> Payload {
+) -> CodePayload {
     let Some(PointId { point_id_options: Some(PointIdOptions::Uuid(id)) }) = id
         else {
             // unless the db was corrupted/written by someone else,
@@ -130,12 +129,13 @@ fn parse_payload(
         .map(|(key, value)| (key, kind_to_value(value.kind)))
         .collect::<HashMap<String, serde_json::Value>>();
 
-    Payload {
+    CodePayload {
         lang: val_str!(converted, "lang"),
         repo_name: val_str!(converted, "repo_name"),
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         text: val_str!(converted, "snippet"),
+        origin_text: val_str!(converted, "snippet"),
         branches: val_str!(converted, "branches"),
         start_line: val_parse_str!(converted, "start_line"),
         end_line: val_parse_str!(converted, "end_line"),

@@ -1,33 +1,33 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
-pub struct ContainerServiceDto {
+pub struct ContainerService {
     #[serde(default)]
-    name: String,
+    pub(crate) name: String,
     #[serde(default)]
-    demands: Vec<ContainerDemand>,
+    pub(crate) demands: Vec<ContainerDemand>,
     #[serde(default)]
-    resources: Vec<ContainerSupply>,
+    pub(crate) resources: Vec<ContainerSupply>,
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct ContainerSupply {
-    source_url: String,
-    source_http_method: String,
-    package_name: String,
-    class_name: String,
-    method_name: String,
+    pub(crate) source_url: String,
+    pub(crate) source_http_method: String,
+    pub(crate) package_name: String,
+    pub(crate) class_name: String,
+    pub(crate) method_name: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "PascalCase")]
 pub struct ContainerDemand {
-    source_caller: String,
-    call_routes: Vec<String>,
-    base: String,
-    target_url: String,
-    target_http_method: String,
-    call_data: String,
+    pub(crate) source_caller: String,
+    pub(crate) call_routes: Vec<String>,
+    pub(crate) base: String,
+    pub(crate) target_url: String,
+    pub(crate) target_http_method: String,
+    pub(crate) call_data: String,
 }
