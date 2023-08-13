@@ -14,10 +14,13 @@ pub fn router() -> Router {
         .route("/:systemId/reporting/container-services", post(save_container))
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ArchGuardParams {
     language: String,
     path: String,
+    // same to repo url
+    repo_id: String,
 }
 
 
@@ -26,7 +29,8 @@ pub async fn save_class_items(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDataStruct>>,
 ) -> (StatusCode, Json<()>) {
-    println!("systemId: {}", systemId);
+    println!("systemId: {:?}", systemId);
+    println!("params: {:?}", params);
     println!("inputs: {}", serde_json::to_value(&payload).unwrap());
     println!("save_class_items");
 
