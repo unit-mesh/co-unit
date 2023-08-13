@@ -253,7 +253,7 @@ struct CodeExport {
 
 #[cfg(test)]
 mod tests {
-    use crate::server::chapi_model::CodeDataStruct;
+    use crate::model::CodeDataStruct;
 
     #[test]
     fn should_serialize_to_ds() {
