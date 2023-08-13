@@ -5,6 +5,7 @@ use tracing::info;
 
 use crate::server::{archguard_api, datamap_api, embedding_api, translate_api};
 pub mod server;
+pub mod model;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
