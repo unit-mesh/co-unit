@@ -30,10 +30,17 @@ impl ContainerSupply {
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct ContainerDemand {
+    #[serde(default)]
+    /// Path to the embedding model directory
     pub(crate) source_caller: String,
+    #[serde(default)]
     pub(crate) call_routes: Vec<String>,
+    #[serde(default)]
     pub(crate) base: String,
+    #[serde(default)]
     pub(crate) target_url: String,
+    #[serde(default)]
     pub(crate) target_http_method: String,
+    #[serde(default)]
     pub(crate) call_data: String,
 }
