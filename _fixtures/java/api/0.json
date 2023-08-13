@@ -1,0 +1,220 @@
+[
+  {
+    "NodeName": "BlogController",
+    "Module": "root",
+    "Type": "CLASS",
+    "Functions": [
+      {
+        "Name": "getAllBlogs",
+        "ReturnType": "ResponseEntity<String>",
+        "FunctionCalls": [
+          {
+            "Package": "org.springframework.http",
+            "Type": "CHAIN",
+            "NodeName": "ResponseEntity",
+            "FunctionName": "ok",
+            "Parameters": [
+              {
+                "TypeValue": "\"List of all blogs\"",
+                "TypeType": ""
+              }
+            ],
+            "Position": {
+              "StartLine": 15,
+              "StartLinePosition": 30,
+              "StopLine": 15,
+              "StopLinePosition": 52
+            }
+          }
+        ],
+        "Annotations": [
+          {
+            "Name": "GetMapping"
+          },
+          {
+            "Name": "ApiOperation",
+            "KeyValues": [
+              {
+                "Key": "\"获取所有博客\"",
+                "Value": "\"获取所有博客\""
+              }
+            ]
+          }
+        ],
+        "Position": {
+          "StartLine": 13,
+          "StartLinePosition": 11,
+          "StopLine": 16,
+          "StopLinePosition": 4
+        },
+        "BodyHash": 40602143
+      },
+      {
+        "Name": "createBlog",
+        "ReturnType": "ResponseEntity<String>",
+        "Parameters": [
+          {
+            "TypeValue": "blogContent",
+            "TypeType": "String"
+          }
+        ],
+        "FunctionCalls": [
+          {
+            "Package": "org.springframework.http",
+            "Type": "CHAIN",
+            "NodeName": "ResponseEntity",
+            "FunctionName": "ok",
+            "Parameters": [
+              {
+                "TypeValue": "\"Blog created successfully\"",
+                "TypeType": ""
+              }
+            ],
+            "Position": {
+              "StartLine": 22,
+              "StartLinePosition": 30,
+              "StopLine": 22,
+              "StopLinePosition": 60
+            }
+          }
+        ],
+        "Annotations": [
+          {
+            "Name": "PostMapping"
+          },
+          {
+            "Name": "ApiOperation",
+            "KeyValues": [
+              {
+                "Key": "\"创建新博客\"",
+                "Value": "\"创建新博客\""
+              }
+            ]
+          }
+        ],
+        "Position": {
+          "StartLine": 20,
+          "StartLinePosition": 11,
+          "StopLine": 23,
+          "StopLinePosition": 4
+        },
+        "LocalVariables": [
+          {
+            "TypeValue": "blogContent",
+            "TypeType": "String"
+          }
+        ],
+        "BodyHash": -129622863
+      },
+      {
+        "Name": "getBlogById",
+        "ReturnType": "ResponseEntity<String>",
+        "Parameters": [
+          {
+            "TypeValue": "id",
+            "TypeType": "Long"
+          }
+        ],
+        "FunctionCalls": [
+          {
+            "Package": "org.springframework.http",
+            "Type": "CHAIN",
+            "NodeName": "ResponseEntity",
+            "FunctionName": "ok",
+            "Parameters": [
+              {
+                "TypeValue": "\"Blog with ID \"+id",
+                "TypeType": ""
+              }
+            ],
+            "Position": {
+              "StartLine": 29,
+              "StartLinePosition": 30,
+              "StopLine": 29,
+              "StopLinePosition": 53
+            }
+          }
+        ],
+        "Annotations": [
+          {
+            "Name": "GetMapping",
+            "KeyValues": [
+              {
+                "Key": "\"/{id}\"",
+                "Value": "\"/{id}\""
+              }
+            ]
+          },
+          {
+            "Name": "ApiOperation",
+            "KeyValues": [
+              {
+                "Key": "\"获取指定ID的博客\"",
+                "Value": "\"获取指定ID的博客\""
+              }
+            ]
+          }
+        ],
+        "Position": {
+          "StartLine": 27,
+          "StartLinePosition": 11,
+          "StopLine": 30,
+          "StopLinePosition": 4
+        },
+        "LocalVariables": [
+          {
+            "TypeValue": "blogContent",
+            "TypeType": "String"
+          },
+          {
+            "TypeValue": "id",
+            "TypeType": "Long"
+          }
+        ],
+        "BodyHash": -1220519629
+      }
+    ],
+    "Annotations": [
+      {
+        "Name": "RestController"
+      },
+      {
+        "Name": "RequestMapping",
+        "KeyValues": [
+          {
+            "Key": "\"/api/blogs\"",
+            "Value": "\"/api/blogs\""
+          }
+        ]
+      },
+      {
+        "Name": "Api",
+        "KeyValues": [
+          {
+            "Key": "tags",
+            "Value": "\"博客管理\""
+          }
+        ]
+      }
+    ],
+    "Imports": [
+      {
+        "Source": "io.swagger.annotations.Api"
+      },
+      {
+        "Source": "io.swagger.annotations.ApiOperation"
+      },
+      {
+        "Source": "org.springframework.http.ResponseEntity"
+      },
+      {
+        "Source": "org.springframework.web.bind.annotation"
+      }
+    ],
+    "Position": {
+      "StartLine": 9,
+      "StartLinePosition": 7,
+      "StopLine": 33
+    }
+  }
+]
