@@ -7,10 +7,13 @@ pub struct CodeDataStruct {
     // class and DataStruct Name
     // for TypeScript/JavaScript, if it is a variable, function, it will be named `default`
     pub(crate) node_name: String,
+    #[serde(default = "String::new")]
     pub(crate) module: String,
     #[serde(default = "DataStructType::default")]
     pub(crate) data_type: DataStructType, // You need to define DataStructType enum separately
+    #[serde(default = "String::new")]
     pub(crate) package: String,
+    #[serde(default = "String::new")]
     pub(crate) file_path: String,
     // todo: thinking of changing to property
     #[serde(default)]
@@ -95,6 +98,7 @@ pub struct CodeFunction {
     pub(crate) name: String,
     #[serde(default)]
     pub(crate) file_path: String,
+    #[serde(default = "String::new")]
     pub(crate) package: String,
     pub(crate) return_type: String,
     #[serde(default)]
@@ -178,8 +182,10 @@ pub struct CodeCall {
     pub(crate) call_type: CallType,
     // for Class/DataStruct, it's ClassName
     // for Function, it's empty
-    pub(crate) node_name: Option<String>,
-    pub(crate) function_name: Option<String>,
+    #[serde(default)]
+    pub(crate) node_name: String,
+    #[serde(default)]
+    pub(crate) function_name: String,
     #[serde(default)]
     pub(crate) parameters: Vec<CodeProperty>,
     pub(crate) position: CodePosition,

@@ -3,13 +3,13 @@ use crate::model::{CodeDataStruct, CodeFunction, ContainerDemand, ContainerServi
 use crate::model::analyser::ApiAnalyser;
 
 #[derive(Serialize, Deserialize, Clone)]
-struct JavaApiAnalyser {
+pub struct JavaApiAnalyser {
     resources: Vec<ContainerSupply>,
     demands: Vec<ContainerDemand>,
 }
 
 impl ApiAnalyser for JavaApiAnalyser {
-    fn analysis_by_node(&mut self, node: CodeDataStruct, workspace: String) {
+    fn analysis_by_node(&mut self, node: &CodeDataStruct, workspace: String) {
         let route_annotation = node.filter_annotations(vec!["RestController", "Controller", "RequestMapping"]);
 
         // 1. create resources
@@ -42,23 +42,21 @@ impl ApiAnalyser for JavaApiAnalyser {
             demands: self.demands.clone(),
         }]
     }
+
+    fn new() -> Self {
+        JavaApiAnalyser {
+            resources: vec![],
+            demands: vec![],
+        }
+    }
 }
 
 impl JavaApiAnalyser {
     fn create_demand(&mut self, func: CodeFunction, node: CodeDataStruct) {
         for call in &func.function_calls {
-            let mut function_name: Option<String> = call.function_name.clone();
-            if function_name.is_none() {
-                continue;
-            }
-            let mut node_name = call.node_name.clone();
-            if node_name.is_none() {
-                continue;
-            }
+            let mut function_name: String = call.function_name.clone();
+            let node_name = call.node_name.clone();
 
-            let node_name = node_name.unwrap();
-
-            let mut function_name = function_name.unwrap();
             if function_name.contains('.') {
                 function_name = function_name.split('.').last().unwrap().to_string();
             }
@@ -167,5 +165,98 @@ impl JavaApiAnalyser {
                 method_name: func.name.clone(),
             });
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::model::analyser::api_analyser::JavaApiAnalyser;
+    use crate::model::analyser::ApiAnalyser;
+    use crate::model::CodeDataStruct;
+
+    #[test]
+    fn should_convert_api() {
+        let demo_code = r#"[
+  {
+    "NodeName": "HelloController",
+    "Type": "CLASS",
+    "Package": "com.example.springboot",
+    "FilePath": "HelloController.java",
+    "Fields": [],
+    "MultipleExtend": [],
+    "Implements": [],
+    "Functions": [
+      {
+        "Name": "index",
+        "ReturnType": "String",
+        "MultipleReturns": [],
+        "Parameters": [],
+        "FunctionCalls": [],
+        "Annotations": [
+          {
+            "Name": "GetMapping",
+            "KeyValues": [
+              {
+                "Key": "\"/\"",
+                "Value": "\"/\""
+              }
+            ]
+          }
+        ],
+        "Modifiers": [],
+        "InnerStructures": [],
+        "InnerFunctions": [],
+        "Position": {
+          "StartLine": 11,
+          "StartLinePosition": 11,
+          "StopLine": 13,
+          "StopLinePosition": 4
+        },
+        "LocalVariables": []
+      }
+    ],
+    "InnerStructures": [],
+    "Annotations": [
+      {
+        "Name": "RestController",
+        "KeyValues": []
+      },
+      {
+        "Name": "RequestMapping",
+        "KeyValues": []
+      }
+    ],
+    "FunctionCalls": [],
+    "Parameters": [],
+    "Imports": [
+      {
+        "Source": "org.springframework.web.bind.annotation.GetMapping",
+        "UsageName": []
+      },
+      {
+        "Source": "org.springframework.web.bind.annotation.RestController",
+        "UsageName": []
+      }
+    ],
+    "Exports": [],
+    "Position": {
+      "StartLine": 8,
+      "StartLinePosition": 7,
+      "StopLine": 15
+    }
+  }
+]"#;
+
+        let mut converter = JavaApiAnalyser::new();
+        let codes: Vec<CodeDataStruct> = serde_json::from_str(demo_code).unwrap();
+        converter.analysis_by_node(&codes[0], "".to_string());
+        let result = converter.to_container_services();
+        assert_eq!(result.len(), 1);
+        let supply = &result[0].resources[0];
+        assert_eq!(supply.source_url, "/");
+        assert_eq!(supply.source_http_method, "Get");
+        assert_eq!(supply.package_name, "com.example.springboot");
+        assert_eq!(supply.class_name, "HelloController");
+        assert_eq!(supply.method_name, "index");
     }
 }
