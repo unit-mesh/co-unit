@@ -17,13 +17,7 @@ pub(crate) async fn query(
 
     let result = app.semantic
         .unwrap()
-        .search(
-            &q,
-            10,
-            0,
-            0.0,
-            false,
-        )
+        .search(&q, 10, 0, 0.0, false)
         .await;
 
     match result {

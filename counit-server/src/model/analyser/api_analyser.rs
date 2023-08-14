@@ -30,7 +30,7 @@ impl ApiAnalyser for JavaApiAnalyser {
         let use_rest_template = node.imports.iter().any(|import| import.source.ends_with(".RestTemplate"));
         if use_rest_template {
             for func in &node.functions {
-                self.create_demand(func.clone(), node.clone());
+                let _ = self.create_demand(func.clone(), node.clone());
             }
         }
     }
@@ -52,13 +52,15 @@ impl ApiAnalyser for JavaApiAnalyser {
 }
 
 impl JavaApiAnalyser {
-    fn create_demand(&mut self, func: CodeFunction, node: CodeDataStruct) {
+    fn create_demand(&mut self, func: CodeFunction, node: CodeDataStruct) -> anyhow::Result<(),  anyhow::Error> {
         for call in &func.function_calls {
             let mut function_name: String = call.function_name.clone();
             let node_name = call.node_name.clone();
 
             if function_name.contains('.') {
-                function_name = function_name.split('.').last().unwrap().to_string();
+                function_name = function_name.split('.').last()
+                    .ok_or(anyhow::anyhow!("split function name error"))?
+                    .to_string();
             }
 
             if node_name == "RestTemplate" && node_name != "<init>" {
@@ -97,6 +99,8 @@ impl JavaApiAnalyser {
                 }
             }
         }
+
+        Ok(())
     }
 
     fn create_resource(&mut self, func: CodeFunction, base_url: &str, node: CodeDataStruct) {

@@ -1,8 +1,10 @@
 use std::any::Any;
 use std::collections::BTreeMap;
+use anyhow::Error;
 
 use axum::{Extension, Json, Router};
 use axum::extract::Query;
+use axum::response::IntoResponse;
 use serde::Deserialize;
 use utoipa::openapi::{PathItemType, RefOr, Schema};
 
@@ -20,10 +22,11 @@ pub async fn save_openapi(
     Extension(app): Extension<Application>,
     Query(params): Query<OpenApiParams>,
     Json(payload): Json<utoipa::openapi::OpenApi>,
-) -> String {
+) -> impl IntoResponse {
     println!("params: {:?}", &params);
     println!("payload: {:?}", serde_json::to_value(&payload).unwrap());
-    "hello".to_string()
+
+    "hello".to_string().into_response()
 }
 
 #[derive(Deserialize, Debug)]
@@ -43,7 +46,7 @@ pub struct OpenApiParams {
 ///
 /// { should return the json response }
 /// ```
-pub fn format_openapi(openapi: &utoipa::openapi::OpenApi) -> String {
+pub fn format_openapi(openapi: &utoipa::openapi::OpenApi) -> anyhow::Result<String> {
     let mut formatted = String::new();
 
     // let ref_to_ref_schema: Vec<RefOr<Schema>> = Vec::new();
@@ -92,7 +95,7 @@ pub fn format_openapi(openapi: &utoipa::openapi::OpenApi) -> String {
         }
     }
 
-    formatted
+    Ok(formatted)
 }
 
 
@@ -120,7 +123,7 @@ mod tests {
         // read from cargo manifest / fixtures/ petstore.json
         let content = std::fs::read_to_string("fixtures/petstore.json").unwrap();
         let openapi = serde_json::from_str::<utoipa::openapi::OpenApi>(&content).unwrap();
-        let formatted = format_openapi(&openapi);
+        let formatted = format_openapi(&openapi).unwrap();
         println!("formatted: {}", formatted);
     }
 }
