@@ -17,3 +17,6 @@ Content-Type: application/json
   "with_payload": true,
   "limit": 5
 }
+
+### Query
+GET http://127.0.0.1:8765/api/query?q=blog&repo_ref=mall

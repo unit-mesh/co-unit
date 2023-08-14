@@ -132,6 +132,8 @@ fn parse_payload(
         .map(|(key, value)| (key, kind_to_value(value.kind)))
         .collect::<HashMap<String, serde_json::Value>>();
 
+    println!("converted: {:?}", converted);
+
     CodePayload {
         lang: val_str!(converted, "lang"),
         repo_name: val_str!(converted, "repo_name"),
@@ -139,7 +141,7 @@ fn parse_payload(
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         text: val_str!(converted, "snippet"),
-        origin_text: val_str!(converted, "snippet"),
+        origin_text: "".to_string(),
         branches: val_str!(converted, "branches"),
         start_line: val_parse_str!(converted, "start_line"),
         end_line: val_parse_str!(converted, "end_line"),

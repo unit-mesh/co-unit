@@ -12,7 +12,7 @@ pub(crate) async fn query(
     Query(args): Query<ApiQuery>,
     Extension(app): Extension<Application>,
 ) -> (StatusCode, Json<()>) {
-    let q = SemanticQuery::from_str(args.q, "archguard".to_string());
+    let q = SemanticQuery::from_str(args.q, args.repo_ref);
     let results = app.semantic
         .unwrap()
         .search(
@@ -30,7 +30,8 @@ pub(crate) async fn query(
 
 #[derive(Debug, Deserialize)]
 pub struct ApiQuery {
-    pub q: String
+    pub q: String,
+    pub repo_ref: String,
 }
 
 impl crate::server::ApiResponse for QueryResponse {}
