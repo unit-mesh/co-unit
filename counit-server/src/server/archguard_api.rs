@@ -29,7 +29,7 @@ pub struct ArchGuardParams {
 
 pub async fn save_datamap(
     Extension(app): Extension<Application>,
-    Path(systemId): Path<u32>,
+    Path(system_id): Path<u32>,
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDatabaseRelation>>,
 ) -> (StatusCode, Json<()>) {
@@ -39,7 +39,7 @@ pub async fn save_datamap(
 
 pub async fn save_class_items(
     Extension(app): Extension<Application>,
-    Path(systemId): Path<u32>,
+    Path(system_id): Path<u32>,
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDataStruct>>,
 ) -> (StatusCode, Json<()>) {
@@ -51,7 +51,7 @@ pub async fn save_class_items(
 
 pub async fn save_container(
     Extension(app): Extension<Application>,
-    Path(systemId): Path<u32>,
+    Path(system_id): Path<u32>,
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<ContainerService>>,
 ) -> (StatusCode, Json<()>) {
