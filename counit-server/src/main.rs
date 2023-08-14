@@ -29,8 +29,6 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(root))
         .route("/query", get(semantic_api::query))
 
-        .route("/embedding/rest_api", post(embedding_api::rest_api_embedding))
-
         // knowledge init
         .nest("/translate/domain_language", translate_api::router())
         //align to archguard api
