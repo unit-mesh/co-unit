@@ -19,4 +19,4 @@ Content-Type: application/json
 }
 
 ### Query
-GET http://127.0.0.1:8765/api/query?q=blog&repo_ref=mall
+GET http://127.0.0.1:8765/api/query?q=""&repo_ref=mall
