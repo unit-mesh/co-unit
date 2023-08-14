@@ -215,6 +215,7 @@ impl Semantic {
         let output_tensor: OrtOwnedTensor<f32, _> = outputs[0].try_extract().unwrap();
         let sequence_embedding = &*output_tensor.view();
         let pooled = sequence_embedding.mean_axis(Axis(1)).unwrap();
+
         Ok(pooled.to_owned().as_slice().unwrap().to_vec())
     }
 
@@ -393,8 +394,8 @@ impl Semantic {
         repo_ref: &str,
         relative_path: &str,
         buffer: &str,
-    ) {
-        let embedded = self.embed(buffer).unwrap();
+    ) -> anyhow::Result<()> {
+        let embedded = self.embed(buffer)?;
         let new: RwLock<Vec<PointStruct>> = Default::default();
 
         let payload = CodePayload {
@@ -427,7 +428,9 @@ impl Semantic {
 
         self.qdrant
             .upsert_points_blocking(COLLECTION_NAME, point, None)
-            .await.unwrap();
+            .await?;
+
+        Ok(())
     }
 }
 

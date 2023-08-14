@@ -100,7 +100,7 @@ pub async fn save_container(
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
                             println!("resource: {:?}", resource.display());
-                            semantic.insert_points_for_buffer(
+                            let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
                                 params.path.as_str(),
