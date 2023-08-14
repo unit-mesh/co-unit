@@ -1,12 +1,12 @@
-use axum::Extension;
-use axum::body::HttpBody;
-use axum::extract::Query;
-use axum::response::IntoResponse;
+use axum::{
+    body::HttpBody, Extension, extract::Query, response::IntoResponse,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::application::Application;
-use crate::repository::payload::CodePayload;
-use crate::repository::semantic_query::SemanticQuery;
+use crate::repository::{
+    payload::CodePayload, semantic_query::SemanticQuery
+};
 use crate::server::{Error, json};
 
 pub(crate) async fn query(

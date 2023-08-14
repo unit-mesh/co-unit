@@ -103,7 +103,7 @@ impl Semantic {
         qdrant_url: &str,
         config: Arc<Configuration>,
     ) -> Result<Self, SemanticError> {
-        let qdrant = QdrantClient::new(Some(QdrantClientConfig::from_url(qdrant_url))).unwrap();
+        let qdrant = QdrantClient::new(Some(QdrantClientConfig::from_url(qdrant_url)))?;
 
         match qdrant.has_collection(COLLECTION_NAME).await {
             Ok(false) => {

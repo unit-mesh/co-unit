@@ -1,5 +1,4 @@
-use axum::http::StatusCode;
-use axum::{Json, Router};
+use axum::{http::StatusCode, Json, Router};
 use serde::{Deserialize, Serialize};
 
 pub(crate) fn router() -> Router {

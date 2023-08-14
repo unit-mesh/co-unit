@@ -1,5 +1,3 @@
-use std::fmt::Display;
-
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -38,13 +36,13 @@ pub struct Parameter {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum BodyMode {
-    RAW_TEXT,
-    TYPED,
+    RawText,
+    Typed,
 }
 
 impl Default for BodyMode {
     fn default() -> Self {
-        BodyMode::TYPED
+        BodyMode::Typed
     }
 }
 

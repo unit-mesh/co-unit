@@ -1,13 +1,16 @@
-use axum::{Extension, Json, Router};
-use axum::extract::{Path, Query};
-use axum::http::StatusCode;
+use axum::{
+    Extension,
+    extract::{Path, Query},
+    http::StatusCode, Json, Router
+};
 use serde::Deserialize;
 use tokio::runtime::Handle;
 
 use crate::application::Application;
-use crate::model::{CodeDatabaseRelation, CodeDataStruct};
-use crate::model::archguard_openapi::ApiCollection;
-use crate::model::ContainerService;
+use crate::model::{
+    archguard_openapi::ApiCollection,
+    CodeDatabaseRelation, CodeDataStruct, ContainerService,
+};
 
 pub fn router() -> Router {
     use axum::routing::*;
@@ -24,7 +27,6 @@ pub fn router() -> Router {
 pub struct ArchGuardParams {
     language: String,
     path: String,
-    // same to repo url
     repo_id: String,
     // repo_ref: String,
 }
@@ -44,7 +46,7 @@ pub async fn save_openapi(
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
                             println!("display_text {:?}", &item.display_text);
-                            semantic.insert_points_for_buffer(
+                            let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
                                 params.path.as_str(),

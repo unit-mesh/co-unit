@@ -1,6 +1,6 @@
 use std::net::SocketAddr;
 
-use axum::{Extension, Router, routing::{get, post}};
+use axum::{Extension, Router, routing::get};
 use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::cors::CorsLayer;
 use tracing::info;

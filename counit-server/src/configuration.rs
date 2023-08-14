@@ -1,4 +1,5 @@
 use std::path::{Path, PathBuf};
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -30,7 +31,6 @@ fn default_host() -> String {
 fn default_model_dir() -> PathBuf {
     "model".into()
 }
-
 
 impl Configuration {
     pub fn default() -> Self {

@@ -10,7 +10,8 @@ pub struct CodeDataStruct {
     #[serde(default = "String::new")]
     pub(crate) module: String,
     #[serde(default = "DataStructType::default")]
-    pub(crate) data_type: DataStructType, // You need to define DataStructType enum separately
+    pub(crate) data_type: DataStructType,
+    // You need to define DataStructType enum separately
     #[serde(default = "String::new")]
     pub(crate) package: String,
     #[serde(default = "String::new")]
@@ -34,7 +35,8 @@ pub struct CodeDataStruct {
     pub(crate) function_calls: Vec<CodeCall>,
     #[deprecated(note = "looking for constructor method for SCALA")]
     #[serde(default)]
-    pub(crate) parameters: Vec<CodeProperty>, // for Scala
+    pub(crate) parameters: Vec<CodeProperty>,
+    // for Scala
     #[serde(default)]
     pub(crate) imports: Vec<CodeImport>,
     // in TypeScript, a file can export Function, Variable, Class, Interface
@@ -42,7 +44,8 @@ pub struct CodeDataStruct {
     #[serde(default)]
     pub(crate) exports: Vec<CodeExport>,
     // todo: select node use only imports
-    pub(crate) extension: Option<JsonElement>, // You need to define JsonElement type separately
+    pub(crate) extension: Option<JsonElement>,
+    // You need to define JsonElement type separately
     #[serde(default)]
     pub(crate) position: CodePosition,
 }
@@ -72,6 +75,7 @@ pub enum DataStructType {
     Trait,
     Enum,
 }
+
 impl DataStructType {
     pub fn default() -> Self {
         DataStructType::Default
@@ -125,7 +129,8 @@ pub struct CodeFunction {
     pub(crate) extension: Option<JsonElement>,
     #[serde(default)]
     pub(crate) local_variables: Vec<CodeProperty>,
-    pub(crate) is_constructor: Option<bool>, // todo: move to extension
+    pub(crate) is_constructor: Option<bool>,
+    // todo: move to extension
     pub(crate) is_return_html: Option<bool>,
     pub(crate) body_hash: Option<i32>,
     #[serde(default = "FunctionType::function")]
@@ -215,7 +220,7 @@ pub enum CallType {
     #[serde(rename = "super")]
     SUPER,
     #[serde(rename = "same package")]
-    SAME_PACKAGE,
+    SamePackage,
     #[serde(rename = "self")]
     SELF,
     #[serde(rename = "chain")]
@@ -223,6 +228,7 @@ pub enum CallType {
     #[serde(rename = "static")]
     STATIC,
 }
+
 impl CallType {
     fn function() -> Self { CallType::FUNCTION }
 }
@@ -232,6 +238,7 @@ pub enum FunctionType {
     Function,
     Block,
 }
+
 impl FunctionType {
     fn function() -> Self { FunctionType::Function }
 }
