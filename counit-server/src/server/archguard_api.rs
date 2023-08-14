@@ -35,8 +35,30 @@ pub async fn save_openapi(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<ApiCollection>>,
 ) -> (StatusCode, Json<()>) {
+    let repo_ref = params.repo_id.clone();
 
-    println!("payload: {:?}", serde_json::to_value(&payload).unwrap());
+    match app.semantic {
+        Some(ref semantic) => {
+            payload.iter().for_each(|collection| {
+                let _ = &collection.items.iter().for_each(|item| {
+                    tokio::task::block_in_place(|| {
+                        Handle::current().block_on(async {
+                            println!("display_text {:?}", &item.display_text);
+                            semantic.insert_points_for_buffer(
+                                params.repo_id.as_str(),
+                                repo_ref.as_str(),
+                                params.path.as_str(),
+                                item.display_text.as_str(),
+                            ).await;
+                        });
+                    });
+                });
+            });
+        }
+        None => {
+            return (StatusCode::INTERNAL_SERVER_ERROR, Json(()));
+        }
+    }
 
     (StatusCode::CREATED, Json(()))
 }
@@ -48,7 +70,6 @@ pub async fn save_datamap(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDatabaseRelation>>,
 ) -> (StatusCode, Json<()>) {
-
     (StatusCode::CREATED, Json(()))
 }
 
@@ -70,7 +91,6 @@ pub async fn save_container(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<ContainerService>>,
 ) -> (StatusCode, Json<()>) {
-    println!("payload: {:?}", serde_json::to_value(&payload).unwrap());
     let repo_ref = params.repo_id.clone();
 
     match app.semantic {

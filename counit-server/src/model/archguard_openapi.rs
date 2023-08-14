@@ -4,27 +4,28 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ApiCollection {
-    name: String,
-    description: String,
-    items: Vec<ApiItem>,
+    pub name: String,
+    pub description: String,
+    pub items: Vec<ApiItem>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ApiItem {
-    path: String,
+    pub path: String,
     #[serde(default)]
-    method: String,
+    pub method: String,
     #[serde(default)]
-    description: String,
+    pub description: String,
     #[serde(default)]
-    operationId: String,
+    pub operation_id: String,
     #[serde(default)]
     tags: Vec<String>,
-    request: Option<Request>,
+    pub request: Option<Request>,
     #[serde(default)]
-    response: Vec<Response>,
+    pub response: Vec<Response>,
     #[serde(default)]
-    display_text: String,
+    pub display_text: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -48,6 +49,7 @@ impl Default for BodyMode {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Request {
     #[serde(default)]
     parameters: Vec<Parameter>,
@@ -60,6 +62,7 @@ pub struct Request {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Response {
     status: i32,
     #[serde(default)]
