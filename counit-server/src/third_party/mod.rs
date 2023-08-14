@@ -1,9 +1,9 @@
 use axum::Router;
-pub mod swagger;
+pub mod openapi;
 
 pub fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .nest("/swagger", swagger::router())
+        .nest("/openapi", openapi::router())
 }
