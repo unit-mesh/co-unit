@@ -30,7 +30,7 @@ GET http://127.0.0.1:8765/api/query?q=""&repo_ref=mall
 
 ### CREATE SWAGGER INDEX
 
-POST http://127.0.0.1:8765/api/index/third-part/openapi/v3
+POST http://127.0.0.1:8765/api/index/third-part/openapi/v3?repo_ref=mall&language=java&repo_url=https://github.com/OAI/OpenAPI-Specification
 Content-Type: application/json
 
 {
