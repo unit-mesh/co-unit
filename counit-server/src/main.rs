@@ -7,7 +7,7 @@ use tracing::info;
 use crate::application::Application;
 use crate::configuration::Configuration;
 
-use crate::server::{archguard_api, datamap_api, embedding_api, translate_api};
+use crate::server::{archguard_api, embedding_api, translate_api};
 
 pub mod server;
 pub mod model;
@@ -28,7 +28,6 @@ async fn main() -> anyhow::Result<()> {
         .with_state(app.clone())
         .route("/", get(root))
         .route("/embedding/rest_api", post(embedding_api::rest_api_embedding))
-        .route("/embedding/datamap", post(datamap_api::datamap_embedding))
 
         // knowledge init
         .nest("/translate/domain_language", translate_api::router())

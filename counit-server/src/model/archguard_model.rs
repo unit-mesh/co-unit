@@ -44,3 +44,12 @@ pub struct ContainerDemand {
     #[serde(default)]
     pub(crate) call_data: String,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct CodeDatabaseRelation {
+    package_name: String,
+    class_name: String,
+    function_name: String,
+    tables: Vec<String>,
+    sqls: Vec<String>,
+}

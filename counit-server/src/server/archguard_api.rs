@@ -5,7 +5,7 @@ use serde::Deserialize;
 use tokio::runtime::Handle;
 
 use crate::application::Application;
-use crate::model::CodeDataStruct;
+use crate::model::{CodeDatabaseRelation, CodeDataStruct};
 use crate::model::ContainerService;
 
 pub fn router() -> Router {
@@ -14,6 +14,7 @@ pub fn router() -> Router {
     Router::new()
         .route("/:systemId/reporting/class-items", post(save_class_items))
         .route("/:systemId/reporting/container-services", post(save_container))
+        .route("/:systemId/reporting/datamap-relations", post(save_datamap))
 }
 
 #[derive(Deserialize, Debug)]
@@ -25,6 +26,16 @@ pub struct ArchGuardParams {
     repo_id: String,
 }
 
+pub async fn save_datamap(
+    Extension(app): Extension<Application>,
+    Path(systemId): Path<u32>,
+    Query(params): Query<ArchGuardParams>,
+    Json(payload): Json<Vec<CodeDatabaseRelation>>,
+) -> (StatusCode, Json<()>) {
+    println!("systemId: {:?}", systemId);
+
+    (StatusCode::CREATED, Json(()))
+}
 
 pub async fn save_class_items(
     Extension(app): Extension<Application>,
