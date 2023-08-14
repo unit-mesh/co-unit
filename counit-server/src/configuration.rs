@@ -37,7 +37,7 @@ impl Configuration {
         Configuration {
             host: "0.0.0.0".to_string(),
             port: 8765,
-            dylib_dir: default_model_dir().into(),
+            dylib_dir: None,
             qdrant_url: Some("http://127.0.0.1:6334".into()),
             model_dir: Path::new(env!("CARGO_MANIFEST_DIR")).parent()
                 .unwrap()
