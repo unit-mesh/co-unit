@@ -7,7 +7,7 @@ use tracing::info;
 use crate::application::Application;
 use crate::configuration::Configuration;
 
-use crate::server::{archguard_api, embedding_api, semantic_api, translate_api};
+use crate::server::{archguard_api, semantic_api, translate_api};
 
 pub mod server;
 pub mod model;
