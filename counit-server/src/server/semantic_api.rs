@@ -1,19 +1,21 @@
-use axum::{Extension, Json};
+use axum::Extension;
 use axum::body::HttpBody;
 use axum::extract::Query;
-use axum::http::StatusCode;
+use axum::response::IntoResponse;
 use serde::{Deserialize, Serialize};
 
 use crate::application::Application;
 use crate::repository::payload::CodePayload;
 use crate::repository::semantic_query::SemanticQuery;
+use crate::server::{Error, json};
 
 pub(crate) async fn query(
     Query(args): Query<ApiQuery>,
     Extension(app): Extension<Application>,
-) -> (StatusCode, Json<()>) {
+) -> impl IntoResponse {
     let q = SemanticQuery::from_str(args.q, args.repo_ref);
-    let results = app.semantic
+
+    let result = app.semantic
         .unwrap()
         .search(
             &q,
@@ -22,10 +24,16 @@ pub(crate) async fn query(
             0.0,
             false,
         )
-        .await.unwrap();
+        .await;
 
-    println!("results: {:?}", results);
-        (StatusCode::OK, Json(()))
+    match result {
+        Ok(vec) => {
+            Ok(json(QueryResponse { data: vec }))
+        }
+        Err(err) => {
+            Err(Error::from(err))
+        }
+    }
 }
 
 #[derive(Debug, Deserialize)]
