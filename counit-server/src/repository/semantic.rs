@@ -390,6 +390,7 @@ impl Semantic {
     pub async fn insert_points_for_buffer(
         &self,
         repo_name: &str,
+        repo_ref: &str,
         relative_path: &str,
         buffer: &str,
     ) {
@@ -399,6 +400,7 @@ impl Semantic {
         let payload = CodePayload {
             lang: "java".to_string(),
             repo_name: repo_name.to_string(),
+            repo_ref: repo_ref.to_string(),
             relative_path: relative_path.to_string(),
             content_hash: "".to_string(),
             text: buffer.to_string(),

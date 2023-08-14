@@ -24,6 +24,7 @@ pub struct ArchGuardParams {
     path: String,
     // same to repo url
     repo_id: String,
+    // repo_ref: String,
 }
 
 pub async fn save_datamap(
@@ -55,6 +56,8 @@ pub async fn save_container(
     Json(payload): Json<Vec<ContainerService>>,
 ) -> (StatusCode, Json<()>) {
     println!("payload: {:?}", serde_json::to_value(&payload).unwrap());
+    let repo_ref = params.repo_id.clone();
+
     match app.semantic {
         Some(ref semantic) => {
             payload.iter().for_each(|container| {
@@ -64,6 +67,7 @@ pub async fn save_container(
                             println!("resource: {:?}", resource.display());
                             semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
+                                repo_ref.as_str(),
                                 params.path.as_str(),
                                 resource.display().as_str(),
                             ).await;

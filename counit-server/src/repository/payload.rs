@@ -14,6 +14,7 @@ pub type Embedding = Vec<f32>;
 pub struct CodePayload {
     pub lang: String,
     pub repo_name: String,
+    pub repo_ref: String,
     pub relative_path: String,
     pub content_hash: String,
     pub text: String,
@@ -37,6 +38,7 @@ impl PartialEq for CodePayload {
     fn eq(&self, other: &Self) -> bool {
         self.lang == other.lang
             && self.repo_name == other.repo_name
+            && self.repo_ref == other.repo_ref
             && self.relative_path == other.relative_path
             && self.content_hash == other.content_hash
             && self.text == other.text
@@ -87,6 +89,7 @@ impl CodePayload {
         HashMap::from([
             ("lang".into(), self.lang.to_ascii_lowercase().into()),
             ("repo_name".into(), self.repo_name.into()),
+            ("repo_ref".into(), self.repo_ref.into()),
             ("relative_path".into(), self.relative_path.into()),
             ("content_hash".into(), self.content_hash.into()),
             ("snippet".into(), self.text.into()),
@@ -132,6 +135,7 @@ fn parse_payload(
     CodePayload {
         lang: val_str!(converted, "lang"),
         repo_name: val_str!(converted, "repo_name"),
+        repo_ref: val_str!(converted, "repo_ref"),
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         text: val_str!(converted, "snippet"),
