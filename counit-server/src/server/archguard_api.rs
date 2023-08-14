@@ -32,7 +32,6 @@ pub async fn save_datamap(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDatabaseRelation>>,
 ) -> (StatusCode, Json<()>) {
-    println!("systemId: {:?}", systemId);
 
     (StatusCode::CREATED, Json(()))
 }
@@ -43,10 +42,8 @@ pub async fn save_class_items(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDataStruct>>,
 ) -> (StatusCode, Json<()>) {
-    println!("systemId: {:?}", systemId);
-    println!("params: {:?}", params);
-    println!("inputs: {}", serde_json::to_value(&payload).unwrap());
-    println!("save_class_items");
+
+    // todo: handle by ourself to convert Http API
 
     (StatusCode::CREATED, Json(()))
 }

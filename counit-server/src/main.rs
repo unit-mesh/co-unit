@@ -7,7 +7,7 @@ use tracing::info;
 use crate::application::Application;
 use crate::configuration::Configuration;
 
-use crate::server::{archguard_api, embedding_api, translate_api};
+use crate::server::{archguard_api, embedding_api, semantic_api, translate_api};
 
 pub mod server;
 pub mod model;
@@ -27,6 +27,8 @@ async fn main() -> anyhow::Result<()> {
     let mut api = Router::new()
         .with_state(app.clone())
         .route("/", get(root))
+        .route("/query", get(semantic_api::query))
+
         .route("/embedding/rest_api", post(embedding_api::rest_api_embedding))
 
         // knowledge init
