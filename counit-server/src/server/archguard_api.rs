@@ -6,6 +6,7 @@ use tokio::runtime::Handle;
 
 use crate::application::Application;
 use crate::model::{CodeDatabaseRelation, CodeDataStruct};
+use crate::model::archguard_openapi::ApiCollection;
 use crate::model::ContainerService;
 
 pub fn router() -> Router {
@@ -15,6 +16,7 @@ pub fn router() -> Router {
         .route("/:systemId/reporting/class-items", post(save_class_items))
         .route("/:systemId/reporting/container-services", post(save_container))
         .route("/:systemId/reporting/datamap-relations", post(save_datamap))
+        .route("/:systemId/reporting/openapi", post(save_openapi))
 }
 
 #[derive(Deserialize, Debug)]
@@ -26,6 +28,19 @@ pub struct ArchGuardParams {
     repo_id: String,
     // repo_ref: String,
 }
+
+pub async fn save_openapi(
+    Extension(app): Extension<Application>,
+    Path(system_id): Path<u32>,
+    Query(params): Query<ArchGuardParams>,
+    Json(payload): Json<Vec<ApiCollection>>,
+) -> (StatusCode, Json<()>) {
+
+    println!("payload: {:?}", serde_json::to_value(&payload).unwrap());
+
+    (StatusCode::CREATED, Json(()))
+}
+
 
 pub async fn save_datamap(
     Extension(app): Extension<Application>,
