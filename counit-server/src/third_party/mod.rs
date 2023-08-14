@@ -5,5 +5,5 @@ pub fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .nest("/openapi", openapi::router())
+        // .nest("/openapi", openapi::router())
 }

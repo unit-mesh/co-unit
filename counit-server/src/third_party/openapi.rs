@@ -15,6 +15,7 @@ pub fn router() -> Router {
         .route("/v3", post(save_openapi))
 }
 
+#[deprecated(note = "we don't have enough time to implement this")]
 pub async fn save_openapi(
     Extension(app): Extension<Application>,
     Query(params): Query<OpenApiParams>,
