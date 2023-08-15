@@ -31,9 +31,10 @@ async fn main() -> anyhow::Result<()> {
         .with_state(app.clone())
         .route("/", get(root))
         .route("/query", get(semantic_api::query))
+        .route("/text-embedding", get(semantic_api::embedding))
 
         // knowledge init
-        .nest("/translate/domain_language", translate_api::router())
+        .nest("/translate/domain-language", translate_api::router())
         //align to archguard api
         .nest("/scanner", archguard_api::router())
         .nest("/index/third-part", third_party::router())

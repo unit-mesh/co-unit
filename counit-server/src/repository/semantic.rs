@@ -460,6 +460,7 @@ pub fn deduplicate_snippets(
             .iter()
             .map(|s| s.relative_path.as_ref())
             .collect::<Vec<_>>();
+
         deduplicate_with_mmr(
             &query_embedding,
             &embeddings,

@@ -5,8 +5,9 @@ use serde::{Deserialize, Serialize};
 
 use crate::application::Application;
 use crate::repository::{
-    payload::CodePayload, semantic_query::SemanticQuery
+    payload::CodePayload, semantic_query::SemanticQuery,
 };
+use crate::repository::semantic::Embedding;
 use crate::server::{Error, json};
 
 pub(crate) async fn query(
@@ -28,6 +29,37 @@ pub(crate) async fn query(
             Err(Error::from(err))
         }
     }
+}
+
+pub(crate) async fn embedding(
+    Query(args): Query<SimpleQuery>,
+    Extension(app): Extension<Application>,
+) -> impl IntoResponse {
+    let result = app.semantic
+        .unwrap()
+        .embed(&args.q);
+
+    match result {
+        Ok(vec) => {
+            Ok(json(EmbeddingResponse { data: vec }))
+        }
+        Err(err) => {
+            Err(Error::from(err))
+        }
+    }
+}
+
+impl crate::server::ApiResponse for EmbeddingResponse {}
+
+#[derive(Serialize)]
+pub struct EmbeddingResponse {
+    pub data: Embedding,
+}
+
+
+#[derive(Debug, Deserialize)]
+pub struct SimpleQuery {
+    pub q: String,
 }
 
 #[derive(Debug, Deserialize)]
