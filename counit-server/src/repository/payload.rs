@@ -17,7 +17,7 @@ pub struct CodePayload {
     pub repo_ref: String,
     pub relative_path: String,
     pub content_hash: String,
-    pub text: String,
+    pub display_text: String,
     // TODO: for save some in Chinese or other the utf8 char
     pub origin_text: String,
     pub start_line: u64,
@@ -41,7 +41,7 @@ impl PartialEq for CodePayload {
             && self.repo_ref == other.repo_ref
             && self.relative_path == other.relative_path
             && self.content_hash == other.content_hash
-            && self.text == other.text
+            && self.display_text == other.display_text
             && self.origin_text == other.origin_text
             && self.start_line == other.start_line
             && self.end_line == other.end_line
@@ -51,10 +51,8 @@ impl PartialEq for CodePayload {
     }
 }
 
-
-
-macro_rules! val_str(($hash:ident, $val:expr) => { serde_json::from_value($hash.remove($val).unwrap()).unwrap() });
-macro_rules! val_parse_str(($hash:ident, $val:expr) => {
+macro_rules! val_str (($hash:ident, $val:expr) => { serde_json::from_value($hash.remove($val).unwrap()).unwrap() });
+macro_rules! val_parse_str (($hash:ident, $val:expr) => {
     serde_json::from_value::<Cow<'_, str>>($hash.remove($val).unwrap())
         .unwrap()
         .parse()
@@ -92,8 +90,8 @@ impl CodePayload {
             ("repo_ref".into(), self.repo_ref.into()),
             ("relative_path".into(), self.relative_path.into()),
             ("content_hash".into(), self.content_hash.into()),
-            ("snippet".into(), self.text.into()),
-            ("snippet".into(), self.origin_text.into()),
+            ("display_text".into(), self.display_text.into()),
+            ("origin_text".into(), self.origin_text.into()),
             ("start_line".into(), self.start_line.to_string().into()),
             ("end_line".into(), self.end_line.to_string().into()),
             ("start_byte".into(), self.start_byte.to_string().into()),
@@ -138,8 +136,8 @@ fn parse_payload(
         repo_ref: val_str!(converted, "repo_ref"),
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
-        text: val_str!(converted, "snippet"),
-        origin_text: "".to_string(),
+        display_text: val_str!(converted, "display_text"),
+        origin_text: val_str!(converted, "origin_text"),
         branches: val_str!(converted, "branches"),
         start_line: val_parse_str!(converted, "start_line"),
         end_line: val_parse_str!(converted, "end_line"),

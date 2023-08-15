@@ -405,7 +405,7 @@ impl Semantic {
             repo_ref: repo_ref.to_string(),
             relative_path: relative_path.to_string(),
             content_hash: "".to_string(),
-            text: buffer.to_string(),
+            display_text: buffer.to_string(),
             origin_text: buffer.to_string(),
             start_line: 0,
             end_line: 0,
