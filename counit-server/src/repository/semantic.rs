@@ -394,12 +394,13 @@ impl Semantic {
         repo_ref: &str,
         relative_path: &str,
         buffer: &str,
+        language: &str,
     ) -> anyhow::Result<()> {
         let embedded = self.embed(buffer)?;
         let new: RwLock<Vec<PointStruct>> = Default::default();
 
         let payload = CodePayload {
-            lang: "java".to_string(),
+            lang: language.to_string(),
             repo_name: repo_name.to_string(),
             repo_ref: repo_ref.to_string(),
             relative_path: relative_path.to_string(),

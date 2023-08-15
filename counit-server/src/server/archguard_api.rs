@@ -1,7 +1,7 @@
 use axum::{
     Extension,
     extract::{Path, Query},
-    http::StatusCode, Json, Router
+    http::StatusCode, Json, Router,
 };
 use serde::Deserialize;
 use tokio::runtime::Handle;
@@ -51,6 +51,7 @@ pub async fn save_openapi(
                                 repo_ref.as_str(),
                                 params.path.as_str(),
                                 item.display_text.as_str(),
+                                params.language.as_str(),
                             ).await;
                         });
                     });
@@ -101,12 +102,14 @@ pub async fn save_container(
                 let _ = &container.resources.iter().for_each(|resource| {
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
-                            println!("resource: {:?}", resource.display());
+                            let display_text = resource.display();
+                            println!("resource: {:?}", display_text);
                             let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
                                 params.path.as_str(),
-                                resource.display().as_str(),
+                                display_text.as_str(),
+                                params.language.as_str(),
                             ).await;
                         });
                     });

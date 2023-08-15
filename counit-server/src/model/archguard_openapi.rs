@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ApiCollection {
     pub name: String,
+    pub filename: String,
     pub description: String,
     pub items: Vec<ApiItem>,
 }
