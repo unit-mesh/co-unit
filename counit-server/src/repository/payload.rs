@@ -22,10 +22,15 @@ pub struct CodePayload {
     pub display_text: String,
     // TODO: for save some in Chinese or other the utf8 char
     pub origin_text: String,
+    #[deprecated(note = "use `origin_text` instead")]
     pub start_line: u64,
+    #[deprecated(note = "use `origin_text` instead")]
     pub end_line: u64,
+    #[deprecated(note = "use `origin_text` instead")]
     pub start_byte: u64,
+    #[deprecated(note = "use `origin_text` instead")]
     pub end_byte: u64,
+
     pub branches: Vec<String>,
 
     #[serde(skip)]
@@ -43,6 +48,7 @@ pub enum PayloadType {
     Doc,
     HttpApi,
     OpenApi,
+    DatabaseMap,
 }
 
 impl Default for PayloadType {
@@ -59,6 +65,7 @@ impl PayloadType {
             "doc" => PayloadType::Doc,
             "http_api" => PayloadType::HttpApi,
             "open_api" => PayloadType::OpenApi,
+            "database_map" => PayloadType::DatabaseMap,
             _ => PayloadType::Code,
         }
     }
@@ -72,6 +79,7 @@ impl std::fmt::Display for PayloadType {
             PayloadType::Doc => write!(f, "doc"),
             PayloadType::HttpApi => write!(f, "http_api"),
             PayloadType::OpenApi => write!(f, "open_api"),
+            PayloadType::DatabaseMap => write!(f, "database_map"),
         }
     }
 }
@@ -84,6 +92,7 @@ impl Into<Value> for PayloadType {
             PayloadType::Doc => Value::from("doc"),
             PayloadType::HttpApi => Value::from("http_api"),
             PayloadType::OpenApi => Value::from("open_api"),
+            PayloadType::DatabaseMap => Value::from("database_map"),
         }
     }
 }
