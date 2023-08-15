@@ -396,6 +396,7 @@ impl Semantic {
         buffer: &str,
         language: &str,
         payload_type: PayloadType,
+        origin_content: &str,
     ) -> anyhow::Result<()> {
         let embedded = self.embed(buffer)?;
         let new: RwLock<Vec<PointStruct>> = Default::default();
@@ -404,11 +405,11 @@ impl Semantic {
             lang: language.to_string(),
             repo_name: repo_name.to_string(),
             repo_ref: repo_ref.to_string(),
-            payload_type: PayloadType::Code,
+            payload_type: payload_type,
             relative_path: relative_path.to_string(),
             content_hash: "".to_string(),
             display_text: buffer.to_string(),
-            origin_text: buffer.to_string(),
+            origin_text: origin_content.to_string(),
             start_line: 0,
             end_line: 0,
             start_byte: 0,

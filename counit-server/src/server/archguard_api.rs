@@ -54,6 +54,7 @@ pub async fn save_openapi(
                                 item.display_text.as_str(),
                                 params.language.as_str(),
                                 PayloadType::HttpApi,
+                                item.display_text.as_str(),
                             ).await;
                         });
                     });
@@ -94,10 +95,8 @@ pub async fn save_class_items(
                 let _ = &class.functions.iter().for_each(|method| {
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
-                            let display_text = &method.content;
-                            if display_text.is_empty() {
-                                return;
-                            }
+                            let display_text = &method.display();
+                            let origin_content = &method.content;
 
                             println!("display_text {:?}", display_text);
                             let _ = semantic.insert_points_for_buffer(
@@ -107,6 +106,7 @@ pub async fn save_class_items(
                                 display_text.as_str(),
                                 params.language.as_str(),
                                 PayloadType::Code,
+                                origin_content,
                             ).await;
                         });
                     });
@@ -146,6 +146,7 @@ pub async fn save_container(
                                 display_text.as_str(),
                                 params.language.as_str(),
                                 PayloadType::HttpApi,
+                                display_text.as_str(),
                             ).await;
                         });
                     });

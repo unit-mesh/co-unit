@@ -27,7 +27,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8765/api/query?q=""&repo_ref=mall
 
 ### Query API
-GET http://127.0.0.1:8765/api/query?q="upload zip"&repo_ref=apipay
+GET http://127.0.0.1:8765/api/query?q="scanner"&repo_ref=archguard
 
 ## Swagger
 

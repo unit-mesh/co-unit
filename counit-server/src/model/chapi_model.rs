@@ -142,6 +142,54 @@ pub struct CodeFunction {
     // expression: Expression,
 }
 
+impl CodeFunction {
+    pub(crate) fn display(&self) -> String {
+        let annotation = self.annotations.iter()
+            .map(|it| {
+                let key_values = it.key_values.iter()
+                    .map(|key_value| format!("{} = {}", key_value.key, key_value.value))
+                    .collect::<Vec<String>>()
+                    .join(", ");
+                format!("@{}({})", it.name, key_values)
+            })
+            .collect::<Vec<String>>()
+            .join("\n");
+
+        let params = self
+            .parameters
+            .iter()
+            .map(|it| format!("{}: {}", it.type_value, it.type_type))
+            .collect::<Vec<String>>()
+            .join(", ");
+        let return_type = self.return_type.clone();
+        let body = self
+            .function_calls
+            .iter()
+            .map(|it| {
+                let parameters = &it.parameters
+                    .iter()
+                    .map(|it| it.type_value.clone())
+                    .collect::<Vec<String>>()
+                    .join(", ");
+
+                let package: String = if it.package.is_none() {
+                    "".to_string()
+                } else {
+                    format!("{}.", it.package.as_ref().unwrap())
+                };
+
+                format!("   // -> {}.{}({})", package, it.node_name, parameters)
+            })
+            .collect::<Vec<String>>()
+            .join("\n");
+
+        format!(
+            "{}\n{}({}) -> {} {{\n{}\n}}",
+            annotation, self.name, params, return_type, body
+        )
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct JsonElement {
     pub(crate) data: Value,
@@ -284,9 +332,7 @@ pub struct CodeExport {
 mod tests {
     use crate::model::CodeDataStruct;
 
-    #[test]
-    fn should_serialize_to_ds() {
-        let json_ds = r#"[  {
+    const json_ds: &str = r#"[  {
     "NodeName": "DataMapAnalyserTest",
     "Module": "root:..:..",
     "Type": "CLASS",
@@ -365,7 +411,20 @@ mod tests {
   }]
         "#;
 
+
+    #[test]
+    fn should_serialize_to_ds() {
         let ds: Vec<CodeDataStruct> = serde_json::from_str(json_ds).unwrap();
         assert_eq!(ds.len(), 1);
+    }
+
+    #[test]
+    fn should_format_display_function() {
+        let ds: Vec<CodeDataStruct> = serde_json::from_str(json_ds).unwrap();
+        let f = &ds[0].functions[0];
+        assert_eq!(f.display(), "@AfterEach()
+tearDown() -> kotlin.Unit {
+   // -> io..mockk()
+}");
     }
 }
