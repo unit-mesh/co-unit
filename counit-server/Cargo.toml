@@ -25,7 +25,9 @@ stardict_wrapper = "0.0.5"
 
 # third party
 # the open api spec
-utoipa = "3"
+utoipa = { version = "3", features = ["axum_extras"] }
+# utoipa-swagger-ui
+utoipa-swagger-ui = { version = "3", eatures = ["axum"] }
 
 # embedding
 ort = { git = "https://github.com/bloopai/ort", branch = "env-builder-telemetry" }

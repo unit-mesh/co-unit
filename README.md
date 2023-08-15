@@ -10,11 +10,26 @@ features:
 - design for new service.
 - share for code copy.
 
-modules:
+## APIs
 
-- CoUnit Client
-- CoUnit Server
-- CoUnit Index
+### TEXT EMBEDDING
+
+GET http://127.0.0.1:8765/api/text-embedding?q="create arch system"
+
+### Query API
+
+GET http://127.0.0.1:8765/api/query?q="create arch system"&repo_ref=archguard&query_type=HttpApi
+
+### Upload Data by ArchGuard
+
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/class-items
+
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/openapi
+
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/container-services
+
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
+
 
 ## License
 
