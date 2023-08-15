@@ -11,6 +11,7 @@ use crate::model::{
     archguard_openapi::ApiCollection,
     CodeDatabaseRelation, CodeDataStruct, ContainerService,
 };
+use crate::repository::payload::PayloadType;
 
 pub fn router() -> Router {
     use axum::routing::*;
@@ -52,6 +53,7 @@ pub async fn save_openapi(
                                 params.path.as_str(),
                                 item.display_text.as_str(),
                                 params.language.as_str(),
+                                PayloadType::HttpApi
                             ).await;
                         });
                     });
@@ -110,6 +112,7 @@ pub async fn save_container(
                                 params.path.as_str(),
                                 display_text.as_str(),
                                 params.language.as_str(),
+                                PayloadType::HttpApi
                             ).await;
                         });
                     });

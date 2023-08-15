@@ -15,6 +15,7 @@ pub struct CodePayload {
     pub lang: String,
     pub repo_name: String,
     pub repo_ref: String,
+    pub payload_type: PayloadType,
     pub relative_path: String,
     pub content_hash: String,
     pub display_text: String,
@@ -34,11 +35,37 @@ pub struct CodePayload {
     pub score: Option<f32>,
 }
 
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq)]
+pub enum PayloadType {
+    Code,
+    Comment,
+    Doc,
+    HttpApi,
+}
+
+impl Default for PayloadType {
+    fn default() -> Self {
+        PayloadType::Code
+    }
+}
+
+impl Into<Value> for PayloadType {
+    fn into(self) -> Value {
+        match self {
+            PayloadType::Code => Value::from("code"),
+            PayloadType::Comment => Value::from("comment"),
+            PayloadType::Doc => Value::from("doc"),
+            PayloadType::HttpApi => Value::from("http_api"),
+        }
+    }
+}
+
 impl PartialEq for CodePayload {
     fn eq(&self, other: &Self) -> bool {
         self.lang == other.lang
             && self.repo_name == other.repo_name
             && self.repo_ref == other.repo_ref
+            && self.payload_type == other.payload_type
             && self.relative_path == other.relative_path
             && self.content_hash == other.content_hash
             && self.display_text == other.display_text
@@ -88,6 +115,7 @@ impl CodePayload {
             ("lang".into(), self.lang.to_ascii_lowercase().into()),
             ("repo_name".into(), self.repo_name.into()),
             ("repo_ref".into(), self.repo_ref.into()),
+            ("payload_type".into(), self.payload_type.into()),
             ("relative_path".into(), self.relative_path.into()),
             ("content_hash".into(), self.content_hash.into()),
             ("display_text".into(), self.display_text.into()),
@@ -134,6 +162,7 @@ fn parse_payload(
         lang: val_str!(converted, "lang"),
         repo_name: val_str!(converted, "repo_name"),
         repo_ref: val_str!(converted, "repo_ref"),
+        payload_type: val_str!(converted, "payload_type"),
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         display_text: val_str!(converted, "display_text"),

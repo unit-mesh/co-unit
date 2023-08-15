@@ -25,7 +25,7 @@ use tracing::{debug, info, trace};
 
 use crate::configuration::Configuration;
 use crate::repository::cache_key;
-use crate::repository::payload::CodePayload;
+use crate::repository::payload::{CodePayload, PayloadType};
 use crate::repository::semantic_query::SemanticQuery;
 
 #[derive(Clone)]
@@ -395,6 +395,7 @@ impl Semantic {
         relative_path: &str,
         buffer: &str,
         language: &str,
+        payload_type: PayloadType,
     ) -> anyhow::Result<()> {
         let embedded = self.embed(buffer)?;
         let new: RwLock<Vec<PointStruct>> = Default::default();
@@ -403,6 +404,7 @@ impl Semantic {
             lang: language.to_string(),
             repo_name: repo_name.to_string(),
             repo_ref: repo_ref.to_string(),
+            payload_type: PayloadType::Code,
             relative_path: relative_path.to_string(),
             content_hash: "".to_string(),
             display_text: buffer.to_string(),
