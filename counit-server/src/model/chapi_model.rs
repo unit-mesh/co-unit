@@ -135,6 +135,8 @@ pub struct CodeFunction {
     pub(crate) body_hash: Option<i32>,
     #[serde(default = "FunctionType::function")]
     pub(crate) function_type: FunctionType,
+    #[serde(default)]
+    pub(crate) content: String,
     // a experimental API for code analysis, please carefully use it.
     // #[property]
     // expression: Expression,

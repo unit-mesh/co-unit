@@ -49,6 +49,18 @@ impl Default for PayloadType {
     }
 }
 
+impl PayloadType {
+    fn from_str(s: &str) -> Self {
+        match s {
+            "code" => PayloadType::Code,
+            "comment" => PayloadType::Comment,
+            "doc" => PayloadType::Doc,
+            "http_api" => PayloadType::HttpApi,
+            _ => PayloadType::Code,
+        }
+    }
+}
+
 impl Into<Value> for PayloadType {
     fn into(self) -> Value {
         match self {
@@ -162,7 +174,10 @@ fn parse_payload(
         lang: val_str!(converted, "lang"),
         repo_name: val_str!(converted, "repo_name"),
         repo_ref: val_str!(converted, "repo_ref"),
-        payload_type: val_str!(converted, "payload_type"),
+        payload_type: converted
+            .remove("payload_type")
+            .map(|v| PayloadType::from_str(v.as_str().unwrap_or_default()))
+            .unwrap_or_default(),
         relative_path: val_str!(converted, "relative_path"),
         content_hash: val_str!(converted, "content_hash"),
         display_text: val_str!(converted, "display_text"),
