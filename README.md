@@ -1,8 +1,10 @@
 # Co-unit
 
-> Co-unit: The ultimate cross-project collaborator 🤝🚀, adding a dash of smarts to your teamwork! Get ready for
-> intelligent insights and decision-making magic ✨🧠!
+<p align="center">
+  <img src="docs/counit.svg" width="128px" height="128px" />
+</p>
 
+> CoUnit: 是一个基于 LLM 的团队接口人（API），通过让大模型处理文档、知识库、SDK和 API 等矢量化，智能化团队间对接与协作，助力团队释放创造力。
 
 features:
 
