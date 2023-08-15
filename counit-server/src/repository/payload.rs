@@ -42,6 +42,7 @@ pub enum PayloadType {
     Comment,
     Doc,
     HttpApi,
+    OpenApi,
 }
 
 impl Default for PayloadType {
@@ -57,6 +58,7 @@ impl PayloadType {
             "comment" => PayloadType::Comment,
             "doc" => PayloadType::Doc,
             "http_api" => PayloadType::HttpApi,
+            "open_api" => PayloadType::OpenApi,
             _ => PayloadType::Code,
         }
     }
@@ -69,6 +71,7 @@ impl std::fmt::Display for PayloadType {
             PayloadType::Comment => write!(f, "comment"),
             PayloadType::Doc => write!(f, "doc"),
             PayloadType::HttpApi => write!(f, "http_api"),
+            PayloadType::OpenApi => write!(f, "open_api"),
         }
     }
 }
@@ -80,6 +83,7 @@ impl Into<Value> for PayloadType {
             PayloadType::Comment => Value::from("comment"),
             PayloadType::Doc => Value::from("doc"),
             PayloadType::HttpApi => Value::from("http_api"),
+            PayloadType::OpenApi => Value::from("open_api"),
         }
     }
 }

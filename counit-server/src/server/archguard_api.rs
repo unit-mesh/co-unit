@@ -53,7 +53,7 @@ pub async fn save_openapi(
                                 params.path.as_str(),
                                 item.display_text.as_str(),
                                 params.language.as_str(),
-                                PayloadType::HttpApi,
+                                PayloadType::OpenApi,
                                 item.display_text.as_str(),
                             ).await;
                         });

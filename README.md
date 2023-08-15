@@ -80,7 +80,6 @@ ArchGuard APIs:
 
 GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&repo_ref=archguard&query_type=HttpApi
 
-
 ### 3. TEXT EMBEDDING
 
 GET http://127.0.0.1:8765/api/text-embedding?q=create%20arch%20system
