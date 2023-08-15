@@ -37,13 +37,13 @@ pub struct Parameter {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum BodyMode {
-    RawText,
-    Typed,
+    RAW_TEXT,
+    TYPED,
 }
 
 impl Default for BodyMode {
     fn default() -> Self {
-        BodyMode::Typed
+        BodyMode::TYPED
     }
 }
 
