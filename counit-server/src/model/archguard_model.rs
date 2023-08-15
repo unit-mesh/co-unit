@@ -46,10 +46,22 @@ pub struct ContainerDemand {
 }
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CodeDatabaseRelation {
     package_name: String,
     class_name: String,
     function_name: String,
+    #[serde(default)]
     tables: Vec<String>,
+    #[serde(default)]
     sqls: Vec<String>,
+    relations: Vec<NodeRelation>
 }
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct NodeRelation {
+    source: String,
+    target: String
+}
+
