@@ -100,6 +100,9 @@ GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&repo_ref=archguard&
 
 GET http://127.0.0.1:8765/api/text-embedding?q=create%20arch%20system
 
+## Development
+
+use [counit-server.http](counit-server.http) to test API.
 
 ## License
 
