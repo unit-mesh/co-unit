@@ -1,6 +1,5 @@
 [workspace]
 members = [
     "counit-feeder",
-    "counit-server",
-    "counit-index"
+    "counit-server"
 ]
