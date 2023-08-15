@@ -2,6 +2,7 @@ use std::borrow::Cow;
 use std::collections::HashSet;
 
 use crate::repository::literal::Literal;
+use crate::repository::payload::PayloadType;
 
 #[derive(Default, Clone, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct SemanticQuery<'a> {
@@ -10,6 +11,7 @@ pub struct SemanticQuery<'a> {
     pub langs: HashSet<Cow<'a, str>>,
     pub branch: HashSet<Literal<'a>>,
     pub target: Option<Literal<'a>>,
+    pub query_types: HashSet<Literal<'a>>,
 }
 
 impl<'a> SemanticQuery<'a> {
@@ -19,6 +21,10 @@ impl<'a> SemanticQuery<'a> {
 
     pub fn paths(&'a self) -> impl Iterator<Item=Cow<'a, str>> {
         self.paths.iter().filter_map(|t| t.as_plain())
+    }
+
+    pub fn query_types(&'a self) -> impl Iterator<Item=Cow<'a, str>> {
+        self.query_types.iter().filter_map(|t| t.as_plain())
     }
 
     pub fn langs(&'a self) -> impl Iterator<Item=Cow<'a, str>> {
@@ -40,10 +46,11 @@ impl<'a> SemanticQuery<'a> {
         self.branch.iter().next().map(|t| t.clone().unwrap())
     }
 
-    pub fn from_str(query: String, repo_ref: String) -> Self {
+    pub fn from_str(query: String, repo_ref: String, query_type: PayloadType) -> Self {
         Self {
             target: Some(Literal::Plain(Cow::Owned(query))),
             repos: [Literal::Plain(Cow::Owned(repo_ref))].into(),
+            query_types: [Literal::Plain(Cow::Owned(query_type.to_string()))].into(),
             ..Default::default()
         }
     }
@@ -52,6 +59,7 @@ impl<'a> SemanticQuery<'a> {
         SemanticQuery {
             repos: self.repos.into_iter().map(Literal::into_owned).collect(),
             paths: self.paths.into_iter().map(Literal::into_owned).collect(),
+            query_types: self.query_types.into_iter().map(Literal::into_owned).collect(),
             langs: self
                 .langs
                 .into_iter()

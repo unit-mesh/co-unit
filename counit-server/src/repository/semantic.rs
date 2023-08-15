@@ -634,6 +634,21 @@ fn build_conditions(query: &SemanticQuery<'_>) -> Vec<qdrant_client::qdrant::Con
         }
     };
 
+    let type_filter = {
+        let conditions = query
+            .query_types()
+            .map(|r| make_kv_keyword_filter("payload_type", r.as_ref()).into())
+            .collect::<Vec<_>>();
+        if conditions.is_empty() {
+            None
+        } else {
+            Some(Filter {
+                should: conditions,
+                ..Default::default()
+            })
+        }
+    };
+
     let lang_filter = {
         let conditions = query
             .langs()
@@ -666,7 +681,7 @@ fn build_conditions(query: &SemanticQuery<'_>) -> Vec<qdrant_client::qdrant::Con
         }
     };
 
-    let filters: Vec<_> = [repo_filter, path_filter, lang_filter, branch_filter]
+    let filters: Vec<_> = [repo_filter, path_filter, type_filter, lang_filter, branch_filter]
         .into_iter()
         .flatten()
         .map(Into::into)

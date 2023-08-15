@@ -7,6 +7,7 @@ use crate::application::Application;
 use crate::repository::{
     payload::CodePayload, semantic_query::SemanticQuery,
 };
+use crate::repository::payload::PayloadType;
 use crate::repository::semantic::Embedding;
 use crate::server::{Error, json};
 
@@ -14,7 +15,7 @@ pub(crate) async fn query(
     Query(args): Query<ApiQuery>,
     Extension(app): Extension<Application>,
 ) -> impl IntoResponse {
-    let q = SemanticQuery::from_str(args.q, args.repo_ref);
+    let q = SemanticQuery::from_str(args.q, args.repo_ref, args.query_type);
 
     let result = app.semantic
         .unwrap()
@@ -66,6 +67,7 @@ pub struct SimpleQuery {
 pub struct ApiQuery {
     pub q: String,
     pub repo_ref: String,
+    pub query_type: PayloadType,
 }
 
 impl crate::server::ApiResponse for QueryResponse {}

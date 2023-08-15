@@ -1,4 +1,5 @@
 use std::{borrow::Cow, collections::HashMap};
+use std::fmt::Formatter;
 
 use qdrant_client::{
     qdrant::{
@@ -57,6 +58,17 @@ impl PayloadType {
             "doc" => PayloadType::Doc,
             "http_api" => PayloadType::HttpApi,
             _ => PayloadType::Code,
+        }
+    }
+}
+
+impl std::fmt::Display for PayloadType {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            PayloadType::Code => write!(f, "code"),
+            PayloadType::Comment => write!(f, "comment"),
+            PayloadType::Doc => write!(f, "doc"),
+            PayloadType::HttpApi => write!(f, "http_api"),
         }
     }
 }
