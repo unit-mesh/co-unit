@@ -67,12 +67,28 @@ For example:
 java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_path_to_code --server-url=http://localhost:8765 --repo-id="archguard" --with-function-code --output=http  --features=apicalls
 ```
 
+OpenAPI example:
+
+```bash
+java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_swagger_3_file --server-url=http://localhost:8765 --repo-id="payment" --output=http 
+```
+
 ArchGuard APIs:
 
-- POST http://127.0.0.1:8765/scanner/:systemId/reporting/class-items
-- POST http://127.0.0.1:8765/scanner/:systemId/reporting/openapi
-- POST http://127.0.0.1:8765/scanner/:systemId/reporting/container-services
-- POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
+```http request
+### ArchGuard Code datastrcuture
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/class-items
+
+### ArchGuard OpenAPI structure
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/openapi
+
+### ArchGuard Service Datamap
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/container-services
+
+### ArchGuard Datamap 
+POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
+```
+
 
 ### 2. Get Data by Co-Unit
 

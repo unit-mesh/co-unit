@@ -24,10 +24,10 @@ Content-Type: application/json
 ### CoUnit Server
 
 ### TEXT EMBEDDING
-GET http://127.0.0.1:8765/api/text-embedding?q="create arch system"
+GET http://127.0.0.1:8765/api/text-embedding?q="upload"
 
 ### Query API
-GET http://127.0.0.1:8765/api/query?q="create arch system"&repo_ref=archguard&query_type=HttpApi
+GET http://127.0.0.1:8765/api/query?q="upload zip"&repo_ref=payment&type=OpenApi
 
 ### Upload Data by ArchGuard
 

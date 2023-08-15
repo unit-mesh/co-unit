@@ -3,13 +3,13 @@
 ## Integration with ArchGuard
 
 ```bash
-java -jar scanner_cli-2.0.5-all.jar --language=Kotlin --features=apicalls --output=http --output=json --path=. --server-url=http://localhost:8765 --repo-id="https://github.com/archguard/archguard"
+java -jar scanner_cli-2.0.5-all.jar --language=Kotlin --features=apicalls --output=http --path=. --server-url=http://localhost:8765 --repo-id="https://github.com/archguard/archguard"
 ```
 
 With function as ContexT:
 
 ```bash
-java -jar scanner_cli-2.0.5-all.jar --language=Kotlin --features=apicalls --output=json --path=server --server-url=http://localhost:8765 --repo-id="archguard" --with-function-code --output=http
+java -jar scanner_cli-2.0.5-all.jar --language=Kotlin --features=apicalls --output=http --path=server --server-url=http://localhost:8765 --repo-id="payment"
 ```
 
 ## Text DSL
