@@ -75,6 +75,7 @@ pub async fn save_datamap(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDatabaseRelation>>,
 ) -> (StatusCode, Json<()>) {
+    println!("save_datamap {:?}", params.repo_id);
     (StatusCode::CREATED, Json(()))
 }
 
@@ -85,6 +86,7 @@ pub async fn save_class_items(
     Json(payload): Json<Vec<CodeDataStruct>>,
 ) -> (StatusCode, Json<()>) {
     let repo_ref = params.repo_id.clone();
+    println!("save_class_items {:?}", repo_ref);
 
     match app.semantic {
         Some(ref semantic) => {
@@ -127,6 +129,7 @@ pub async fn save_container(
     Json(payload): Json<Vec<ContainerService>>,
 ) -> (StatusCode, Json<()>) {
     let repo_ref = params.repo_id.clone();
+    println!("save_container {:?}", repo_ref);
 
     match app.semantic {
         Some(ref semantic) => {

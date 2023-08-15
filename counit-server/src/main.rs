@@ -1,6 +1,7 @@
 use std::net::SocketAddr;
 
 use axum::{Extension, Router, routing::get};
+use axum::extract::DefaultBodyLimit;
 use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::cors::CorsLayer;
 use tracing::info;
@@ -42,6 +43,7 @@ async fn main() -> anyhow::Result<()> {
 
     let api = api
         .layer(Extension(app.clone()))
+        .layer(DefaultBodyLimit::disable())
         .layer(CorsLayer::permissive())
         .layer(CatchPanicLayer::new());
 
