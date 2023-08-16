@@ -59,14 +59,19 @@ pub struct CodeDatabaseRelation {
     #[serde(default)]
     implementations: Vec<String>,
     #[serde(default)]
-    relations: Vec<NodeRelation>
+    relations: Vec<NodeRelation>,
 }
 
 impl std::fmt::Display for CodeDatabaseRelation {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "source: {}.{}.{}", self.package_name, self.class_name, self.function_name)?;
-        write!(f, "\nsqls: {:?}", self.sqls)?;
-        write!(f, "\nrelations: {}", self.relations.iter().map(|r| r.to_string()).collect::<Vec<String>>().join(", "))?;
+        if !self.sqls.is_empty() {
+            write!(f, "\nsqls: {:?}", self.sqls)?;
+        }
+        if !self.relations.is_empty() {
+            write!(f, "\nrelations: {}", self.relations.iter().map(|r| r.to_string()).collect::<Vec<String>>().join(", "))?;
+        }
+
         Ok(())
     }
 }
@@ -75,7 +80,7 @@ impl std::fmt::Display for CodeDatabaseRelation {
 #[serde(rename_all = "camelCase")]
 pub struct NodeRelation {
     source: String,
-    target: String
+    target: String,
 }
 
 impl std::fmt::Display for NodeRelation {
