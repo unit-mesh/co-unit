@@ -52,7 +52,7 @@ fn copy(profile_dir: &Path) {
     println!("model_path: {model_path:?}");
     println!("target_path: {target:?}");
 
-    fs_extra::dir::copy(model_path, Path::new(".").join("public"), &fs_extra::dir::CopyOptions::new()).unwrap();
+    fs_extra::dir::copy(model_path, Path::new(".").join("public"), &fs_extra::dir::CopyOptions::new().overwrite(true)).unwrap();
 }
 
 fn wait_for(dylib_path: &Path) {

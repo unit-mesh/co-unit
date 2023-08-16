@@ -426,7 +426,9 @@ mod tests {
     fn should_format_display_function() {
         let ds: Vec<CodeDataStruct> = serde_json::from_str(json_ds).unwrap();
         let f = &ds[0].functions[0];
-        assert_eq!(f.display(), "@AfterEach()
+        assert_eq!(f.display(&ds[0]), "path: kotlin/org/archguard/scanner/analyser/DataMapAnalyserTest.kt
+canonical_name: org.archguard.scanner.analyser.DataMapAnalyserTest
+@AfterEach()E
 tearDown() -> kotlin.Unit {
    // -> io..mockk()
 }");

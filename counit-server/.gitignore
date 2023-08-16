@@ -1,3 +1,4 @@
 frameworks/libonnxruntime.*
 libonnxruntime.*
 public/*
+!public/config.json

@@ -45,3 +45,23 @@ impl Configuration {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn serialization_from_json() {
+        let config = r#"{
+  "host": "0.0.0.0",
+  "port": 8765,
+  "qdrant_url": "http://127.0.0.1:6334",
+  "model_dir": "public/model",
+  "dylib_dir": "public"
+}
+"#;
+
+        let config: Configuration = serde_json::from_str(config).unwrap();
+        assert_eq!(config.host, "0.0.0.0");
+    }
+}

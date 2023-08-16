@@ -2,7 +2,6 @@ use std::net::SocketAddr;
 
 use axum::{Extension, Router, routing::get};
 use axum::extract::DefaultBodyLimit;
-use rust_embed::RustEmbed;
 use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::cors::CorsLayer;
 use tracing::info;
