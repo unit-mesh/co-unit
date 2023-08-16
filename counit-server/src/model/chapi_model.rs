@@ -105,6 +105,7 @@ pub struct CodeFunction {
     pub(crate) file_path: String,
     #[serde(default = "String::new")]
     pub(crate) package: String,
+    #[serde(default)]
     pub(crate) return_type: String,
     #[serde(default)]
     pub(crate) multiple_returns: Vec<CodeProperty>,

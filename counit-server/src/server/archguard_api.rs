@@ -39,6 +39,7 @@ pub async fn save_openapi(
     Json(payload): Json<Vec<ApiCollection>>,
 ) -> (StatusCode, Json<()>) {
     let repo_ref = params.repo_id.clone();
+    println!("save_openapi {:?}", repo_ref);
 
     match app.semantic {
         Some(ref semantic) => {
@@ -46,7 +47,7 @@ pub async fn save_openapi(
                 let _ = &collection.items.iter().for_each(|item| {
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
-                            println!("display_text {:?}", &item.display_text);
+                            println!("openapi display_text {:?}", &item.display_text);
                             let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
@@ -86,7 +87,7 @@ pub async fn save_datamap(
                     Handle::current().block_on(async {
                         let display_text = &relation.to_string();
 
-                        println!("display_text {:?}", &display_text);
+                        println!("datamap display_text {:?}", &display_text);
                         let _ = semantic.insert_points_for_buffer(
                             params.repo_id.as_str(),
                             repo_ref.as_str(),
@@ -126,7 +127,7 @@ pub async fn save_class_items(
                             let display_text = &method.display();
                             let origin_content = &method.content;
 
-                            println!("display_text {:?}", display_text);
+                            println!("class_items display_text {:?}", display_text);
                             let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
@@ -166,7 +167,7 @@ pub async fn save_container(
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
                             let display_text = resource.display();
-                            println!("resource: {:?}", display_text);
+                            println!("container resource: {:?}", display_text);
                             let _ = semantic.insert_points_for_buffer(
                                 params.repo_id.as_str(),
                                 repo_ref.as_str(),
