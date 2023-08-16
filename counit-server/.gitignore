@@ -1,2 +1,3 @@
 frameworks/libonnxruntime.*
 libonnxruntime.*
+public/*

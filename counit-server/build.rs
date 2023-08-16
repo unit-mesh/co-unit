@@ -44,7 +44,15 @@ fn copy(profile_dir: &Path) {
     let dylib_path = profile_dir.join(dylib_name);
     wait_for(&dylib_path);
     println!("target: {target_path:?}, {:?}", env::current_dir());
-    fs::copy(dylib_path, target_path).unwrap();
+    fs::copy(dylib_path, &target_path).unwrap();
+
+    // copy model/* file to target_path
+    let model_path = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("model");
+    let target = Path::new(".").join("public");
+    println!("model_path: {model_path:?}");
+    println!("target_path: {target:?}");
+
+    fs_extra::dir::copy(model_path, Path::new(".").join("public"), &fs_extra::dir::CopyOptions::new()).unwrap();
 }
 
 fn wait_for(dylib_path: &Path) {
