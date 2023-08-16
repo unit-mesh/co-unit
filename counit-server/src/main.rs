@@ -22,7 +22,17 @@ pub mod agent;
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
 
-    let config = Configuration::default();
+    // load configuration from public/config.json if exists
+    let config_file = std::path::Path::new("public/config.json");
+
+    let mut config: Configuration;
+    if config_file.exists() {
+        let config_string = std::fs::read_to_string(config_file)?;
+        config = serde_json::from_str(&config_string)?;
+        info!("Configuration loaded from public/config.json");
+    } else {
+        config = Configuration::default()
+    }
 
     let bind = SocketAddr::new(config.host.parse()?, config.port);
     let app = Application::initialize(config).await?;
