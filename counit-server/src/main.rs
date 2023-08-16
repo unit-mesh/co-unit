@@ -19,11 +19,6 @@ pub mod configuration;
 pub mod third_party;
 pub mod agent;
 
-
-#[derive(RustEmbed)]
-#[folder = "public/"]
-struct Asset;
-
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
