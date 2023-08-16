@@ -8,17 +8,38 @@
 
 features:
 
-- chat with API, and design for API integration.
-- design for new service.
+- [ ] CoUnit UI
+- Indexes
+    - [x] Query for Code, Datamap, API
+    - [x] Query for OpenAPI
+    - [ ] Document
+- Transpile
+    - [ ] Unique language dictionary
+    - [ ] Transpile for Code, Datamap, API
 - share for code copy.
+
+tech stacks:
+
+- Rust, a language empowering everyone to build reliable and efficient software.
+- Frameworks:
+    - Axum, Ergonomic and modular web framework built with Tokio, Tower, and Hyper
+- Infrastructure:
+    - Qdrant, Vector similarity search engine
+- AI
+    - Ort, ONNX Runtime is a performance-focused complete scoring engine for Open Neural Network Exchange (ONNX) models.
+    - Tokenizers, Fast State-of-the-Art Tokenizers optimized for Research and Production.
+    - Jieba-rs, The Jieba Chinese Word Segmentation Implemented in Rust.
+    - Stardict, A Rust library for reading StarDict dictionaries.
 
 ## Development
 
 1. install Qdrant by Docker:
+
 ```bash
 docker pull qdrant/qdrant
 docker run -p 6333:6333 qdrant/qdrant
 ```
+
 2. Run CoUnit-Server
 
 ## APIs
@@ -88,7 +109,6 @@ POST http://127.0.0.1:8765/scanner/:systemId/reporting/container-services
 ### ArchGuard Datamap 
 POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
 ```
-
 
 ### 2. Get Data by Co-Unit
 
