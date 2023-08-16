@@ -43,21 +43,3 @@ jobs:
           file: target/release/${{ matrix.artifact_name }}
           asset_name: ${{ matrix.asset_name }}
           tag: ${{ github.ref }}
-
-      - if: matrix.os == 'windows-latest'
-        name: upload Windows zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r public-windows.zip counit-server/public
-
-      - if: matrix.os == 'macos-latest'
-        name: upload macOS zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r public-macos.zip counit-server/public
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: upload Linux zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r public-linux.zip counit-server/public
