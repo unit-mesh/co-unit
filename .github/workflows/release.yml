@@ -48,16 +48,16 @@ jobs:
         name: upload Windows zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r public-windows.zip public
+          args: zip -qq -r public-windows.zip counit-server/public
 
       - if: matrix.os == 'macos-latest'
         name: upload macOS zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r public-macos.zip public
+          args: zip -qq -r public-macos.zip counit-server/public
 
       - if: matrix.os == 'ubuntu-latest'
         name: upload Linux zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r public-linux.zip public
+          args: zip -qq -r public-linux.zip counit-server/public
