@@ -94,7 +94,7 @@ POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
 
 ### Query API
 
-GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&repo_ref=archguard&query_type=HttpApi
+GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&repo_ref=archguard&type=HttpApi
 
 ### 3. TEXT EMBEDDING
 
