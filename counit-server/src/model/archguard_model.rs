@@ -1,3 +1,4 @@
+use std::fmt::write;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -63,7 +64,10 @@ pub struct CodeDatabaseRelation {
 
 impl std::fmt::Display for CodeDatabaseRelation {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}.{}.{}", self.package_name, self.class_name, self.function_name)
+        write!(f, "source: {}.{}.{}", self.package_name, self.class_name, self.function_name)?;
+        write!(f, "\nsqls: {:?}", self.sqls)?;
+        write!(f, "\nrelations: {}", self.relations.iter().map(|r| r.to_string()).collect::<Vec<String>>().join(", "))?;
+        Ok(())
     }
 }
 
@@ -74,3 +78,9 @@ pub struct NodeRelation {
     target: String
 }
 
+impl std::fmt::Display for NodeRelation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} -> {}", self.source, self.target)?;
+        Ok(())
+    }
+}

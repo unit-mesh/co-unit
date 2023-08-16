@@ -76,7 +76,35 @@ pub async fn save_datamap(
     Query(params): Query<ArchGuardParams>,
     Json(payload): Json<Vec<CodeDatabaseRelation>>,
 ) -> (StatusCode, Json<()>) {
-    println!("save_datamap {:?}", params.repo_id);
+    let repo_ref = params.repo_id.clone();
+    println!("save_datamap {:?}", repo_ref);
+
+    match app.semantic {
+        Some(ref semantic) => {
+            payload.iter().for_each(|relation| {
+                tokio::task::block_in_place(|| {
+                    Handle::current().block_on(async {
+                        let display_text = &relation.to_string();
+
+                        println!("display_text {:?}", &display_text);
+                        let _ = semantic.insert_points_for_buffer(
+                            params.repo_id.as_str(),
+                            repo_ref.as_str(),
+                            params.path.as_str(),
+                            display_text.as_str(),
+                            params.language.as_str(),
+                            PayloadType::DatabaseMap,
+                            display_text.as_str(),
+                        ).await;
+                    });
+                });
+            });
+        }
+        None => {
+            return (StatusCode::INTERNAL_SERVER_ERROR, Json(()));
+        }
+    }
+
     (StatusCode::CREATED, Json(()))
 }
 
