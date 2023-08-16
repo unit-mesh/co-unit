@@ -12,6 +12,9 @@ dynamic-ort = ["ort/load-dynamic"]
 [dependencies]
 futures = "0.3.28"
 
+#todo: embed the model and runtime to file
+rust-embed="6.8.1"
+
 # web server
 tokio = { version = "1.30.0", features = ["macros", "process", "rt", "rt-multi-thread", "io-std", "io-util", "sync", "fs"] }
 
