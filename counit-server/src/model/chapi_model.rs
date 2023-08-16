@@ -144,7 +144,7 @@ pub struct CodeFunction {
 }
 
 impl CodeFunction {
-    pub(crate) fn display(&self) -> String {
+    pub(crate) fn display(&self, class: &CodeDataStruct) -> String {
         let annotation = self.annotations.iter()
             .map(|it| {
                 let key_values = it.key_values.iter()
@@ -184,9 +184,12 @@ impl CodeFunction {
             .collect::<Vec<String>>()
             .join("\n");
 
+        let path = format!("path: {}", class.file_path);
+        let canonical_name = format!("canonical_name: {}.{}", class.package, class.node_name);
+
         format!(
-            "{}\n{}({}) -> {} {{\n{}\n}}",
-            annotation, self.name, params, return_type, body
+            "{}\n{}\n{}\n{}({}) -> {} {{\n{}\n}}",
+            path, canonical_name, annotation, self.name, params, return_type, body
         )
     }
 }

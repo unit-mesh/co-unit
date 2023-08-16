@@ -124,7 +124,7 @@ pub async fn save_class_items(
                 let _ = &class.functions.iter().for_each(|method| {
                     tokio::task::block_in_place(|| {
                         Handle::current().block_on(async {
-                            let display_text = &method.display();
+                            let display_text = &method.display(class);
                             let origin_content = &method.content;
 
                             println!("class_items display_text {:?}", display_text);
