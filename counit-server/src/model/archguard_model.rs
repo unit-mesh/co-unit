@@ -55,7 +55,16 @@ pub struct CodeDatabaseRelation {
     tables: Vec<String>,
     #[serde(default)]
     sqls: Vec<String>,
+    #[serde(default)]
+    implementations: Vec<String>,
+    #[serde(default)]
     relations: Vec<NodeRelation>
+}
+
+impl std::fmt::Display for CodeDatabaseRelation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}.{}.{}", self.package_name, self.class_name, self.function_name)
+    }
 }
 
 #[derive(Serialize, Deserialize)]
