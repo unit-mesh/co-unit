@@ -122,6 +122,15 @@ GET http://127.0.0.1:8765/api/text-embedding?q=create%20arch%20system
 
 ## Development
 
+### Run Qdrant
+
+```bash
+# With env variable
+docker run -p 6333:6333 -p 6334:6334 \
+    -e QDRANT__SERVICE__GRPC_PORT="6334" \
+    qdrant/qdrant
+```
+
 use [counit-server.http](counit-server.http) to test API.
 
 ## License
