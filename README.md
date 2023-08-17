@@ -17,6 +17,11 @@ features:
     - [ ] Unique language dictionary
     - [ ] Transpile for Code, Datamap, API
 - share for code copy.
+- Translate
+    - [x] Jieba.rs + StarDict spike
+    - [ ] Small LLM spike
+         - [ ] https://huggingface.co/Helsinki-NLP/opus-mt-zh-en
+         - [ ] https://huggingface.co/liam168/trans-opus-mt-zh-en
 
 tech stacks:
 
