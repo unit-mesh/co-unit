@@ -20,6 +20,7 @@ features:
 - Translate
     - [x] Jieba.rs + StarDict spike
     - [ ] Small LLM spike
+         - Export to [ONNX](https://huggingface.co/docs/transformers/serialization#export-to-onnx) 
          - [ ] https://huggingface.co/Helsinki-NLP/opus-mt-zh-en
          - [ ] https://huggingface.co/liam168/trans-opus-mt-zh-en
 
