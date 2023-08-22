@@ -19,7 +19,8 @@ axum-extra = { version = "0.7.4", features = ["cookie", "cookie-private"] }
 tower = "0.4.13"
 tower-http = { version = "0.4.1", features = ["auth", "cors", "catch-panic", "fs"] }
 
-chrono = { version = "0.4.26", features = ["serde"], default-features = false }
+chrono = { version = "0.4.26", features = ["serde", "clock"], default-features = false }
+time = { version = "0.3.22", default-features = false }
 
 # i18n
 stardict_wrapper = "0.0.5"
