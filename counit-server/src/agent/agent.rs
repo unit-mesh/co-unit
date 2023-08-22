@@ -15,3 +15,26 @@ pub struct Agent {
     /// This is used in the `Drop` handler, in order to track cancelled answer queries.
     pub complete: bool,
 }
+
+
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Action {
+    /// A user-provided query.
+    Query(String),
+
+    Path {
+        query: String,
+    },
+    #[serde(rename = "none")]
+    Answer {
+        paths: Vec<usize>,
+    },
+    Code {
+        query: String,
+    },
+    Proc {
+        query: String,
+        paths: Vec<usize>,
+    },
+}
