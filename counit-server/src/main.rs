@@ -8,7 +8,7 @@ use tracing::info;
 use crate::application::Application;
 use crate::configuration::Configuration;
 
-use crate::server::{archguard_api, semantic_api, translate_api};
+use crate::server::{agent_api, archguard_api, semantic_api, translate_api};
 
 pub mod server;
 pub mod model;
@@ -42,6 +42,9 @@ async fn main() -> anyhow::Result<()> {
         .route("/", get(root))
         .route("/query", get(semantic_api::query))
         .route("/text-embedding", get(semantic_api::embedding))
+
+        // the agent api
+        .nest("/agent", agent_api::router())
 
         // knowledge init
         .nest("/translate/domain-language", translate_api::router())

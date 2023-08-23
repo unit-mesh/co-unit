@@ -7,6 +7,8 @@ pub mod translate_api;
 pub mod archguard_api;
 pub mod semantic_api;
 
+pub mod agent_api;
+
 
 pub(crate) fn json<'a, T>(val: T) -> Json<Response<'a>>
     where
