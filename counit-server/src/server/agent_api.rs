@@ -4,7 +4,7 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .route("/prompt-generator", post(prompt_generator))
+        // .route("/prompt-generator", post(prompt_generator))
 }
 
 pub struct PromptResult {
@@ -12,9 +12,9 @@ pub struct PromptResult {
     pub completion: String,
 }
 
-pub async fn prompt_generator() -> Json<PromptResult> {
-    Json(PromptResult {
-        prompt: "Hello".to_string(),
-        completion: "World".to_string(),
-    })
-}
+// pub async fn prompt_generator() -> Json<PromptResult> {
+//     Json(PromptResult {
+//         prompt: "Hello".to_string(),
+//         completion: "World".to_string(),
+//     })
+// }
