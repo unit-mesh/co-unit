@@ -1,7 +1,8 @@
 use axum::{body::HttpBody, extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
-use crate::agent::Tool;
+
+use crate::agent::tools::{Tool, tools_list};
 
 pub(crate) fn router() -> Router {
     use axum::routing::*;
@@ -34,5 +35,5 @@ pub struct PromptResult {
 }
 
 pub(crate) async fn functions() -> (StatusCode, Json<Vec<Tool>>) {
-    (StatusCode::CREATED, Json(vec![]))
+    (StatusCode::CREATED, Json(Vec::from(tools_list())))
 }

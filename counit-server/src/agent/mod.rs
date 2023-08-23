@@ -1,5 +1,6 @@
 pub mod agent;
 pub mod exchange;
 pub mod prompts;
+pub mod tools;
 
-pub use prompts::Tool;
+pub use tools::Tool;
