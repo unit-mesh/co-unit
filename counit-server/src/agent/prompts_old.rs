@@ -1,9 +1,10 @@
 use std::fmt;
+use serde::{Deserialize, Serialize};
 
 pub const CONTINUE: &str = "Is there anything else I can help with?";
 
-#[derive(Debug)]
-struct Tool {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Tool {
     name: &'static str,
     description: &'static str,
     schema: &'static str,
