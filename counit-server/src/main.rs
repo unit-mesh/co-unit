@@ -5,9 +5,9 @@ use axum::extract::DefaultBodyLimit;
 use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::cors::CorsLayer;
 use tracing::info;
+
 use crate::application::Application;
 use crate::configuration::Configuration;
-
 use crate::server::{agent_api, archguard_api, semantic_api, translate_api};
 
 pub mod server;
@@ -15,7 +15,6 @@ pub mod model;
 pub mod repository;
 pub mod application;
 pub mod configuration;
-pub mod third_party;
 pub mod agent;
 
 #[tokio::main]
@@ -50,7 +49,6 @@ async fn main() -> anyhow::Result<()> {
         .nest("/translate/domain-language", translate_api::router())
         //align to archguard api
         .nest("/scanner", archguard_api::router())
-        // .nest("/index/third-part", third_party::router())
         ;
 
     api = api.route("/health", get(health));
