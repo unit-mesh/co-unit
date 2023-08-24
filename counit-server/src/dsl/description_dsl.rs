@@ -6,6 +6,8 @@ pub struct DescriptionDsl {
     pub domain: String,
     #[serde(alias = "服务")]
     pub service: String,
+    #[serde(alias = "假设性文档")]
+    pub hypothetical_document: String,
 }
 
 // test
