@@ -9,6 +9,7 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
+        .route("/prompt/explain", get(explain_query))
         .route("/prompt/hypo-doc/api", get(hypothetical_doc))
 
         .route("/prompt/dsl/generator", get(dsl_generator))
@@ -24,6 +25,16 @@ pub struct PromptQuery {
 #[derive(Debug, Deserialize)]
 pub struct HypoDocQuery {
     pub q: String,
+}
+
+pub(crate) async fn explain_query(
+    Query(args): Query<PromptQuery>,
+) -> (StatusCode, Json<PromptResult>) {
+    let output = PromptResult {
+        prompt: format!("explain {}", args.q),
+    };
+
+    (StatusCode::OK, Json(output))
 }
 
 pub(crate) async fn hypothetical_doc(

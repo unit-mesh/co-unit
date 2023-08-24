@@ -1,1 +1,1 @@
-pub mod description_dsl;
+pub mod query_description;
