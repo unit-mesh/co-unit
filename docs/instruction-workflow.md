@@ -35,12 +35,15 @@ Your job is to translate/transpile user's question relative to codebase.
 For example:
 
 Q: 帮我接入 统一收单交易撤销 的接口
-A: { "type": "api", "query": "cancel Unified Acquiring Transaction", "hypothetical_document": 'POST /api/alipay/trade/cancel {"action":"close","gmt_refund_pay":"officia nostrud est","out_trade_no":"6823789339978248","refund_settlement_id":"2018101610032004620239146945","retry_flag":"N","trade_no":"2013112011001004330000121536"}'" }
+A: { "domain": "payment", "query": "cancel Unified Acquiring Transaction", "hypothetical_document": 'POST /api/alipay/trade/cancel {"action":"close","gmt_refund_pay":"officia nostrud est","out_trade_no":"6823789339978248","refund_settlement_id":"2018101610032004620239146945","retry_flag":"N","trade_no":"2013112011001004330000121536"}'" }
 
 Q: 如何查询职得(jobworth)工作证信息？
-A: { "type": "api", "query": "query jobworth work permit information", "hypothetical_document": 'GET /api/customer/jobworth/info/query?user_name=张三' }
+A: { "domain": "customer", "query": "query jobworth work permit information", "hypothetical_document": 'GET /api/customer/jobworth/info/query?user_name=张三' }
 
-Q: 如何生成一个收款二维码？  
+Q: 因公付(enterprisepay)更新员工资金协议
+A: { "domain": "fund", "query": "update employee fund agreement for enterprisepay", "hypothetical_document": 'PUT /api/fund/enterprisepay/sign {"employee_id": "12345", "agreement_type": "fund", "update_fields": {"bank_account": "987654321", "amount": 1500.00}}' }
+
+Q: how to generate payment QR code？  
 A:
 
 ```
