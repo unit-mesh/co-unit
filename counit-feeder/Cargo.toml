@@ -1,5 +1,5 @@
 [package]
-name = "counit-client"
+name = "counit-feeder"
 version = "0.1.0"
 edition = "2021"
 
