@@ -9,8 +9,9 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
+        .route("/prompt/hypo-doc/api", get(hypothetical_doc))
+
         .route("/prompt/dsl/generator", get(dsl_generator))
-        .route("/prompt/hypo-doc", get(hypothetical_doc))
         .route("/prompt/functions/matching", post(tool_prompter))
         .route("/prompt/functions/list", get(functions))
 }
