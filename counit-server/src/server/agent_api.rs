@@ -2,7 +2,7 @@ use axum::{body::HttpBody, extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
 
-use crate::agent::prompts::{hypothetical_document_api_prompt, tool_prompt};
+use crate::agent::prompts::tool_prompt;
 use crate::agent::tools::{Tool, tools_list};
 
 pub(crate) fn router() -> Router {
@@ -10,10 +10,9 @@ pub(crate) fn router() -> Router {
 
     Router::new()
         .route("/prompt/explain", get(explain_query))
-        .route("/prompt/hypo-doc/api", get(hypothetical_doc))
 
-        .route("/prompt/dsl/generator", get(dsl_generator))
         .route("/prompt/functions/matching", post(tool_prompter))
+
         .route("/prompt/functions/list", get(functions))
 }
 
@@ -37,30 +36,9 @@ pub(crate) async fn explain_query(
     (StatusCode::OK, Json(output))
 }
 
-pub(crate) async fn hypothetical_doc(
-    Query(args): Query<PromptQuery>,
-) -> (StatusCode, Json<PromptResult>) {
-    let output = PromptResult {
-        prompt: hypothetical_document_api_prompt(&args.q),
-    };
-
-    (StatusCode::OK, Json(output))
-}
-
-
 #[derive(Debug, Deserialize)]
 pub struct PathListArgs {
     pub paths: Vec<String>,
-}
-
-pub(crate) async fn dsl_generator(
-    Query(args): Query<PathListArgs>,
-) -> (StatusCode, Json<PromptResult>) {
-    let output = PromptResult {
-        prompt: tool_prompt(&args.paths),
-    };
-
-    (StatusCode::OK, Json(output))
 }
 
 pub(crate) async fn tool_prompter(
