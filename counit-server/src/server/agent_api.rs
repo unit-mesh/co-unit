@@ -9,7 +9,8 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .route("/prompt/functions/matching", post(prompt_generator))
+        .route("/prompt/dsl/generator", get(dsl_generator))
+        .route("/prompt/functions/matching", post(tool_prompter))
         .route("/prompt/functions/list", get(functions))
 }
 
@@ -18,7 +19,18 @@ pub struct PromptQuery {
     pub q: String,
 }
 
-pub(crate) async fn prompt_generator(
+pub(crate) async fn dsl_generator(
+    Query(args): Query<PromptQuery>,
+) -> (StatusCode, Json<PromptResult>) {
+    let paths = vec![args.q];
+    let output = PromptResult {
+        prompt: tool_prompt(&paths),
+    };
+
+    (StatusCode::CREATED, Json(output))
+}
+
+pub(crate) async fn tool_prompter(
     Query(args): Query<PromptQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
     let paths = vec![args.q];

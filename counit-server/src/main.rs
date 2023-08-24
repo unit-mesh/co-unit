@@ -16,6 +16,7 @@ pub mod repository;
 pub mod application;
 pub mod configuration;
 pub mod agent;
+pub mod dsl;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
