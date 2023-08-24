@@ -2,9 +2,9 @@ use crate::agent::tools;
 
 pub const CONTINUE: &str = "Is there anything else I can help with?";
 
-pub fn hypothetical_document_prompt(query: &str) -> String {
+pub fn hypothetical_document_api_prompt(query: &str) -> String {
     format!(
-        r#"Write a code snippet that could hypothetically be returned by a code search engine as the answer to the query: {query}
+        r#"Write a REST API snippet that could hypothetically be returned by a code search engine as the answer to the query: {query}
 
 - Write the snippets in a programming or markup language that is likely given the query
 - The snippet should be between 5 and 10 lines long
@@ -14,17 +14,14 @@ For example:
 
 What's the Qdrant threshold?
 
-```rust
-SearchPoints {{
-    limit,
-    vector: vectors.get(idx).unwrap().clone(),
-    collection_name: COLLECTION_NAME.to_string(),
-    offset: Some(offset),
-    score_threshold: Some(0.3),
-    with_payload: Some(WithPayloadSelector {{
-        selector_options: Some(with_payload_selector::SelectorOptions::Enable(true)),
-    }}),
-```"#
+```json
+POST /api/post
+{{
+  "id": 999,
+  "value": "content"
+}}
+```
+"#
     )
 }
 
