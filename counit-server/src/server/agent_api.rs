@@ -1,6 +1,7 @@
 use axum::{body::HttpBody, extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
+use crate::agent::prompts::tool_prompt;
 
 use crate::agent::tools::{Tool, tools_list};
 
@@ -8,8 +9,8 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .route("/prompt-generator", post(prompt_generator))
-        .route("/functions", get(functions))
+        .route("/functions/matching", post(prompt_generator))
+        .route("/functions/list", get(functions))
 }
 
 #[derive(Debug, Deserialize)]
@@ -20,8 +21,9 @@ pub struct PromptQuery {
 pub(crate) async fn prompt_generator(
     Query(args): Query<PromptQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
+    let paths = vec![args.q];
     let output = PromptResult {
-        prompt: "Hello".to_string(),
+        prompt: tool_prompt(&paths),
     };
 
     (StatusCode::CREATED, Json(output))

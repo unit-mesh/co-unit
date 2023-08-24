@@ -2,7 +2,7 @@ use crate::agent::tools;
 
 pub const CONTINUE: &str = "Is there anything else I can help with?";
 
-pub fn system(paths: &Vec<String>) -> String {
+pub fn tool_prompt(paths: &Vec<String>) -> String {
     let tools = tools::tools_list();
 
     let mut s = "Your job is to answer a question about a codebase. You should use a set of tools to gather information that will help you answer. The following tools are available:\n\n".to_string();
