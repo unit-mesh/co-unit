@@ -9,8 +9,8 @@ pub(crate) fn router() -> Router {
     use axum::routing::*;
 
     Router::new()
-        .route("/functions/matching", post(prompt_generator))
-        .route("/functions/list", get(functions))
+        .route("/prompt/functions/matching", post(prompt_generator))
+        .route("/prompt/functions/list", get(functions))
 }
 
 #[derive(Debug, Deserialize)]
