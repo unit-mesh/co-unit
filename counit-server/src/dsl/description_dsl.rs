@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 pub struct DescriptionDsl {
     #[serde(alias = "领域")]
     pub domain: String,
+    #[serde(alias = "服务")]
+    pub service: String,
 }
 
 // test

@@ -1,8 +1,8 @@
 use axum::{body::HttpBody, extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
-use crate::agent::prompts::tool_prompt;
 
+use crate::agent::prompts::{hypothetical_document_prompt, tool_prompt};
 use crate::agent::tools::{Tool, tools_list};
 
 pub(crate) fn router() -> Router {
@@ -10,6 +10,7 @@ pub(crate) fn router() -> Router {
 
     Router::new()
         .route("/prompt/dsl/generator", get(dsl_generator))
+        .route("/prompt/hypo-doc", get(hypothetical_doc))
         .route("/prompt/functions/matching", post(tool_prompter))
         .route("/prompt/functions/list", get(functions))
 }
@@ -19,15 +20,35 @@ pub struct PromptQuery {
     pub q: String,
 }
 
-pub(crate) async fn dsl_generator(
+#[derive(Debug, Deserialize)]
+pub struct HypoDocQuery {
+    pub q: String,
+}
+
+pub(crate) async fn hypothetical_doc(
     Query(args): Query<PromptQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
-    let paths = vec![args.q];
     let output = PromptResult {
-        prompt: tool_prompt(&paths),
+        prompt: hypothetical_document_prompt(&args.q),
     };
 
-    (StatusCode::CREATED, Json(output))
+    (StatusCode::OK, Json(output))
+}
+
+
+#[derive(Debug, Deserialize)]
+pub struct PathListArgs {
+    pub paths: Vec<String>,
+}
+
+pub(crate) async fn dsl_generator(
+    Query(args): Query<PathListArgs>,
+) -> (StatusCode, Json<PromptResult>) {
+    let output = PromptResult {
+        prompt: tool_prompt(&args.paths),
+    };
+
+    (StatusCode::OK, Json(output))
 }
 
 pub(crate) async fn tool_prompter(
@@ -38,7 +59,7 @@ pub(crate) async fn tool_prompter(
         prompt: tool_prompt(&paths),
     };
 
-    (StatusCode::CREATED, Json(output))
+    (StatusCode::OK, Json(output))
 }
 
 impl crate::server::ApiResponse for PromptResult {}
@@ -49,5 +70,5 @@ pub struct PromptResult {
 }
 
 pub(crate) async fn functions() -> (StatusCode, Json<Vec<Tool>>) {
-    (StatusCode::CREATED, Json(Vec::from(tools_list())))
+    (StatusCode::OK, Json(Vec::from(tools_list())))
 }
