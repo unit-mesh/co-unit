@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::agent::prompts::tool_prompt;
 use crate::agent::tools::{Tool, tools_list};
+use crate::dsl::query_description::QAExample;
 
 pub(crate) fn router() -> Router {
     use axum::routing::*;
@@ -30,7 +31,7 @@ pub(crate) async fn explain_query(
     Query(args): Query<PromptQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
     let output = PromptResult {
-        prompt: format!("explain {}", args.q),
+        prompt: QAExample::prompt(&args.q),
     };
 
     (StatusCode::OK, Json(output))
