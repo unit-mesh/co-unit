@@ -27,7 +27,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8765/api/text-embedding?q="upload"
 
 ### Query API
-GET http://127.0.0.1:8765/api/query?q=role&repo_ref=mall&type=Code
+GET http://127.0.0.1:8765/api/query?q=alipay&type=OpenApi
 
 ### Upload Data by ArchGuard
 

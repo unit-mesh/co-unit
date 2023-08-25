@@ -9,6 +9,8 @@ pub struct ExplainQuery {
     pub domain: &'static str,
     #[serde(alias = "查询条件")]
     pub query: &'static str,
+    #[serde(alias = "自然语言查询条件")]
+    pub nature_lang_query: &'static str,
     #[serde(alias = "假设性文档")]
     pub hypothetical_document: &'static str,
 }
@@ -33,7 +35,8 @@ impl QAExample {
                 question: "帮我接入统一收单交易撤销的接口",
                 answer: ExplainQuery {
                     domain: "payment",
-                    query: "cancel Unified Acquiring Transaction",
+                    query: "payment: cancel Unified Acquiring Transaction",
+                    nature_lang_query: "接入 统一收单交易撤销 接口",
                     hypothetical_document: "POST /api/alipay/trade/cancel {\"action\":\"close\",\"gmt_refund_pay\":\"officia nostrud est\",\"out_trade_no\":\"6823789339978248\",\"refund_settlement_id\":\"2018101610032004620239146945\",\"retry_flag\":\"N\",\"trade_no\":\"2013112011001004330000121536\"}",
                 },
             },
@@ -41,7 +44,8 @@ impl QAExample {
                 question: "如何查询职得(jobworth)工作证信息？",
                 answer: ExplainQuery {
                     domain: "customer",
-                    query: "query jobworth work permit information",
+                    query: "customer: query 职得(jobworth) work permit information",
+                    nature_lang_query: "查询 职得(jobworth)工作证信息",
                     hypothetical_document: "GET /api/customer/jobworth/info/query?user_name=张三",
                 },
             },
@@ -49,7 +53,8 @@ impl QAExample {
                 question: "因公付(enterprisepay)更新员工资金协议",
                 answer: ExplainQuery {
                     domain: "fund",
-                    query: "update employee fund agreement for enterprisepay",
+                    query: "fund: update employee fund agreement for enterprisepay",
+                    nature_lang_query: "更新 因公付(enterprisepay)员工资金协议",
                     hypothetical_document: "PUT /api/fund/enterprisepay/sign {\"employee_id\": \"12345\", \"agreement_type\": \"fund\", \"update_fields\": {\"bank_account\": \"987654321\", \"amount\": 1500.00}}",
                 },
             },
@@ -64,7 +69,7 @@ impl QAExample {
 2. DON'T translate user's question into a code snippet.
 3. `query` is a reference to the document that you think is the answer to the question.
 4. `hypothetical_document` is a example of the document that you think is the answer to the question.
-5. DON'T explain the DSL.
+5. if some text inside (), should be replaced by the real value.
 
 For example:
 
@@ -93,6 +98,7 @@ mod tests {
         let config = r#"{
   "领域": "API",
   "查询条件": "API",
+  "自然语言查询条件": "API",
   "假设性文档": "API"
 }"#;
         let config: ExplainQuery = serde_json::from_str(config).unwrap();
@@ -104,6 +110,7 @@ mod tests {
         let config = r#"{
     "domain": "API",
     "query": "API",
+    "nature_lang_query": "API",
     "hypothetical_document": "API"
 }"#;
         let config: ExplainQuery = serde_json::from_str(config).unwrap();
