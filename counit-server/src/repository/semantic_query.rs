@@ -46,10 +46,9 @@ impl<'a> SemanticQuery<'a> {
         self.branch.iter().next().map(|t| t.clone().unwrap())
     }
 
-    pub fn from_str(query: String, repo_ref: String, query_type: PayloadType) -> Self {
+    pub fn from_str(query: String, query_type: PayloadType) -> Self {
         Self {
             target: Some(Literal::Plain(Cow::Owned(query))),
-            repos: [Literal::Plain(Cow::Owned(repo_ref))].into(),
             query_types: [Literal::Plain(Cow::Owned(query_type.to_string()))].into(),
             ..Default::default()
         }

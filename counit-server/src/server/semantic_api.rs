@@ -15,7 +15,7 @@ pub(crate) async fn query(
     Query(args): Query<ApiQuery>,
     Extension(app): Extension<Application>,
 ) -> impl IntoResponse {
-    let q = SemanticQuery::from_str(args.q, args.repo_ref, args.r#type);
+    let q = SemanticQuery::from_str(args.q, args.r#type);
 
     let result = app.semantic
         .unwrap()
@@ -66,7 +66,6 @@ pub struct SimpleQuery {
 #[derive(Debug, Deserialize)]
 pub struct ApiQuery {
     pub q: String,
-    pub repo_ref: String,
     pub r#type: PayloadType,
 }
 

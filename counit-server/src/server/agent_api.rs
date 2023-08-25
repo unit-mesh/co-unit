@@ -14,7 +14,7 @@ pub(crate) fn router() -> Router {
 
         .route("/prompt/functions/matching", post(tool_prompter))
 
-        .route("/prompt/functions/list", get(functions))
+        // .route("/prompt/functions/list", get(functions))
 }
 
 #[derive(Debug, Deserialize)]
