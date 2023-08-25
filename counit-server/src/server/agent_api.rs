@@ -21,9 +21,9 @@ pub struct PromptQuery {
     pub q: String,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct HypoDocQuery {
-    pub q: String,
+#[derive(Serialize)]
+pub struct PromptResult {
+    pub prompt: String,
 }
 
 pub(crate) async fn explain_query(
@@ -54,10 +54,6 @@ pub(crate) async fn tool_prompter(
 
 impl crate::server::ApiResponse for PromptResult {}
 
-#[derive(Serialize)]
-pub struct PromptResult {
-    pub prompt: String,
-}
 
 pub(crate) async fn functions() -> (StatusCode, Json<Vec<Tool>>) {
     (StatusCode::OK, Json(Vec::from(tools_list())))
