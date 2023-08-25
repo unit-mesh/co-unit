@@ -4,7 +4,7 @@
   <img src="docs/counit.svg" width="128px" height="128px" />
 </p>
 
-> CoUnit: 是一个基于 LLM 的团队接口人（API），通过让大模型处理文档、知识库、SDK和 API 等矢量化，智能化团队间对接与协作，助力团队释放创造力。
+> CoUnit，一个基于 LLM 的虚拟团队接口人（API），通过向量化文档、知识库、SDK和 API 等，结合 LLM 智能化团队间对接与协作。
 
 features:
 
