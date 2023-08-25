@@ -1,8 +1,9 @@
 use std::fmt::{Display, Formatter};
+
 use serde::{Deserialize, Serialize};
-use tracing_subscriber::fmt::format;
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ExplainQuery {
     #[serde(alias = "领域")]
     pub domain: &'static str,
