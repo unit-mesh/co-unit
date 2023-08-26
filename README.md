@@ -6,21 +6,25 @@
 
 > CoUnit，一个基于 LLM 的虚拟团队接口人（API），通过向量化文档、知识库、SDK和 API 等，结合 LLM 智能化团队间对接与协作。
 
-features:
+todos:
 
-- Indexes
-    - [x] Query for Code, Datamap, API
+- Semantic search for Team API
+    - [x] ArchGuard API：Code, DatabaseMap, HTTP API
     - [x] Query for OpenAPI
-    - [ ] Document
-- Transpile
+    - [ ] Documents
+        - [ ] Markdown
+        - [ ] PDF
+- Transpile / Translate language
     - [ ] Unique language (aka Domain Language) dictionary
     - [x] Transpile for Code, Datamap, API
-- share for code copy.
-- Translate
+- Prompt strategy
+    - [ ] [HyDE](https://github.com/texttron/hyde)
     - [x] ~~Jieba.rs + StarDict spike~~
     - [x] Small LLM spike
 
-tech stacks:
+## Development
+
+Tech stacks:
 
 - Rust, a language empowering everyone to build reliable and efficient software.
 - Frameworks:
@@ -30,17 +34,19 @@ tech stacks:
     - Ort, ONNX Runtime is a performance-focused complete scoring engine for Open Neural Network Exchange (ONNX) models.
     - Tokenizers, Fast State-of-the-Art Tokenizers optimized for Research and Production.
 
-## Development
+Setup:
 
 1. Install Rust
 2. Clone this repo: `git clone https://github.com/unit-mesh/co-unit`
 3. install Qdrant by Docker:
+
 ```bash
 docker pull qdrant/qdrant
 docker run -p 6333:6333 -p 6334:6334 \
     -e QDRANT__SERVICE__GRPC_PORT="6334" \
     qdrant/qdrant
 ```
+
 4.Run CoUnit-Server
 
 Join us（Wechat Group: 微信群）:
@@ -100,13 +106,13 @@ Options:
 For example:
 
 ```bash
-java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_path_to_code --server-url=http://localhost:8765 --repo-id="archguard" --with-function-code --output=http  --features=apicalls
+java -jar scanner_cli-2.0.6-all.jar --language=Kotlin --path=your_path_to_code --server-url=http://localhost:8765 --repo-id="archguard" --with-function-code --output=http  --features=apicalls
 ```
 
 OpenAPI example:
 
 ```bash
-java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_swagger_3_file --server-url=http://localhost:8765 --repo-id="payment" --output=http --type=OPENAPI 
+java -jar scanner_cli-2.0.6-all.jar --language=Kotlin --path=your_swagger_3_file --server-url=http://localhost:8765 --repo-id="payment" --output=http --type=OPENAPI 
 ```
 
 #### ArchGuard APIs:
