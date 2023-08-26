@@ -6,10 +6,6 @@
 
 > CoUnit，一个基于 LLM 的虚拟团队接口人（API），通过向量化文档、知识库、SDK和 API 等，结合 LLM 智能化团队间对接与协作。
 
-Architecture for Usage:
-
-![Architecture](docs/architecture.svg)
-
 features:
 
 - Indexes
@@ -55,7 +51,15 @@ Join us（Wechat Group: 微信群）:
 
 use [counit-server.http](counit-server.http) to test API.
 
-## Integration example with ArchGuard
+## Integration example with ArchGuard and AutoDev
+
+AutoDev: [https://github.com/unit-mesh/auto-dev](https://github.com/unit-mesh/auto-dev)
+
+ArchGuard: [https://github.com/archguard/archguard](https://github.com/archguard/archguard)
+
+Full processes:
+
+![Architecture](docs/architecture.svg)
 
 1. Download ArchGuard CLI (scanner_cli-2.0.x-all.jar) from: [https://github.com/archguard/archguard/releases]
 2. Run ArchGuard CLI to upload data to Co-Unit:
