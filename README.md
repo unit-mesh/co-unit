@@ -13,7 +13,7 @@ features:
     - [x] Query for OpenAPI
     - [ ] Document
 - Transpile
-    - [ ] Unique language dictionary
+    - [ ] Unique language (aka Domain Language) dictionary
     - [x] Transpile for Code, Datamap, API
 - share for code copy.
 - Translate
@@ -27,13 +27,14 @@ tech stacks:
     - Axum, Ergonomic and modular web framework built with Tokio, Tower, and Hyper
 - Infrastructure:
     - Qdrant, Vector similarity search engine
-- AI
     - Ort, ONNX Runtime is a performance-focused complete scoring engine for Open Neural Network Exchange (ONNX) models.
     - Tokenizers, Fast State-of-the-Art Tokenizers optimized for Research and Production.
-    - Jieba-rs, The Jieba Chinese Word Segmentation Implemented in Rust.
-    - Stardict, A Rust library for reading StarDict dictionaries.
 
 ## Development
+
+Join us:
+
+![WeChat Group](https://unitmesh.cc/co-unit/qrcode.jpg)
 
 1. install Qdrant by Docker:
 
@@ -50,7 +51,7 @@ docker run -p 6333:6333 -p 6334:6334 \
 
 ### 1. Upload Data by ArchGuard
 
-1. Download ArchGuard CLI (scanner_cli-2.x.x-all.jar) from: [https://github.com/archguard/archguard/releases]
+1. Download ArchGuard CLI (scanner_cli-2.0.x-all.jar) from: [https://github.com/archguard/archguard/releases]
 2. Run ArchGuard CLI to upload data to Co-Unit:
 
 ```bash
@@ -95,10 +96,10 @@ java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_path_to_code -
 OpenAPI example:
 
 ```bash
-java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_swagger_3_file --server-url=http://localhost:8765 --repo-id="payment" --output=http 
+java -jar scanner_cli-2.0.4-all.jar --language=Kotlin --path=your_swagger_3_file --server-url=http://localhost:8765 --repo-id="payment" --output=http --type=OPENAPI 
 ```
 
-ArchGuard APIs:
+#### ArchGuard APIs:
 
 ```http request
 ### ArchGuard Code datastrcuture
@@ -118,22 +119,13 @@ POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
 
 ### Query API
 
-GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&repo_ref=archguard&type=HttpApi
+GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&type=OpenApi
 
 ### 3. TEXT EMBEDDING
 
 GET http://127.0.0.1:8765/api/text-embedding?q=create%20arch%20system
 
 ## Development
-
-### Run Qdrant
-
-```bash
-# With env variable
-docker run -p 6333:6333 -p 6334:6334 \
-    -e QDRANT__SERVICE__GRPC_PORT="6334" \
-    qdrant/qdrant
-```
 
 use [counit-server.http](counit-server.http) to test API.
 
