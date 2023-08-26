@@ -6,6 +6,10 @@
 
 > CoUnit，一个基于 LLM 的虚拟团队接口人（API），通过向量化文档、知识库、SDK和 API 等，结合 LLM 智能化团队间对接与协作。
 
+Architecture for Usage:
+
+![Architecture](docs/architecture.svg)
+
 features:
 
 - Indexes
@@ -32,24 +36,26 @@ tech stacks:
 
 ## Development
 
-Join us:
-
-![WeChat Group](https://unitmesh.cc/co-unit/qrcode.jpg)
-
-1. install Qdrant by Docker:
-
+1. Install Rust
+2. Clone this repo: `git clone https://github.com/unit-mesh/co-unit`
+3. install Qdrant by Docker:
 ```bash
 docker pull qdrant/qdrant
 docker run -p 6333:6333 -p 6334:6334 \
     -e QDRANT__SERVICE__GRPC_PORT="6334" \
     qdrant/qdrant
 ```
+4.Run CoUnit-Server
 
-2. Run CoUnit-Server
+Join us（Wechat Group: 微信群）:
 
-## APIs
+![WeChat Group](https://unitmesh.cc/co-unit/qrcode.jpg)
 
-### 1. Upload Data by ArchGuard
+### API testing
+
+use [counit-server.http](counit-server.http) to test API.
+
+## Integration example with ArchGuard
 
 1. Download ArchGuard CLI (scanner_cli-2.0.x-all.jar) from: [https://github.com/archguard/archguard/releases]
 2. Run ArchGuard CLI to upload data to Co-Unit:
@@ -114,20 +120,6 @@ POST http://127.0.0.1:8765/scanner/:systemId/reporting/container-services
 ### ArchGuard Datamap 
 POST http://127.0.0.1:8765/scanner/:systemId/reporting/datamap-relations
 ```
-
-### 2. Get Data by Co-Unit
-
-### Query API
-
-GET http://127.0.0.1:8765/api/query?q=create%20arch%20system&type=OpenApi
-
-### 3. TEXT EMBEDDING
-
-GET http://127.0.0.1:8765/api/text-embedding?q=create%20arch%20system
-
-## Development
-
-use [counit-server.http](counit-server.http) to test API.
 
 ## License
 
