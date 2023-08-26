@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1261px" height="377px" viewBox="0 0 1261 377" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>counit-prompt</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="220" height="52" rx="8"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="220" height="52" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="counit-prompt" transform="translate(0.000000, 2.000000)">
+            <g id="Group" transform="translate(238.000000, 225.000000)">
+                <path d="M8,0 L212,0 C216.418278,-8.11624501e-16 220,3.581722 220,8 L220,44 C220,48.418278 216.418278,52 212,52 L8,52 C3.581722,52 5.41083001e-16,48.418278 0,44 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="Rectangle" fill="#000000"></path>
+                <text id="LLM" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="91" y="32">LLM</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(237.000000, 115.000000)">
+                <use id="Rectangle" stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="4" fill="#003D4F" stroke-dasharray="12,4" xlink:href="#path-1"></use>
+                <text id="Domain-Knowledge" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="29" y="32">Domain Knowledge</tspan>
+                </text>
+            </g>
+            <g id="search-alt-2-svgrepo-com" transform="translate(325.000000, 0.000000)" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+                <path d="M19.5555556,7.16666667 C26.3056444,7.16666667 31.7777778,12.5143856 31.7777778,19.1111111 M33.3881778,32.6200389 L44,43 M39.1111111,19.1111111 C39.1111111,29.6659389 30.3558444,38.2222222 19.5555556,38.2222222 C8.75531556,38.2222222 0,29.6659389 0,19.1111111 C0,8.55633111 8.75531556,0 19.5555556,0 C30.3558444,0 39.1111111,8.55633111 39.1111111,19.1111111 Z" id="Shape"></path>
+            </g>
+            <g id="Group" transform="translate(650.000000, 143.000000)">
+                <path d="M8,0 L212,0 C216.418278,-8.11624501e-16 220,3.581722 220,8 L220,44 C220,48.418278 216.418278,52 212,52 L8,52 C3.581722,52 5.41083001e-16,48.418278 0,44 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="Rectangle" fill="#6B9E78"></path>
+                <text id="English-Query" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="50" y="32">English Query</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(650.000000, 225.000000)">
+                <path d="M8,0 L212,0 C216.418278,-8.11624501e-16 220,3.581722 220,8 L220,44 C220,48.418278 216.418278,52 212,52 L8,52 C3.581722,52 5.41083001e-16,48.418278 0,44 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="Rectangle" fill="#6B9E78"></path>
+                <text id="Natural-lang-Query" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="27.5" y="32">Natural lang Query</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(1041.000000, 225.000000)">
+                <path d="M8,0 L212,0 C216.418278,-8.11624501e-16 220,3.581722 220,8 L220,44 C220,48.418278 216.418278,52 212,52 L8,52 C3.581722,52 5.41083001e-16,48.418278 0,44 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="Rectangle" fill="#634F7D"></path>
+                <text id="Summary" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="69.5" y="32">Summary</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(650.000000, 307.000000)">
+                <path d="M8,0 L212,0 C216.418278,-8.11624501e-16 220,3.581722 220,8 L220,44 C220,48.418278 216.418278,52 212,52 L8,52 C3.581722,52 5.41083001e-16,48.418278 0,44 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 Z" id="Rectangle" fill="#6B9E78"></path>
+                <text id="HyDE-doc-Query" font-family="Comfortaa-Bold, Comfortaa" font-size="16" font-weight="bold" line-spacing="16" fill="#FFFFFF">
+                    <tspan x="39.5" y="32">HyDE doc Query</tspan>
+                </text>
+            </g>
+            <text id="商户申请单查询" font-family="PingFangSC-Semibold, PingFang SC" font-size="16" font-weight="500" line-spacing="16" fill="#000000">
+                <tspan x="6.028" y="28.448">商户申请单查询</tspan>
+                <tspan x="119.5" y="30" font-family="Comfortaa-Bold, Comfortaa" font-weight="bold"></tspan>
+            </text>
+            <text id="商户申请单-(merchant-orde" font-family="PingFangSC-Semibold, PingFang SC" font-size="16" font-weight="500" line-spacing="16" fill="#000000">
+                <tspan x="1.912" y="144.448">商户申请单 (merchant order) </tspan>
+                <tspan x="92.528" y="160.448">查询</tspan>
+            </text>
+            <text id="{-&quot;domain&quot;:-&quot;merchan" font-family="PingFangSC-Semibold, PingFang SC" font-size="16" font-weight="500" line-spacing="16" fill="#000000">
+                <tspan x="0" y="280">{</tspan>
+                <tspan x="0" y="296">    "domain": "merchant",</tspan>
+                <tspan x="0" y="312">    "query": "merchant: query merchant order",</tspan>
+                <tspan x="0" y="328">    "natureLangQuery": "商户申请单 (merchant order) 查询",</tspan>
+                <tspan x="0" y="344">    "hypotheticalDocument": "GET /api/merchant/order/query?</tspan>
+                <tspan x="0" y="360">order_id=(order_id)"</tspan>
+                <tspan x="0" y="376">}</tspan>
+            </text>
+            <path id="Line" d="M631.790749,162.706234 L633.283897,162.84944 L651.557605,164.602039 L654.212091,164.856626 L652.616079,166.992945 L641.628994,181.699541 L640.731237,182.90122 L638.327879,181.105706 L639.225636,179.904027 L646.785,169.784 L637.504623,173.893582 L459.107219,252.8716 L457.735619,253.478818 L456.521182,250.735619 L457.892781,250.1284 L636.290185,171.150383 L645.571,167.041 L632.997487,165.835736 L631.504338,165.692531 L631.790749,162.706234 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line" d="M634.928029,240.457245 L636.235392,241.192637 L652.235392,250.192637 L654.559593,251.5 L652.235392,252.807363 L636.235392,261.807363 L634.928029,262.542755 L633.457245,259.928029 L634.764608,259.192637 L645.773,253 L457,253 L457,250 L645.773,250 L634.764608,243.807363 L633.457245,243.071971 L634.928029,240.457245 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line" d="M869.824468,164.489115 L871.167677,165.156792 L1028.81911,243.521538 L1037.936,248.053 L1030.83352,237.607357 L1029.99015,236.366904 L1032.47106,234.680161 L1033.31443,235.920614 L1043.63593,251.101746 L1045.13525,253.306997 L1042.47206,253.443161 L1024.13845,254.380526 L1022.64041,254.457119 L1022.48722,251.461032 L1023.98527,251.38444 L1036.601,250.739 L1027.48375,246.207954 L869.832323,167.843208 L868.489115,167.175532 L869.824468,164.489115 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line" d="M1025.92803,240.457245 L1027.23539,241.192637 L1043.23539,250.192637 L1045.55959,251.5 L1043.23539,252.807363 L1027.23539,261.807363 L1025.92803,262.542755 L1024.45724,259.928029 L1025.76461,259.192637 L1036.773,253 L869,253 L869,250 L1036.773,250 L1025.76461,243.807363 L1024.45724,243.071971 L1025.92803,240.457245 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line" d="M1022.68419,248.276022 L1024.181,248.373827 L1042.49949,249.570804 L1045.16048,249.74468 L1043.63007,251.92847 L1033.09456,266.961869 L1032.2337,268.190251 L1029.77694,266.468535 L1030.6378,265.240152 L1037.885,254.897 L1028.71908,259.292408 L871.148582,334.852531 L869.796051,335.501114 L868.498886,332.796051 L869.851418,332.147469 L1027.42192,256.587345 L1036.59,252.191 L1023.98539,251.367443 L1022.48858,251.269637 L1022.68419,248.276022 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line" d="M457.709685,249.531396 L459.089144,250.12054 L637.411744,326.279151 L646.742,330.264 L639.050489,320.245268 L638.13702,319.055489 L640.516579,317.228551 L641.430048,318.418331 L652.609419,332.979294 L654.233364,335.094457 L651.582452,335.383901 L633.333349,337.376454 L631.842212,337.539266 L631.516588,334.55699 L633.007726,334.394178 L645.564,333.023 L636.233456,329.03807 L457.910856,252.87946 L456.531396,252.290315 L457.709685,249.531396 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line-2" d="M348.5,55.5 L348.5,101.273 L354.692637,90.2646081 L355.428029,88.9572448 L358.042755,90.4280286 L357.307363,91.7353919 L348.307363,107.735392 L347,110.059593 L345.692637,107.735392 L336.692637,91.7353919 L335.957245,90.4280286 L338.571971,88.9572448 L339.307363,90.2646081 L345.5,101.273 L345.5,55.5 L348.5,55.5 Z" fill="#000000" fill-rule="nonzero"></path>
+            <path id="Line-2" d="M348.5,170.5 L348.5,216.273 L354.692637,205.264608 L355.428029,203.957245 L358.042755,205.428029 L357.307363,206.735392 L348.307363,222.735392 L347,225.059593 L345.692637,222.735392 L336.692637,206.735392 L335.957245,205.428029 L338.571971,203.957245 L339.307363,205.264608 L345.5,216.273 L345.5,170.5 L348.5,170.5 Z" fill="#000000" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

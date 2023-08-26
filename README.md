@@ -22,6 +22,10 @@ todos:
     - [x] ~~Jieba.rs + StarDict spike~~
     - [x] Small LLM spike
 
+CoUnit Prompt Strategy
+
+![](docs/counit-prompt-strategy.svg)
+
 ## Development
 
 Tech stacks:
