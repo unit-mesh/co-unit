@@ -3,7 +3,6 @@ use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
 
 use crate::agent::prompts::tool_prompt;
-use crate::agent::tools::{Tool, tools_list};
 use crate::dsl::query_description::QAExample;
 
 pub(crate) fn router() -> Router {
@@ -13,8 +12,6 @@ pub(crate) fn router() -> Router {
         .route("/prompt/explain", get(explain_query))
 
         .route("/prompt/functions/matching", post(tool_prompter))
-
-        // .route("/prompt/functions/list", get(functions))
 }
 
 #[derive(Debug, Deserialize)]
@@ -54,8 +51,3 @@ pub(crate) async fn tool_prompter(
 }
 
 impl crate::server::ApiResponse for PromptResult {}
-
-
-pub(crate) async fn functions() -> (StatusCode, Json<Vec<Tool>>) {
-    (StatusCode::OK, Json(Vec::from(tools_list())))
-}
