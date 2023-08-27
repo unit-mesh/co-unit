@@ -26,6 +26,10 @@ CoUnit Prompt Strategy
 
 ![](docs/counit-prompt-strategy.svg)
 
+## Use cases
+
+- AutoDev -> code: [counit](https://github.com/unit-mesh/auto-dev/tree/master/src/main/kotlin/cc/unitmesh/devti/counit).
+
 ## Development
 
 Tech stacks:
