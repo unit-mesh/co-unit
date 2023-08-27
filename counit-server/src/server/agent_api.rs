@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::agent::prompts::tool_prompt;
 use crate::dsl::query_description::QAExample;
+use crate::model::dto::query::SimpleQuery;
 
 pub(crate) fn router() -> Router {
     use axum::routing::*;
@@ -14,18 +15,13 @@ pub(crate) fn router() -> Router {
         .route("/prompt/functions/matching", post(tool_prompter))
 }
 
-#[derive(Debug, Deserialize)]
-pub struct PromptQuery {
-    pub q: String,
-}
-
 #[derive(Serialize)]
 pub struct PromptResult {
     pub prompt: String,
 }
 
 pub(crate) async fn explain_query(
-    Query(args): Query<PromptQuery>,
+    Query(args): Query<SimpleQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
     let output = PromptResult {
         prompt: QAExample::prompt(&args.q),
@@ -40,7 +36,7 @@ pub struct PathListArgs {
 }
 
 pub(crate) async fn tool_prompter(
-    Query(args): Query<PromptQuery>,
+    Query(args): Query<SimpleQuery>,
 ) -> (StatusCode, Json<PromptResult>) {
     let paths = vec![args.q];
     let output = PromptResult {

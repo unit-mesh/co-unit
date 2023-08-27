@@ -4,6 +4,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 
 use crate::application::Application;
+use crate::model::dto::query::SimpleQuery;
 use crate::repository::{
     payload::CodePayload, semantic_query::SemanticQuery,
 };
@@ -55,12 +56,6 @@ impl crate::server::ApiResponse for EmbeddingResponse {}
 #[derive(Serialize)]
 pub struct EmbeddingResponse {
     pub data: Embedding,
-}
-
-
-#[derive(Debug, Deserialize)]
-pub struct SimpleQuery {
-    pub q: String,
 }
 
 #[derive(Debug, Deserialize)]

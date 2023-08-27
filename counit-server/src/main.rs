@@ -27,8 +27,7 @@ async fn main() -> anyhow::Result<()> {
 
     let mut config: Configuration;
     if config_file.exists() {
-        let config_string = std::fs::read_to_string(config_file)?;
-        config = serde_json::from_str(&config_string)?;
+        config = serde_json::from_str(&std::fs::read_to_string(config_file)?)?;
         info!("Configuration loaded from public/config.json");
     } else {
         config = Configuration::default()
@@ -37,9 +36,9 @@ async fn main() -> anyhow::Result<()> {
     let bind = SocketAddr::new(config.host.parse()?, config.port);
     let app = Application::initialize(config).await?;
 
-    let mut api = Router::new()
-        .with_state(app.clone())
+    let mut api = Router::new().with_state(app.clone())
         .route("/", get(root))
+        // core api for query
         .route("/query", get(semantic_api::query))
         .route("/text-embedding", get(semantic_api::embedding))
 
@@ -48,6 +47,7 @@ async fn main() -> anyhow::Result<()> {
 
         // knowledge init
         .nest("/translate/domain-language", translate_api::router())
+
         //align to archguard api
         .nest("/scanner", archguard_api::router())
         ;
@@ -60,7 +60,8 @@ async fn main() -> anyhow::Result<()> {
         .layer(CorsLayer::permissive())
         .layer(CatchPanicLayer::new());
 
-    let mut router = Router::new().nest("/api", api);
+    let mut router = Router::new()
+        .nest("/api", api);
 
     info!(%bind, "starting webserver");
 
