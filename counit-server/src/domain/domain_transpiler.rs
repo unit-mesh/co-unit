@@ -6,6 +6,13 @@ pub struct DomainTranspiler {
 }
 
 impl DomainTranspiler {
+
+    pub fn empty() -> Self {
+        DomainTranspiler {
+            domain_records: Vec::new(),
+        }
+    }
+
     pub fn new<P: AsRef<Path>>(path: P) -> Self {
         let mut transpiler = DomainTranspiler {
             domain_records: Vec::new(),
