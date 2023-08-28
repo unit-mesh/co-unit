@@ -10,7 +10,7 @@ pub struct Application {
     /// User-provided configuration
     pub config: Arc<Configuration>,
 
-    pub transpiler: Arc<DomainTranspiler>,
+    pub(crate) transpiler: Option<DomainTranspiler>,
 
     /// Semantic search subsystem
     pub(crate) semantic: Option<Semantic>,
@@ -35,11 +35,9 @@ impl Application {
             }
         };
 
-        let mut transpiler: Arc<DomainTranspiler>;
+        let mut transpiler: Option<DomainTranspiler> = None;
         if config.domain_language_dir.is_some() {
-            transpiler = Arc::new(DomainTranspiler::new(config.domain_language_dir.as_ref().unwrap()));
-        } else {
-            transpiler = Arc::new(DomainTranspiler::empty());
+            transpiler = Some(DomainTranspiler::new(config.domain_language_dir.as_ref().unwrap()));
         };
 
         Ok(Application {
