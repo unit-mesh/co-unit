@@ -1,0 +1,30 @@
+native,english,abbreviation,description
+本币,Domestic Currency,DCY,国家或地区的官方货币。
+汇率,Exchange Rate,ER,一种货币与另一种货币之间的相对价值。
+货币对,Currency Pair,CP,两种货币的组合，用于外汇交易。
+利率,Interest Rate,IR,资金借贷的成本或回报率。
+资产,Asset,-,具有价值的资源或投资。
+负债,Liability,-,企业或个人欠他人的债务。
+股票,Stock,-,公司的所有权证明，可以在证券市场上交易。
+债券,Bond,-,债务工具，代表借款人欠债务持有人的债务。
+期权,Option,-,购买或出售某项资产的权利，但非义务。
+期货,Futures,-,买卖标准化合约，以特定价格和日期交割。
+投资组合,Portfolio,-,持有的所有投资工具的集合。
+风险,Risk,-,不确定事件可能对投资造成的损失。
+收益率,Yield,-,投资所产生的收入与投资成本之间的比率。
+资金流,Cash Flow,CF,在一段时间内进出账户的资金总额。
+资产配置,Asset Allocation,AA,将资金分配给不同种类资产以实现目标。
+财务报表,Financial Statement,FS,描述企业财务状况和业绩的文件，如资产负债表。
+储蓄,Savings,-,收入中未用于消费的部分，通常存放在银行中。
+抵押,Mortgage,-,以房地产等为抵押所获得的借款。
+养老金,Pension,-,退休时期的资金收入，通常通过雇主或政府提供。
+创业资金,Venture Capital,VC,为初创企业提供资金的投资者。
+派息,Dividend,-,股东从公司获得的分红收入。
+客户资产,Client Assets,-,金融机构代表客户持有的各种资产。
+外汇市场,Foreign Exchange Market,Forex,买卖全球货币的市场。
+交易日,Trading Day,-,市场开放进行交易的工作日。
+财富管理,Wealth Management,WM,为富裕客户提供投资和财务规划建议的服务。
+信贷,Credit,-,借款人获得资金并同意在未来偿还的协议。
+融资,Financing,-,借款或融资以获得资金支持。
+黄金,Gold,-,贵重金属，常用作避险投资和商品。
+贸易赤字,Trade Deficit,-,进口货物价值大于出口货物价值的贸易情况。

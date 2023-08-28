@@ -18,6 +18,10 @@ pub struct Configuration {
     #[serde(default = "default_model_dir")]
     /// Path to the embedding model directory
     pub model_dir: PathBuf,
+
+    #[serde(default = "default_domain_language_dir")]
+    /// Path to the domain language directory, supported format: .csv, .json
+    pub domain_language_dir: Option<PathBuf>,
 }
 
 const fn default_port() -> u16 {
@@ -32,6 +36,10 @@ fn default_model_dir() -> PathBuf {
     "model".into()
 }
 
+fn default_domain_language_dir() -> Option<PathBuf> {
+    Some("domain".into())
+}
+
 impl Configuration {
     pub fn default() -> Self {
         Configuration {
@@ -42,6 +50,7 @@ impl Configuration {
             model_dir: Path::new(env!("CARGO_MANIFEST_DIR")).parent()
                 .unwrap()
                 .join("model"),
+            domain_language_dir: None,
         }
     }
 }
