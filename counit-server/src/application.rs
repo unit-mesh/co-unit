@@ -2,12 +2,15 @@ use std::sync::Arc;
 use anyhow::{bail, Result};
 use tracing::warn;
 use crate::configuration::Configuration;
+use crate::domain::domain_transpiler::DomainTranspiler;
 use crate::repository::semantic::Semantic;
 
 #[derive(Clone)]
 pub struct Application {
     /// User-provided configuration
     pub config: Arc<Configuration>,
+
+    pub transpiler: Arc<DomainTranspiler>,
 
     /// Semantic search subsystem
     pub(crate) semantic: Option<Semantic>,
@@ -32,8 +35,16 @@ impl Application {
             }
         };
 
+        let mut transpiler: Arc<DomainTranspiler>;
+        if config.domain_language_dir.is_some() {
+            transpiler = Arc::new(DomainTranspiler::new(config.domain_language_dir.as_ref().unwrap()));
+        } else {
+            transpiler = Arc::new(DomainTranspiler::empty());
+        };
+
         Ok(Application {
             config,
+            transpiler,
             semantic,
         })
     }

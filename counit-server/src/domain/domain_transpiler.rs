@@ -6,13 +6,29 @@ pub struct DomainTranspiler {
 }
 
 impl DomainTranspiler {
-    pub fn new() -> Self {
+
+    pub fn empty() -> Self {
         DomainTranspiler {
             domain_records: Vec::new(),
         }
     }
 
-    pub fn load<P: AsRef<Path>>(&mut self, path: P) {
+    pub fn new<P: AsRef<Path>>(path: P) -> Self {
+        let mut transpiler = DomainTranspiler {
+            domain_records: Vec::new(),
+        };
+
+        // check path is exists
+        if !path.as_ref().exists() {
+            return transpiler;
+        }
+
+        transpiler.load(path);
+
+        return transpiler;
+    }
+
+    fn load<P: AsRef<Path>>(&mut self, path: P) {
         use walkdir::WalkDir;
         for entry in WalkDir::new(path) {
             let entry = entry.unwrap();
@@ -80,8 +96,7 @@ mod tests {
         let model_dir = domain_dir();
 
 
-        let mut loader = DomainTranspiler::new();
-        loader.load(model_dir);
+        let mut loader = DomainTranspiler::new(model_dir);
         assert_eq!(loader.domain_records.len(), 29);
     }
 
@@ -97,8 +112,7 @@ mod tests {
     fn transpile() {
         let model_dir = domain_dir();
 
-        let mut loader = DomainTranspiler::new();
-        loader.load(model_dir);
+        let mut loader = DomainTranspiler::new(model_dir);
         assert_eq!(loader.domain_records.len(), 29);
 
         assert_eq!(loader.transpile("本币"), "本币(Domestic Currency)");
