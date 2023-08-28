@@ -15,10 +15,10 @@ todos:
         - [ ] Markdown
         - [ ] PDF
 - Transpile / Translate language
-    - [ ] Unique language (aka Domain Language) dictionary
+    - [x] Unique language (aka Domain Language) dictionary
     - [x] Transpile for Code, Datamap, API
 - Prompt strategy
-    - [ ] [HyDE](https://github.com/texttron/hyde)
+    - [x] [HyDE](https://github.com/texttron/hyde)
     - [x] ~~Jieba.rs + StarDict spike~~
     - [x] Small LLM spike
 
