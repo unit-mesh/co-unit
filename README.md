@@ -1,4 +1,4 @@
-# Co-unit
+<h1 align="center">CoUnit</h1>
 
 <p align="center">
   <img src="docs/counit.svg" width="128px" height="128px" />
