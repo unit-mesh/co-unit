@@ -47,7 +47,7 @@ async fn main() -> anyhow::Result<()> {
         .nest("/agent", agent_api::router())
 
         // knowledge init
-        .nest("/translate/domain-language", translate_api::router())
+        .nest("/translate/domain", translate_api::router())
 
         //align to archguard api
         .nest("/scanner", archguard_api::router())

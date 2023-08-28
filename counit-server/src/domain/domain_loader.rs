@@ -1,3 +1,4 @@
+use std::path::Path;
 use crate::domain::domain_record::DomainRecord;
 
 pub struct DomainLoader {
@@ -11,7 +12,7 @@ impl DomainLoader {
         }
     }
 
-    pub fn load(&mut self, path: &str) {
+    pub fn load<P: AsRef<Path>>(&mut self, path: P) {
         use walkdir::WalkDir;
         for entry in WalkDir::new(path) {
             let entry = entry.unwrap();
@@ -49,5 +50,24 @@ impl DomainLoader {
         records.into_iter().for_each(|record| {
             self.domain_records.push(record);
         });
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+    use super::*;
+
+    #[test]
+    fn load_csv() {
+        let model_dir = Path::new(env!("CARGO_MANIFEST_DIR")).parent()
+            .unwrap()
+            .join("_fixtures")
+            .join("domain");
+
+
+        let mut loader = DomainLoader::new();
+        loader.load(model_dir);
+        assert_eq!(loader.domain_records.len(), 29);
     }
 }

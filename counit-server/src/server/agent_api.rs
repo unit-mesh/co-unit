@@ -1,4 +1,4 @@
-use axum::{body::HttpBody, extract::Query, Json, Router};
+use axum::{extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
 
