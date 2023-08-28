@@ -63,6 +63,7 @@ blake3 = "1.4.0"
 uuid = { version = "1.4.0", features = ["v4", "fast-rng", "serde"] }
 
 #domain language
+walkdir = "2"
 csv = "1.2"
 
 [build-dependencies]
