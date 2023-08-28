@@ -1,7 +1,7 @@
 #[derive(Debug, serde::Deserialize)]
 pub struct DomainRecord {
-    native: String,
-    english: String,
-    abbreviation: String,
-    description: String,
+    pub(crate) native: String,
+    pub(crate) english: String,
+    pub(crate) abbreviation: String,
+    pub(crate) description: String,
 }
