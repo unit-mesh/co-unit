@@ -6,7 +6,6 @@ pub struct DomainTranspiler {
 }
 
 impl DomainTranspiler {
-
     pub fn empty() -> Self {
         DomainTranspiler {
             domain_records: Vec::new(),
@@ -78,8 +77,13 @@ impl DomainTranspiler {
             let description = record.description.as_str();
 
             result = result.replace(native, &format!("{}({})", native, english));
-            result = result.replace(abbreviation, &format!("{}({})", abbreviation, english));
-            result = result.replace(description, &format!("{}({})", description, english));
+            if !abbreviation.is_empty() {
+                result = result.replace(abbreviation, &format!("{}({})", abbreviation, english));
+            }
+
+            if !description.is_empty() {
+                result = result.replace(description, &format!("{}({})", description, english));
+            }
         }
 
         result

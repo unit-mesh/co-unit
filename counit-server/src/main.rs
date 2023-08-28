@@ -8,7 +8,6 @@ use tracing::info;
 
 use crate::application::Application;
 use crate::configuration::Configuration;
-use crate::domain::domain_transpiler::DomainTranspiler;
 use crate::server::{agent_api, archguard_api, semantic_api, translate_api};
 
 pub mod server;

@@ -63,13 +63,12 @@ impl QAExample {
 
     pub fn prompt(query: &str) -> String {
         let mut prompt = String::new();
-        prompt += r#"Your job is to translate/transpile user's question relative to codebase.
+        prompt += r#"Your job is to transpile user's question relative to codebase.
 
-1. You MUST translate user's question into a DSL query.
-2. DON'T translate user's question into a code snippet.
+1. YOU MUST follow the DSL format.
+2. You MUST translate user's question into a DSL query.
 3. `query` is a reference to the document that you think is the answer to the question.
 4. `hypothetical_document` is a example of the document that you think is the answer to the question.
-5. if some text inside (), should be replaced by the real value.
 
 For example:
 

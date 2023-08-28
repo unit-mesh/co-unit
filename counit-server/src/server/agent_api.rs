@@ -1,8 +1,9 @@
-use axum::{extract::Query, Json, Router};
+use axum::{Extension, extract::Query, Json, Router};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
 
 use crate::agent::prompts::tool_prompt;
+use crate::application::Application;
 use crate::dsl::query_description::QAExample;
 use crate::model::dto::query::SimpleQuery;
 
@@ -22,9 +23,11 @@ pub struct PromptResult {
 
 pub(crate) async fn explain_query(
     Query(args): Query<SimpleQuery>,
+    Extension(app): Extension<Application>,
 ) -> (StatusCode, Json<PromptResult>) {
+    let query = app.transpiler.transpile(&args.q);
     let output = PromptResult {
-        prompt: QAExample::prompt(&args.q),
+        prompt: QAExample::prompt(&query),
     };
 
     (StatusCode::OK, Json(output))

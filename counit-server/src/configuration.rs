@@ -50,7 +50,9 @@ impl Configuration {
             model_dir: Path::new(env!("CARGO_MANIFEST_DIR")).parent()
                 .unwrap()
                 .join("model"),
-            domain_language_dir: None,
+            domain_language_dir: Some(Path::new(env!("CARGO_MANIFEST_DIR")).parent()
+                .unwrap()
+                .join("domain")),
         }
     }
 }
