@@ -8,7 +8,7 @@ use tracing::info;
 
 use crate::application::Application;
 use crate::configuration::Configuration;
-use crate::server::{agent_api, archguard_api, semantic_api, translate_api};
+use crate::server::{agent_api, archguard_api, semantic_api, domain_api};
 
 pub mod server;
 pub mod model;
@@ -48,7 +48,7 @@ async fn main() -> anyhow::Result<()> {
         .nest("/agent", agent_api::router())
 
         // knowledge init
-        .nest("/translate/domain", translate_api::router())
+        .nest("/translate/domain", domain_api::router())
 
         //align to archguard api
         .nest("/scanner", archguard_api::router())

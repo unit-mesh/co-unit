@@ -3,7 +3,7 @@ use axum::http::StatusCode;
 use axum::Json;
 use axum::response::IntoResponse;
 
-pub mod translate_api;
+pub mod domain_api;
 pub mod archguard_api;
 pub mod semantic_api;
 
