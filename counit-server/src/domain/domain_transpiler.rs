@@ -1,4 +1,5 @@
 use std::path::Path;
+
 use crate::domain::domain_record::DomainRecord;
 
 pub struct DomainTranspiler {
@@ -93,6 +94,7 @@ impl DomainTranspiler {
 #[cfg(test)]
 mod tests {
     use std::path::{Path, PathBuf};
+
     use super::*;
 
     #[test]
