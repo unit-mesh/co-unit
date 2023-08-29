@@ -32,6 +32,13 @@ CoUnit Prompt Strategy
 2. push you `domain language` or config under `domain` directory (support, `.csv` and `.json` format)
 3. Run CoUnit-Server
 
+Domain Language:
+
+| native | english              | abbreviation | description                                                              |
+|--------|----------------------|--------------|--------------------------------------------------------------------------|
+| CoUnit | collaboration unit   | CU           | CoUnit，一个基于 LLM 的虚拟团队接口人（API），通过向量化文档、知识库、SDK和 API 等，结合 LLM 智能化团队间对接与协作。 |
+| 大语言模型  | Large Language Model | LLM          | 大语言模型，是指语言模型的参数量超过 10 亿的语言模型。                                            |
+
 ## Use cases
 
 - AutoDev -> code: [counit](https://github.com/unit-mesh/auto-dev/tree/master/src/main/kotlin/cc/unitmesh/devti/counit).
