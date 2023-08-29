@@ -428,7 +428,7 @@ mod tests {
         let f = &ds[0].functions[0];
         assert_eq!(f.display(&ds[0]), "path: kotlin/org/archguard/scanner/analyser/DataMapAnalyserTest.kt
 canonical_name: org.archguard.scanner.analyser.DataMapAnalyserTest
-@AfterEach()E
+@AfterEach()
 tearDown() -> kotlin.Unit {
    // -> io..mockk()
 }");
