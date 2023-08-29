@@ -29,7 +29,7 @@ CoUnit Prompt Strategy
 ## Uses
 
 1. Download CoUnit-Server binary from [https://github.com/unit-mesh/co-unit/releases](https://github.com/unit-mesh/co-unit/releases)
-2. push you `domain language` or config under `domain` directory
+2. push you `domain language` or config under `domain` directory (support, `.csv` and `.json` format)
 3. Run CoUnit-Server
 
 ## Use cases
