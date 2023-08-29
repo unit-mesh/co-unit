@@ -31,6 +31,7 @@ async fn main() -> anyhow::Result<()> {
         config = serde_json::from_str(&std::fs::read_to_string(config_file)?)?;
         info!("Configuration loaded from public/config.json");
     } else {
+        // for development only
         config = Configuration::default()
     }
 

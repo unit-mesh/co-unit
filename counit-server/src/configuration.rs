@@ -42,17 +42,16 @@ fn default_domain_language_dir() -> Option<PathBuf> {
 
 impl Configuration {
     pub fn default() -> Self {
+        let project_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("public");
+        println!("project_dir: {:?}", project_dir);
+
         Configuration {
             host: "0.0.0.0".to_string(),
             port: 8765,
             dylib_dir: None,
             qdrant_url: Some("http://127.0.0.1:6334".into()),
-            model_dir: Path::new(env!("CARGO_MANIFEST_DIR")).parent()
-                .unwrap()
-                .join("model"),
-            domain_language_dir: Some(Path::new(env!("CARGO_MANIFEST_DIR")).parent()
-                .unwrap()
-                .join("domain")),
+            model_dir: project_dir.join("model"),
+            domain_language_dir: Some(project_dir.join("domain")),
         }
     }
 }

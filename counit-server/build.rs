@@ -48,11 +48,11 @@ fn copy(profile_dir: &Path) {
 
     // copy model/* file to target_path
     let model_path = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("model");
-    let target = Path::new(".").join("public");
-    println!("model_path: {model_path:?}");
-    println!("target_path: {target:?}");
-
     fs_extra::dir::copy(model_path, Path::new(".").join("public"), &fs_extra::dir::CopyOptions::new().overwrite(true)).unwrap();
+
+    // copy domain example file to target_path
+    let domain_path = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("domain");
+    fs_extra::dir::copy(domain_path, Path::new(".").join("public"), &fs_extra::dir::CopyOptions::new().overwrite(true)).unwrap();
 }
 
 fn wait_for(dylib_path: &Path) {
