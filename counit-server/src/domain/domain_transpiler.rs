@@ -34,15 +34,21 @@ impl DomainTranspiler {
             let entry = entry.unwrap();
             if entry.file_type().is_file() {
                 let path_str = entry.path().to_str();
-                if path_str.is_none() {
+                let ext = entry.path().extension();
+
+                if path_str.is_none() || ext.is_none() {
                     continue;
                 }
 
-                let path_str = path_str.unwrap();
-                if path_str.ends_with(".csv") {
-                    let _ = self.load_csv(path_str);
-                } else if path_str.ends_with(".json") {
-                    self.load_json(path_str);
+                let ext = ext.unwrap().to_str().unwrap();
+                match ext {
+                    "csv" => {
+                        let _ = self.load_csv(path_str.unwrap());
+                    }
+                    "json" => {
+                        self.load_json(path_str.unwrap());
+                    }
+                    _ => {}
                 }
             }
         }
