@@ -26,6 +26,12 @@ CoUnit Prompt Strategy
 
 ![](docs/counit-prompt-strategy.svg)
 
+## Uses
+
+1. Download CoUnit-Server binary from [https://github.com/unit-mesh/co-unit/releases](https://github.com/unit-mesh/co-unit/releases)
+2. push you `domain language` or config under `domain` directory
+3. Run CoUnit-Server
+
 ## Use cases
 
 - AutoDev -> code: [counit](https://github.com/unit-mesh/auto-dev/tree/master/src/main/kotlin/cc/unitmesh/devti/counit).
