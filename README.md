@@ -68,11 +68,7 @@ docker run -p 6333:6333 -p 6334:6334 \
     qdrant/qdrant
 ```
 
-4.Run CoUnit-Server
-
-Join us（Wechat Group: 微信群）:
-
-![WeChat Group](https://unitmesh.cc/co-unit/qrcode.jpg)
+4.Run CoUnit-Server.
 
 ### API testing
 
