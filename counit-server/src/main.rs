@@ -66,9 +66,13 @@ async fn main() -> anyhow::Result<()> {
 
     info!(%bind, "starting webserver");
 
-    axum::Server::bind(&bind)
-        .serve(router.into_make_service())
-        .await?;
+
+    // axum::Server::bind(&bind)
+    //     .serve(router.into_make_service())
+    //     .await?;
+
+    let listener = tokio::net::TcpListener::bind(&bind).await.unwrap();
+    axum::serve(listener, router).await.unwrap();
 
     Ok(())
 }
